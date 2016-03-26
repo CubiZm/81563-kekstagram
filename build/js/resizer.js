@@ -120,6 +120,58 @@
           this._resizeConstraint.side - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
+      // Отрисовка фона с прозрачностью 80%
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // Задали прямоугольник с цветом
+
+      // Заполним фон
+
+      // Сверху
+      this._ctx.fillRect(
+        -this._container.width / 2,
+        -this._container.height / 2 - this._ctx.lineWidth,
+        this._container.width,
+        (this._container.height - this._resizeConstraint.side) / 2);
+
+      // Снизу
+      this._ctx.fillRect (
+        -this._container.width / 2,
+        this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
+        this._container.width,
+        this._container.height);
+
+      // Справа (застряла снизу :( )
+
+      // this._ctx.fillRect (
+      //   this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
+      //   this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //   this._container.width,,
+      //   this._resizeConstraint.side + this._ctx.lineWidth / 2);
+
+      console.log(this._resizeConstraint.side / 2 - this._ctx.lineWidth); // 294
+      console.log(- this._resizeConstraint.side / 2 - this._ctx.lineWidth); // -306
+      // // Слева (вообще рушит программу >_<)
+
+      // this._ctx.fillRect(
+      //   -this._container.width / 2,
+      //   -this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //   (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth,
+      //   this._resizeConstraint.side + this._ctx.lineWidth / 2);
+
+      // Надпись сверху
+      this._ctx.fillStyle = '#fff'; // цвет
+      this._ctx.font = 'bold 20px Arial'; // шрифт
+      this._ctx.textBaseline = 'bottom'; // линия
+      this._ctx.textAlign = 'center'; // положение
+
+       // Попробуем задать точки отсчета текста через переменные
+
+       var textposX = 0;
+       var textposY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth;
+
+      var textTop = this._image.naturalWidth + "x" + this._image.naturalHeight; // выводит размер картинки
+
+      this._ctx.fillText (textTop, textposX, textposY);
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
