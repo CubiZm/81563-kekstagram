@@ -149,13 +149,14 @@
 
       console.log(this._resizeConstraint.side / 2 - this._ctx.lineWidth); // 294
       console.log(- this._resizeConstraint.side / 2 - this._ctx.lineWidth); // -306
-      // // Слева (вообще рушит программу >_<)
 
-      // this._ctx.fillRect(
-      //   -this._container.width / 2,
-      //   -this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-      //   (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth,
-      //   this._resizeConstraint.side + this._ctx.lineWidth / 2);
+      // Слева
+
+      this._ctx.fillRect(
+        -this._container.width / 2,
+        -this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+        (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth,
+        this._resizeConstraint.side + this._ctx.lineWidth / 2);
 
       // Надпись сверху
       this._ctx.fillStyle = '#fff'; // цвет
