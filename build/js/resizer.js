@@ -149,6 +149,25 @@
 
       this._ctx.fillText(textTop, textposX, textposY);
 
+      // Выведем рамку!
+
+      for (var i = 0; i < 1; i++){
+   for(var j = 0; j < 10; j++) {
+
+    var centerX = this._resizeConstraint.side + j * 50;
+    var centerY = this._resizeConstraint.side / 2 + i * 50;
+    var radius = 10;
+    this._ctx.beginPath();
+    this._ctx.arc(displX, displY, radius, 0, 2 * Math.PI, false);
+
+    this._ctx.fillStyle = "#ffe753";
+    this._ctx.fill();
+    this._ctx.lineWidth = 5;
+   }
+console.log(this._resizeConstraint.side + j * 50);
+
+ }
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
