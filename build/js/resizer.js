@@ -141,14 +141,11 @@
 
       // Справа (застряла снизу :( )
 
-      // this._ctx.fillRect (
-      //   this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
-      //   this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-      //   this._container.width,,
-      //   this._resizeConstraint.side + this._ctx.lineWidth / 2);
-
-      console.log(this._resizeConstraint.side / 2 - this._ctx.lineWidth); // 294
-      console.log(- this._resizeConstraint.side / 2 - this._ctx.lineWidth); // -306
+      this._ctx.fillRect (
+        this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
+        -this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+        this._container.width,
+        this._resizeConstraint.side + this._ctx.lineWidth / 2);
 
       // Слева
 
