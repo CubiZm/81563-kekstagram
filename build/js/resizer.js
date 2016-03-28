@@ -89,12 +89,12 @@
       // чего-либо с другой обводкой.
 
       // Толщина линии.
-      this._ctx.lineWidth = 6;
+      //  this._ctx.lineWidth = 6;
       // Цвет обводки.
-      //this._ctx.strokeStyle = '#ffe753';
+      this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
       // расстояние между соседними штрихами.
-      //this._ctx.setLineDash([15, 10]);
+      this._ctx.setLineDash([1, 2]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
 
@@ -155,36 +155,42 @@
       // this._ctx.clearRect(0, 0, this._container.width, this._container.height);
 
       this._ctx.fillStyle = '#ffe753';
-      var lengthLine = this._resizeConstraint.side;
 
-      this._ctx.beginPath();
-          var startX = -this._resizeConstraint.side / 2;
-          var startY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth;
-          var zigzagSpacing = 40;
+      // this._ctx.beginPath();
+      // this._ctx.lineTo(this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2);
+      // this._ctx.lineTo(-this._resizeConstraint.side / 2 - this._ctx.lineWidth);
+      // this._ctx.lineTo(-this._resizeConstraint.side - this._ctx.lineWidth / 2);
+      // this._ctx.lineTo(0, 0);
+      // this._ctx.lineTo(this._resizeConstraint.side + this._ctx.lineWidth / 2);
+      // this._ctx.stroke();
+      // var lengthLine = this._resizeConstraint.side;
 
-          this._ctx.lineWidth = 5;
-          this._ctx.strokeStyle = "#ffe753";
-          this._ctx.beginPath();
-          this._ctx.moveTo(startX, startY);
+      // this._ctx.beginPath();
+      //     var startX = -this._resizeConstraint.side / 2;
+      //     var startY = -this._resizeConstraint.side / 2 - this._ctx.lineWidth;
+      //     var zigzagSpacing = 40;
 
-          // Рисуем линии
-          for (var n = 0; n < 14; n++) {
-            var x = startX + ((n + 1) * zigzagSpacing);
-            var y;
+      //     this._ctx.lineWidth = 5;
+      //     this._ctx.strokeStyle = "#ffe753";
+      //     this._ctx.beginPath();
+      //     this._ctx.moveTo(startX, startY);
 
-          if (n % 2 == 0) {
-            y = startY + 30;
-          }
-          else {
-            y = startY;
-          }
-          this._ctx.lineTo(x, y);
-            this._ctx.stroke();
-          }
+      //     // Рисуем линии
+      //     for (var n = 0; n < 14; n++) {
+      //       var x = startX + ((n + 1) * zigzagSpacing);
+      //       var y;
+
+      //     if (n % 2 == 0) {
+      //       y = startY + 30;
+      //     }
+      //     else {
+      //       y = startY;
+      //     }
+      //     this._ctx.lineTo(x, y);
+      //       this._ctx.stroke();
+      //     }
       //this._ctx.fill();
 
-
-console.log(this._ctx.clearRect);
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
