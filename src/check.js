@@ -3,8 +3,7 @@ function getMessage(a, b) {
   if (typeof a === 'boolean') {
     if (a) {
       return 'Переданное GIF-изображение анимировано и содержит ' + b + ' кадров';
-    }
-    else {
+    } else {
       return 'Переданное GIF-изображение не анимировано';
     }
   }
@@ -20,11 +19,12 @@ function getMessage(a, b) {
   }
   if (Array.isArray(a)) {
     var sum = 0;
-    for (var i = 0; i < a.length; i++) {
-      sum += a[i];
+    for (var j = 0; j < a.length; j++) {
+      sum += a[j];
     }
     return 'Количество красных точек во всех строчках изображения: ' + sum;
   }
+  return getMessage;
 }
 
-  getMessage();
+getMessage();
