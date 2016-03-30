@@ -71,8 +71,17 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+   // Надеюсь это сюда..
+
   function resizeFormIsValid() {
-    return true;
+    //return true;
+    // Валидация формы:
+    // 1. ограничения на минимальное/максимальное значение
+    var formElement = document.forms['upload-form upload-resize'];
+    var leftSide = formElement['resize-x'];
+    var topSide = formElement['resize-y'];
+    var sideRect = formElemet['resize-size'];
+    
   }
 
   /**
