@@ -72,11 +72,20 @@
    * @return {boolean}
    */
    // Надеюсь это сюда..
+  var resizeForm = document.forms['upload-resize']; // найдем форму
+  var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
+  var resizeFormY = resizeForm['resize-y']; // ..верха
+  var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
 
   function resizeFormIsValid() {
-    return true;
+      if (resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
+          && resizeFormY.value + +resizeFormSide.value <= currentResizer._image.naturalHeight > 0
+          && resizeFormX.value > 0
+          && resizeFormY.value > 0
+          && resizeFormSide.value > 0) { // не уверена, что последнее значение нужно, но, тоже ведь не может быть отрицательной?
+        return true;
+      }
   }
-
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
