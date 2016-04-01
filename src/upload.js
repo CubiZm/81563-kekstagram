@@ -78,13 +78,14 @@
   var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
 
   function resizeFormIsValid() {
-      if (resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
+    if (resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
           && resizeFormY.value + +resizeFormSide.value <= currentResizer._image.naturalHeight > 0
           && resizeFormX.value > 0
           && resizeFormY.value > 0
           && resizeFormSide.value > 0) { // не уверена, что последнее значение нужно, но, тоже ведь не может быть отрицательной?
-        return true;
-      }
+      return true;
+    }
+    return false;
   }
   /**
    * Форма загрузки изображения.
@@ -96,7 +97,7 @@
    * Форма кадрирования изображения.
    * @type {HTMLFormElement}
    */
-  var resizeForm = document.forms['upload-resize'];
+  //var resizeForm = document.forms['upload-resize'];
 
   /**
    * Форма добавления фильтра.
