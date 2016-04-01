@@ -87,6 +87,16 @@
     }
     return false;
   }
+  // Сообщение об ошибке
+document.getElementById("resize-fwd").addEventListener("click", myFunction2);
+  function myFunction2() {
+        if(resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth <= 0) {
+          //var req = document.getElementById("resize-fwd").getAttribute("disabled");
+          document.getElementById("resize-fwd").disabled = true;
+      return console.log('NO!')
+    }
+    return "Вы ввели некорректные данные";
+}
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
