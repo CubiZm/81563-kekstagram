@@ -76,27 +76,36 @@
   var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
   var resizeFormY = resizeForm['resize-y']; // ..верха
   var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
+  var resizeBtn = resizeForm['resize-fwd'];
 
   function resizeFormIsValid() {
-    if (resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
-          && resizeFormY.value + +resizeFormSide.value <= currentResizer._image.naturalHeight > 0
-          && resizeFormX.value > 0
-          && resizeFormY.value > 0
-          && resizeFormSide.value > 0) { // не уверена, что последнее значение нужно, но, тоже ведь не может быть отрицательной?
+    if (+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
+          && +resizeFormY.value + +resizeFormSide.value <= currentResizer._image.naturalHeight > 0
+          && +resizeFormX.value > 0
+          && +resizeFormY.value > 0
+          && +resizeFormSide.value > 0) { // не уверена, что последнее значение нужно, но, тоже ведь не может быть отрицательной?
+      resizeBtn.setAttribute('disabled', false);
+      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
       return true;
     }
+    else {
+    resizeBtn.setAttribute('disabled', true);
+    resizeBtn.classList.add('upload-form-controls-fwd--disabled');
     return false;
-  }
-  // Сообщение об ошибке
-document.getElementById("resize-fwd").addEventListener("click", myFunction2);
-  function myFunction2() {
-        if(resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth <= 0) {
-          //var req = document.getElementById("resize-fwd").getAttribute("disabled");
-          document.getElementById("resize-fwd").disabled = true;
-      return console.log('NO!')
     }
-    return "Вы ввели некорректные данные";
-}
+  }
+//   Сообщение об ошибке
+// document.getElementById("resize-fwd").addEventListener("click", myFunction2);
+//   function myFunction2() {
+//         if(resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth <= 0) {
+//           //var req = document.getElementById("resize-fwd").getAttribute("disabled");
+//           document.getElementById("resize-fwd").disabled = true;
+//           resizeFormSide.setAttribute('disabled', true);
+//           resizeFormSide.classList.add('upload-form-controls-fwd--disabled');
+//       return console.log('NO!')
+//     }
+//     return "Вы ввели некорректные данные";
+// }
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
