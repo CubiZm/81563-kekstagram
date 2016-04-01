@@ -71,6 +71,8 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+   // Надеюсь это сюда..
+
   function resizeFormIsValid() {
     return true;
   }
