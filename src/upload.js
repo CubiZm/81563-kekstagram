@@ -96,13 +96,11 @@
         break;
       }
     }
-    if (isValid) {
-      resizeBtn.removeAttribute('disabled');
-      resizeBtn.setAttribute('disabled', false);
-      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
-      document.body.removeChild(document.getElementById('error-message'));
-      return true;
-    } else {
+    if (!isValid) {
+      // resizeBtn.removeAttribute('disabled');
+      // resizeBtn.setAttribute('disabled', false);
+      // resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+      // document.body.removeChild(document.getElementById('error-message'));
       resizeBtn.setAttribute('disabled', '');
       console.log(resizeBtn);
       resizeBtn.classList.add('upload-form-controls-fwd--disabled');
@@ -110,28 +108,27 @@
       div.id = 'error-message';
       div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
       document.body.appendChild(div);
+      return true;
+    } else {
+      resizeBtn.removeAttribute('disabled');
+      resizeBtn.setAttribute('disabled', false);
+      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+      document.body.removeChild(document.getElementById('error-message'));
+      console.log(resizeBtn);
+      // resizeBtn.setAttribute('disabled', '');
+      // console.log(resizeBtn);
+      // resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+      // var div = document.createElement('div');
+      // div.id = 'error-message';
+      // div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
+      // document.body.appendChild(div);
+      return false
     }
     return isValid;
   }
 
   // делаем по умолчанию кнопку отправки неактивной
   resizeBtn.setAttribute('disabled', '');
-
-
-  document.getElementById('resize-fwd').addEventListener('click', send);
-  function send() {
-    var isValid = true;
-    if(isValid === true) {
-      return true;
-    } else {
-      resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-      var div = document.createElement('div');
-      div.id = 'error-message';
-      div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
-      document.body.appendChild(div);
-      return false;
-    }
-  }
 
 // вычисляем максимально возможное значение сторон
   function setMaxSideValue(x, y) {
