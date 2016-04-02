@@ -98,10 +98,18 @@
     }
     if (isValid) {
       resizeBtn.removeAttribute('disabled');
+      resizeBtn.setAttribute('disabled', false);
+      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+      document.body.removeChild(document.getElementById('error-message'));
       return true;
     } else {
       resizeBtn.setAttribute('disabled', '');
       console.log(resizeBtn);
+      resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+      var div = document.createElement('div');
+      div.id = 'error-message';
+      div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
+      document.body.appendChild(div);
     }
     return isValid;
   }
@@ -112,22 +120,15 @@
 
   document.getElementById('resize-fwd').addEventListener('click', send);
   function send() {
-    if(resizeBtn.setAttribute('disabled', '')) {
-      resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-      var newDiv = document.createElement('div');
-      newDiv.id = 'error-message';
-      newDiv.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
-      document.body.appendChild(newDiv);
+    var isValid = true;
+    if(isValid === true) {
       return true;
     } else {
-      resizeBtn.setAttribute('disabled', false);
-      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
-      document.body.removeChild(document.getElementById('error-message'));
-      // resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-      // var div = document.createElement('div');
-      // div.id = 'error-message';
-      // div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
-      // document.body.appendChild(div);
+      resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+      var div = document.createElement('div');
+      div.id = 'error-message';
+      div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
+      document.body.appendChild(div);
       return false;
     }
   }
