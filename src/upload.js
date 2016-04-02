@@ -5,6 +5,7 @@
  * @author Igor Alexeenko (o0)
  */
 
+
 'use strict';
 
 (function() {
@@ -320,8 +321,16 @@
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
-  };
+    // Жизнь печеньки
+    evt.preventDefault();
+    var bDay = new Date(1992, 3, 18).getTime();
+    var dateDiff = Date.now() - bDay;
+    var cookieExpirationDate = Date.now() + dateDiff;
 
+    // Запишем фильтр в печеньку
+
+    console.log(bDay, dateDiff, cookieExpirationDate)
+  };
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
