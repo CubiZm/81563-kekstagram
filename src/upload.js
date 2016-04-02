@@ -81,64 +81,68 @@
   resizeFormX.min = 0;
   resizeFormY.min = 0;
   resizeFormSide.min = 1;
+// Т.к. из-за того, что убрали отрицательные значения сломалось всё, то всё по новой
 
   function resizeFormIsValid() {
-    if (+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0
-          && +resizeFormY.value + +resizeFormSide.value <= currentResizer._image.naturalHeight > 0
-          && +resizeFormX.value > 0
-          && +resizeFormY.value > 0
-          && +resizeFormSide.value > 0) { // не уверена, что последнее значение нужно, но, тоже ведь не может быть отрицательной?
-      // resizeBtn.setAttribute('disabled', false);
-      // resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+    var isValid = true;
+  // проверяем не пустые ли поля
+    if (resizeFormX.value.length === 0 || resizeFormY.value.length === 0 || resizeFormSide.value.length === 0) {
+      isValid = false;
+      return isValid;
+    }
+    for (var i = 0; i < resizeForm.elements.length; i++) {
+      isValid = resizeForm.elements[i].validity.valid;
+      if (!isValid) {
+        break;
+      }
+    }
+    if (isValid) {
+      resizeBtn.removeAttribute('disabled');
       return true;
-    }
-    else {
-    // resizeBtn.setAttribute('disabled', true);
-    // resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-    return false;
+    } else {
+      resizeBtn.setAttribute('disabled', '');
+      console.log(resizeBtn);
     }
   }
-//  Сообщение об ошибке
+
+  // делаем по умолчанию кнопку отправки неактивной
+  resizeBtn.setAttribute('disabled', '');
+
+
 document.getElementById('resize-fwd').addEventListener('click', send);
-  function send() {
-        if(+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0) {
-          resizeBtn.setAttribute('disabled', true);
-          resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-          var div = document.createElement('div');
-          div.id = 'error-message';
-          div.innerHTML='<p class="error-message__text">Вы ввели некорректные данные</p>';
-          document.body.appendChild(div);
-
-          resizeForm.classList.add('js-toogle');
-          resizeBtn.toggle.addEventListener("click", function(event) {
-          event.preventDefault();
-          parent.classList.toggle('js-menu--open');
-          resizeBtn.classList.toggle('btn__js-menu--close');
-          div.classList.toggle('logo__js-menu--close');
-
-});
-        return true;
-    }
-    else {
-       resizeBtn.setAttribute('disabled', false);
-       resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
-       document.body.removeChild(document.getElementById("error-message"));
-    return false;
-    }
-   return "Вы ввели некорректные данные";
-}
-
-document.getElementById('resize-fwd').addEventListener('click', removeElement);
-function removeElement() {
-  if(+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0) {
-  document.deleteElement(document.getElementById("reload"));
+function send() {
+      if(resizeBtn.setAttribute('disabled', '')) {
+        resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+        var div = document.createElement('div');
+        div.id = 'error-message';
+        div.innerHTML='<p class="error-message__text">Вы ввели некорректные данные</p>';
+        document.body.appendChild(div);
+      return true;
   }
+  else {
+     resizeBtn.setAttribute('disabled', false);
+     //resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+     //document.body.removeChild(document.getElementById("error-message"));
+             resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+        var div = document.createElement('div');
+        div.id = 'error-message';
+        div.innerHTML='<p class="error-message__text">Вы ввели некорректные данные</p>';
+        document.body.appendChild(div);
+  return false;
+  }
+ return "Вы ввели некорректные данные";
 }
 
-
-resizeForm.onchange = function() {
+// вычисляем максимально возможное значение сторон
+  function setMaxSideValue(x, y) {
+    resizeFormSide.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
+    console.log(resizeFormSide)
+  }
+  resizeForm.onchange = function() {
+    setMaxSideValue(resizeFormX, resizeFormY);
     resizeFormIsValid();
   };
+
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}

@@ -202,6 +202,10 @@ body {
   opacity: 0.4;
 }
 
+.upload-form-controls-fwd:disabled {
+  opacity: 0.4;
+}
+
 #error-message {
  position: absolute;
   top: 280px;
