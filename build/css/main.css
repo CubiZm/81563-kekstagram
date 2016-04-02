@@ -202,6 +202,22 @@ body {
   opacity: 0.4;
 }
 
+#error-message {
+ position: absolute;
+  top: 280px;
+  left: 50%;
+  width: 470px;
+  height: 100px;
+  margin-left: -235px;
+  background: #fff;
+  font-size: 16px;
+  color: #ED072D;
+  text-align: center;
+}
+.error-message__text {
+  padding-top: 22px;
+}
+
 .upload-resize canvas {
   position: absolute;
   top: 50%;
