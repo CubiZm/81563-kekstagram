@@ -340,8 +340,6 @@
     }
 
     document.cookie = 'filter=' + filterValue + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
-    console.log(cookieExpirationDate)
-
     cleanupResizer();
     updateBackground();
   };
