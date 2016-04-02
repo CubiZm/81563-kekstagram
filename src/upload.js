@@ -78,15 +78,14 @@
   var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
   var resizeBtn = resizeForm['resize-fwd']; // кнопочка
 
-  var resizeFwd = document.querySelector('#resize-fwd');
+  //var resizeFwd = document.querySelector('#resize-fwd');
   var resizeMessage = document.querySelector('.error-message');
-  console.log(resizeMessage)
   // Надоели минусы, не дадим им шанса!
   resizeFormX.min = 0;
   resizeFormY.min = 0;
   resizeFormSide.min = 1;
 // Т.к. из-за того, что убрали отрицательные значения сломалось всё, то всё по новой
-function resizeFormIsValid() {
+  function resizeFormIsValid() {
     var x = +resizeFormX.value;
     var y = +resizeFormY.value;
     var side = +resizeFormSide.value;
@@ -104,10 +103,10 @@ function resizeFormIsValid() {
     return false;
   }
 
-    resizeForm.onchange = function() {
-     resizeFormIsValid();
-   };
-//   function resizeFormIsValid() {
+  resizeForm.onchange = function() {
+    resizeFormIsValid();
+  };
+//    function resizeFormIsValid() {
 //     var isValid = true;
 //   // проверяем не пустые ли поля
 //     if (resizeFormX.value.length === 0 || resizeFormY.value.length === 0 || resizeFormSide.value.length === 0) {
