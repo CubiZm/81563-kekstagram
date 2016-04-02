@@ -328,8 +328,22 @@
     var cookieExpirationDate = Date.now() + dateDiff;
 
     // Запишем фильтр в печеньку
+    var chooseFilter = document.getElementsByClassName('filter-image-preview')[0].classList; // запишем выбранный фильр
+    if (chooseFilter.includes('filter-none')) { // вот этот метод, наверное, не законный...
+      var filterValue = 'filter-none';
+    }
+    if (chooseFilter.includes('filter-chrome')) {
+      filterValue = 'filter-chrome';
+    }
+    if (chooseFilter.includes('filter-sepia')) {
+      filterValue = 'filter-sepia';
+    }
 
-    console.log(bDay, dateDiff, cookieExpirationDate)
+    document.cookie = 'filter=' + filterValue + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
+    console.log(cookieExpirationDate)
+
+    cleanupResizer();
+    updateBackground();
   };
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
