@@ -218,8 +218,21 @@ body {
   text-align: center;
 }
 
+#upload-resize-message {
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  width: 470px;
+  height: 60px;
+  margin-left: -235px;
+  font-size: 30px;
+  color: #ED072D;
+  text-align: center;
+  font-weight: 900;
+}
+
 .upload-resize-message {
-   position: absolute;
+  position: absolute;
   top: 280px;
   left: 50%;
   width: 470px;
@@ -245,6 +258,7 @@ body {
 }
 .error-message__text {
   padding-top: 22px;
+  font-weight: bolder;
 }
 
 .open {
