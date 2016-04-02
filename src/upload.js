@@ -101,7 +101,7 @@
 //  Сообщение об ошибке
 document.getElementById('resize-fwd').addEventListener('click', send);
   function send() {
-        if(resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth <= 0) {
+        if(+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0) {
           resizeBtn.setAttribute('disabled', true);
           resizeBtn.classList.add('upload-form-controls-fwd--disabled');
           var div = document.createElement('div');
@@ -130,7 +130,7 @@ document.getElementById('resize-fwd').addEventListener('click', send);
 
 document.getElementById('resize-fwd').addEventListener('click', removeElement);
 function removeElement() {
-  if(resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0) {
+  if(+resizeFormX.value + +resizeFormSide.value <= currentResizer._image.naturalWidth > 0) {
   document.deleteElement(document.getElementById("reload"));
   }
 }
