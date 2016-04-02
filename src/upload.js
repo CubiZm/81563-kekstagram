@@ -72,10 +72,102 @@
    * @return {boolean}
    */
    // Надеюсь это сюда..
+  var resizeForm = document.forms['upload-resize']; // найдем форму
+  var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
+  var resizeFormY = resizeForm['resize-y']; // ..верха
+  var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
+  var resizeBtn = resizeForm['resize-fwd']; // кнопочка
 
+  //var resizeFwd = document.querySelector('#resize-fwd');
+  //var resizeMessage = document.querySelector('.error-message');
+  // Надоели минусы, не дадим им шанса!
+  resizeFormX.min = 0;
+  resizeFormY.min = 0;
+  resizeFormSide.min = 1;
+// Т.к. из-за того, что убрали отрицательные значения сломалось всё, то всё по новой
+  // function resizeFormIsValid() {
+  //   var x = +resizeFormX.value;
+  //   var y = +resizeFormY.value;
+  //   var side = +resizeFormSide.value;
+  //   var imageWidth = currentResizer._image.naturalWidth;
+  //   var imageHeight = currentResizer._image.naturalHeight;
+
+  //   if (x + side <= imageWidth && y + side <= imageHeight) {
+  //     resizeBtn.disabled = false;
+  //     resizeMessage.classList.add('invisible');
+  //     return true;
+  //   }
+
+  //   resizeBtn.disabled = true;
+  //   resizeMessage.classList.remove('invisible');
+  //   return false;
+  // }
+
+  // resizeForm.onchange = function() {
+  //   resizeFormIsValid();
+  // };
   function resizeFormIsValid() {
-    return true;
+    var x = +resizeFormX.value;
+    var y = +resizeFormY.value;
+    var side = +resizeFormSide.value;
+    var imageWidth = currentResizer._image.naturalWidth;
+    var imageHeight = currentResizer._image.naturalHeight;
+    var messageWrapper = document.getElementById('upload-resize-message');
+
+    if (x + side <= imageWidth && y + side <= imageHeight) {
+      resizeBtn.disabled = false;
+      if (messageWrapper) {
+        messageWrapper.textContent = '';
+      }
+      // resizeMessage.classList.add('invisible');
+      return true;
+    }
+
+    if (!messageWrapper) {
+      messageWrapper = document.createElement('div');
+      messageWrapper.id = 'upload-resize-message';
+    }
+
+    resizeBtn.disabled = true;
+    messageWrapper.textContent = 'Введеные значения не верны! Проверьте правильность введеных значений.';
+    console.log(messageWrapper);
+    resizeForm.appendChild(messageWrapper);
+    return false;
   }
+
+  function formIsValid() {
+    var isValid = true;
+  // проверяем не пустые ли поля
+    if (resizeFormX.value.length === 0 || resizeFormY.value.length === 0 || resizeFormSide.value.length === 0) {
+      isValid = false;
+      return isValid;
+    }
+    for (var i = 0; i < resizeForm.elements.length; i++) {
+      isValid = resizeForm.elements[i].validity.valid;
+      if (!isValid) {
+        break;
+      }
+    }
+    if (isValid) {
+      resizeBtn.removeAttribute('disabled');
+      return true;
+    } else {
+      resizeBtn.setAttribute('disabled', '');
+    }
+    return formIsValid();
+  }
+  formIsValid();
+  // делаем по умолчанию кнопку отправки неактивной
+  resizeBtn.setAttribute('disabled', '');
+
+// вычисляем максимально возможное значение сторон
+  function setMaxSideValue(x, y) {
+    resizeFormSide.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
+  }
+  resizeForm.onchange = function() {
+    setMaxSideValue(resizeFormX, resizeFormY);
+    resizeFormIsValid();
+  };
 
   /**
    * Форма загрузки изображения.
@@ -87,7 +179,7 @@
    * Форма кадрирования изображения.
    * @type {HTMLFormElement}
    */
-  var resizeForm = document.forms['upload-resize'];
+  //var resizeForm = document.forms['upload-resize'];
 
   /**
    * Форма добавления фильтра.
