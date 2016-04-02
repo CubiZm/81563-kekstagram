@@ -103,40 +103,38 @@
       resizeBtn.setAttribute('disabled', '');
       console.log(resizeBtn);
     }
+    return isValid;
   }
 
   // делаем по умолчанию кнопку отправки неактивной
   resizeBtn.setAttribute('disabled', '');
 
 
-document.getElementById('resize-fwd').addEventListener('click', send);
-function send() {
-      if(resizeBtn.setAttribute('disabled', '')) {
-        resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-        var div = document.createElement('div');
-        div.id = 'error-message';
-        div.innerHTML='<p class="error-message__text">Вы ввели некорректные данные</p>';
-        document.body.appendChild(div);
+  document.getElementById('resize-fwd').addEventListener('click', send);
+  function send() {
+    if(resizeBtn.setAttribute('disabled', '')) {
+      resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+      var newDiv = document.createElement('div');
+      newDiv.id = 'error-message';
+      newDiv.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
+      document.body.appendChild(newDiv);
       return true;
+    } else {
+      resizeBtn.setAttribute('disabled', false);
+      resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
+      document.body.removeChild(document.getElementById('error-message'));
+      // resizeBtn.classList.add('upload-form-controls-fwd--disabled');
+      // var div = document.createElement('div');
+      // div.id = 'error-message';
+      // div.innerHTML = '<p class="error-message__text">Вы ввели некорректные данные</p>';
+      // document.body.appendChild(div);
+      return false;
+    }
   }
-  else {
-     resizeBtn.setAttribute('disabled', false);
-     //resizeBtn.classList.remove('upload-form-controls-fwd--disabled');
-     //document.body.removeChild(document.getElementById("error-message"));
-             resizeBtn.classList.add('upload-form-controls-fwd--disabled');
-        var div = document.createElement('div');
-        div.id = 'error-message';
-        div.innerHTML='<p class="error-message__text">Вы ввели некорректные данные</p>';
-        document.body.appendChild(div);
-  return false;
-  }
- return "Вы ввели некорректные данные";
-}
 
 // вычисляем максимально возможное значение сторон
   function setMaxSideValue(x, y) {
     resizeFormSide.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
-    console.log(resizeFormSide)
   }
   resizeForm.onchange = function() {
     setMaxSideValue(resizeFormX, resizeFormY);
