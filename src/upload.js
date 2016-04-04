@@ -8,6 +8,8 @@
 
 'use strict';
 
+var browserCookies = require('browser-cookies');
+
 (function() {
   /** @enum {string} */
   var FileType = {
@@ -316,30 +318,31 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
-    cleanupResizer();
-    updateBackground();
-
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
     // Жизнь печеньки
     evt.preventDefault();
-    var bDay = new Date(1992, 3, 18).getTime();
+    var year = new Date();
+    var yearNow = year.getFullYear() - 1;
+    var bDay = new Date(yearNow, 3, 18).getTime();
     var dateDiff = Date.now() - bDay;
     var cookieExpirationDate = Date.now() + dateDiff;
+    console.log(cookieExpirationDate);
 
     // Запишем фильтр в печеньку
     var chooseFilter = document.getElementsByClassName('filter-image-preview')[0].classList; // запишем выбранный фильр
-    if (chooseFilter.includes('filter-none')) { // вот этот метод, наверное, не законный...
-      var filterValue = 'filter-none';
-    }
-    if (chooseFilter.includes('filter-chrome')) {
-      filterValue = 'filter-chrome';
-    }
-    if (chooseFilter.includes('filter-sepia')) {
-      filterValue = 'filter-sepia';
-    }
-
-    document.cookie = 'filter=' + filterValue + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
+    // console.log(chooseFilter)
+    // // if (chooseFilter.indexOf()) { // вот этот метод, наверное, не законный...
+    // //   filterValue = 'filter-none';
+    // // }
+    // // if (chooseFilter.indexOf()) {
+    // //   filterValue = 'filter-chrome';
+    // // }
+    // // if (chooseFilter.indexOf()) {
+    // //   filterValue = 'filter-sepia';
+    // // }
+     document.cookies = 'filter=' + chooseFilter + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
+    // browserCookies.set('chooseFilter', chooseFilter.value)
     cleanupResizer();
     updateBackground();
   };
