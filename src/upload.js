@@ -326,11 +326,21 @@ var browserCookies = require('browser-cookies');
     var yearNow = year.getFullYear() - 1;
     var bDay = new Date(yearNow, 3, 18).getTime();
     var dateDiff = Date.now() - bDay;
-    var cookieExpirationDate = Date.now() + dateDiff;
-    console.log(cookieExpirationDate);
+    console.log(dateDiff)
+    var filter = browserCookies.get('filter') || 'none';
+
+    document.getElementById('upload-filter-' + filter).checked = 'checked';
+
+    // browserCookies.set('filter', selectedFilter, {
+    //   expires: cookieExpirationDate
+    // });
+
+   //  browserCookies.set('filter', selectedFilter, {
+   //   expires: cookieExpirationDate()
+   // });
 
     // Запишем фильтр в печеньку
-    var chooseFilter = document.getElementsByClassName('filter-image-preview')[0].classList; // запишем выбранный фильр
+    //var chooseFilter = document.getElementsByClassName('filter-image-preview')[0].classList; // запишем выбранный фильр
     // console.log(chooseFilter)
     // // if (chooseFilter.indexOf()) { // вот этот метод, наверное, не законный...
     // //   filterValue = 'filter-none';
@@ -341,7 +351,7 @@ var browserCookies = require('browser-cookies');
     // // if (chooseFilter.indexOf()) {
     // //   filterValue = 'filter-sepia';
     // // }
-     document.cookies = 'filter=' + chooseFilter + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
+    // document.cookies = 'filter=' + chooseFilter + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
     // browserCookies.set('chooseFilter', chooseFilter.value)
     cleanupResizer();
     updateBackground();
