@@ -325,9 +325,8 @@ var browserCookies = require('browser-cookies');
     var year = new Date();
     var yearNow = year.getFullYear() - 1;
     var bDay = new Date(yearNow, 3, 18).getTime();
-    var dateDiff = Date.now() - bDay / (24 *60 *60 *1000);
+    var dateDiff = (Date.now() - bDay) / 24/60 /60 /1000;
     console.log(dateDiff)
-
     var filterCookies = browserCookies.get('filter');
     if (filterCookies) {
       document.getElementById(filterCookies).checked = true;
