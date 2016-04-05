@@ -325,37 +325,32 @@ var browserCookies = require('browser-cookies');
     var year = new Date();
     var yearNow = year.getFullYear() - 1;
     var bDay = new Date(yearNow, 3, 18).getTime();
-    var dateDiff = Date.now() - bDay;
+    var dateDiff = Date.now() - bDay / (24 *60 *60 *1000);
     console.log(dateDiff)
-    var filter = browserCookies.get('filter') || 'none';
 
-    document.getElementById('upload-filter-' + filter).checked = 'checked';
+    var filterCookies = browserCookies.get('filter');
+    if (filterCookies) {
+      document.getElementById(filterCookies).checked = true;
+    }
 
-    // browserCookies.set('filter', selectedFilter, {
-    //   expires: cookieExpirationDate
-    // });
-
-   //  browserCookies.set('filter', selectedFilter, {
-   //   expires: cookieExpirationDate()
-   // });
-
-    // Запишем фильтр в печеньку
-    //var chooseFilter = document.getElementsByClassName('filter-image-preview')[0].classList; // запишем выбранный фильр
-    // console.log(chooseFilter)
-    // // if (chooseFilter.indexOf()) { // вот этот метод, наверное, не законный...
-    // //   filterValue = 'filter-none';
-    // // }
-    // // if (chooseFilter.indexOf()) {
-    // //   filterValue = 'filter-chrome';
-    // // }
-    // // if (chooseFilter.indexOf()) {
-    // //   filterValue = 'filter-sepia';
-    // // }
-    // document.cookies = 'filter=' + chooseFilter + ';expires=' + cookieExpirationDate; // передадим печеньке выбранный фильтр и время
-    // browserCookies.set('chooseFilter', chooseFilter.value)
+    filterForm.onsubmit = function() {
+      var filters = filterForm['upload-filter'];
+      var checkedFilter;
+      for (var i = 0, l = filters.length; i < l; i++) {
+        if (filters[i].checked) {
+          checkedFilter = filters[i].id;
+          break;
+        }
+      }
+      // Установка куки
+      browserCookies.set('filter', checkedFilter, {
+        expires: dateDiff
+      });
+    };
     cleanupResizer();
     updateBackground();
   };
+
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
