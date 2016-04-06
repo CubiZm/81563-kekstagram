@@ -9,25 +9,27 @@ var pictureTemplate = function pictureTemplate() {
   var elementToClone;
 
   if('content' in templateElement) {
-    elemetToClone = templateElement.content.querySelector('.pictures') {
+    elemetToClone = templateElement.content.querySelector('.pictures');
   } else {
     elemetToClone = templateElement.querySelector('.pictures');
   }
 
   var getpictureElement = function(data, container) {
     var element = elementToClone.cloneNode(true);
-    var imageInElement = element.querySelector('img');
+    var backgroundImage = element.querySelector('img');
 
     element.querySelector('.picture-comments').textContent = data.comments;
     element.querySelector('.picture-likes').textContent = data.likes;
     container.appendChild(element);
     
     var backgroundImage = new Image();
+    var backgroundLoadTimeout;
 
     backgroundImage.onload = function(evt) {
-      imageInElement.src = evt.target.src;
-      imageInElement.width = 182;
-      imageInElement.height = 182;
+      clearTimeout(backgroundLoadTimeout);
+      backgroundImage.src = evt.target.src;
+      backgroundImage.width = 182;
+      backgroundImage.height = 182;
     };
 
     backgroundImage.onerror = function() {
@@ -36,6 +38,10 @@ var pictureTemplate = function pictureTemplate() {
 
     backgroundImage.src = data.preview;
 
+    backgroundLoadTimeout = setTimeout(function() {
+        backgroundImage.src = '';
+        element.classList.add('hotel-nophoto');
+    }, 10000);
 
     return element;
   };
