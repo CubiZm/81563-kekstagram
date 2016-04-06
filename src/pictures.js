@@ -22,9 +22,11 @@
     element.querySelector('.picture-comments').textContent = data.comments;
     element.querySelector('.picture-likes').textContent = data.likes;
     container.appendChild(element);
+
     var backgroundImage = new Image();
     var backgroundLoadTimeout;
 
+    backgroundImage.src = data.preview;
 
     backgroundImage.onload = function(evt) {
       clearTimeout(backgroundLoadTimeout);
@@ -37,9 +39,7 @@
       element.classList.add('picture-load-failure');
     };
 
-    backgroundImage.src = data.preview;
-
-    backgroundLoadTimeout = setTimeout(function() {
+     backgroundLoadTimeout = setTimeout(function() {
       backgroundImage.src = '';
       element.classList.add('picture-load-failure');
     }, 10000);
