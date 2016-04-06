@@ -23,27 +23,23 @@
     element.querySelector('.picture-likes').textContent = data.likes;
     container.appendChild(element);
 
-    var backgroundImage = new Image();
+    var loadImage = new Image();
     var backgroundLoadTimeout;
 
     backgroundImage.src = data.preview;
 
-    backgroundImage.onload = function(evt) {
+    loadImage.onload = function(evt) {
       clearTimeout(backgroundLoadTimeout);
       backgroundImage.src = evt.target.src;
       backgroundImage.width = 182;
       backgroundImage.height = 182;
     };
 
-    backgroundImage.onerror = function() {
+    loadImage.onerror = function() {
       element.classList.add('picture-load-failure');
     };
 
-     backgroundLoadTimeout = setTimeout(function() {
-      backgroundImage.src = '';
-      element.classList.add('picture-load-failure');
-    }, 10000);
-
+    loadImage.src = data.url;
     return element;
   };
 
