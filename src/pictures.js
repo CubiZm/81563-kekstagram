@@ -1,3 +1,5 @@
+/* global pictures */
+
 'use strict';
 
 var pictureTemplate = function pictureTemplate() {
@@ -45,4 +47,8 @@ var pictureTemplate = function pictureTemplate() {
 
     return element;
   };
+
+  pictures.forEach(function(pictures) {
+    getPictureElement(picture, picturesContainer);
+});
 };
