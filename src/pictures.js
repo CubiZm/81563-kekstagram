@@ -27,7 +27,6 @@
     var backgroundLoadTimeout;
 
     console.log(element, backgroundImage)
-    debbuger;
     backgroundImage.onload = function(evt) {
       clearTimeout(backgroundLoadTimeout);
       backgroundImage.src = evt.target.src;
@@ -47,11 +46,12 @@
       element.classList.add('picture-load-failure');
     }, 10000);
 
+    pictures.forEach(function(pictures) {
+      getPictureElement(pictures, picturesContainer);
+    });
+
     return element;
   };
 
-  pictures.forEach(function(pictures) {
-    getPictureElement(pictures, picturesContainer);
-  });
-  blockFilters.classList.remove('hidden');
+ blockFilters.classList.remove('hidden');
 })();
