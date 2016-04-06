@@ -2,7 +2,7 @@
 
 'use strict';
 
-var pictureTemplate = function pictureTemplate() {
+(function() {
   var blockFilters = document.querySelector('.filters');
   blockFilters.classList.add('hidden');
 
@@ -50,5 +50,6 @@ var pictureTemplate = function pictureTemplate() {
 
   pictures.forEach(function(pictures) {
     getPictureElement(picture, picturesContainer);
-});
-};
+  });
+  blockFilters.classList.remove('hidden');
+})();
