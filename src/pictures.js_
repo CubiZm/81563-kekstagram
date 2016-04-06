@@ -1,0 +1,42 @@
+'use strict';
+
+var pictureTemplate = function pictureTemplate() {
+  var blockFilters = document.querySelector('.filters');
+  blockFilters.classList.add('hidden');
+
+  var picturesContainer = document.querySelector('.pictures');
+  var templateElement = document.getElementById('picture-template');
+  var elementToClone;
+
+  if('content' in templateElement) {
+    elemetToClone = templateElement.content.querySelector('.pictures') {
+  } else {
+    elemetToClone = templateElement.querySelector('.pictures');
+  }
+
+  var getpictureElement = function(data, container) {
+    var element = elementToClone.cloneNode(true);
+    var imageInElement = element.querySelector('img');
+
+    element.querySelector('.picture-comments').textContent = data.comments;
+    element.querySelector('.picture-likes').textContent = data.likes;
+    container.appendChild(element);
+    
+    var backgroundImage = new Image();
+
+    backgroundImage.onload = function(evt) {
+      imageInElement.src = evt.target.src;
+      imageInElement.width = 182;
+      imageInElement.height = 182;
+    };
+
+    backgroundImage.onerror = function() {
+      element.classList.add('picture-load-failure');
+    };
+
+    backgroundImage.src = data.preview;
+
+
+    return element;
+  };
+};
