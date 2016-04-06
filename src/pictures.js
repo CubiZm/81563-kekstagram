@@ -11,12 +11,12 @@
   var elementToClone;
 
   if('content' in templateElement) {
-    var elemetToClone = templateElement.content.querySelector('.pictures');
+    var elemetToClone = templateElement.content.querySelector('.picture');
   } else {
     var elemetToClone = templateElement.querySelector('.pictures');
   }
-
-  var getpictureElement = function(data, container) {
+    console.log(elemetToClone);
+  var getPictureElement = function(data, container) {
     var element = elementToClone.cloneNode(true);
     var backgroundImage = element.querySelector('img');
 
@@ -26,13 +26,12 @@
     var backgroundImage = new Image();
     var backgroundLoadTimeout;
 
-    console.log(element, backgroundImage)
+
     backgroundImage.onload = function(evt) {
       clearTimeout(backgroundLoadTimeout);
       backgroundImage.src = evt.target.src;
       backgroundImage.width = 182;
       backgroundImage.height = 182;
-
     };
 
     backgroundImage.onerror = function() {
@@ -46,12 +45,11 @@
       element.classList.add('picture-load-failure');
     }, 10000);
 
-    pictures.forEach(function(pictures) {
-      getPictureElement(pictures, picturesContainer);
-    });
-
     return element;
   };
 
- blockFilters.classList.remove('hidden');
+  pictures.forEach(function(pictures) {
+    getPictureElement(pictures, picturesContainer);
+  });
+  blockFilters.classList.remove('hidden');
 })();
