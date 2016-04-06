@@ -11,11 +11,10 @@
   var elementToClone;
 
   if('content' in templateElement) {
-    var elemetToClone = templateElement.content.querySelector('.picture');
+    elementToClone = templateElement.content.querySelector('.picture');
   } else {
-    var elemetToClone = templateElement.querySelector('.pictures');
+    elementToClone = templateElement.querySelector('.pictures');
   }
-    console.log(elemetToClone);
   var getPictureElement = function(data, container) {
     var element = elementToClone.cloneNode(true);
     var backgroundImage = element.querySelector('img');
