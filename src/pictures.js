@@ -42,7 +42,7 @@ var pictureTemplate = function pictureTemplate() {
 
     backgroundLoadTimeout = setTimeout(function() {
         backgroundImage.src = '';
-        element.classList.add('hotel-nophoto');
+        element.classList.add('picture-load-failure');
     }, 10000);
 
     return element;
