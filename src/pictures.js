@@ -4,28 +4,6 @@
 
 (function() {
 
-    var pictures = [];
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//o0.github.io/assets/json/pictures.json')
-
-    xhr.onload = function(evt) {
-      var requestPhoto = evt.target;
-      var response = requestPhoto.response;
-      pictures = JSON.parse(response);
-      console.log(pictures);
-    }
-
-    xhr.onerror = function() {
-      element.classList.add('pictures-failure');
-    }
-    var renderPictures = function() {
-      pictures.forEach(function(picture) {
-      getPictureElement(picture, picturesContainer);
-      });
-    };
-
-    xhr.send();
-
   var blockFilters = document.querySelector('.filters');
   blockFilters.classList.add('hidden');
 
@@ -69,8 +47,34 @@
     return element;
   };
 
-  pictures.forEach(function(pictures) {
-    getPictureElement(pictures, picturesContainer);
-  });
+  // pictures.forEach(function(pictures) {
+  //   getPictureElement(pictures, picturesContainer);
+  // });
   blockFilters.classList.remove('hidden');
+
+  var pictures = [];
+  var getPictures = function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//o0.github.io/assets/json/pictures.json')
+    xhr.send();
+    xhr.onload = function(evt) {
+      var requestPhoto = evt.target;
+      var response = requestPhoto.response;
+      response = JSON.parse(response);
+      console.log(response, requestPhoto);
+    }
+    xhr.onerror = function() {
+      response.classList.add('pictures-failure');
+    }
+  };
+  var renderPictures = function() {
+    pictures.forEach(function(pictures) {
+    getPictureElement(pictures, picturesContainer);
+    });
+  };
+  getPictures(function(loadedPictures) {
+    pictures = loadedPictures;
+    renderPictures(pictures);
+  });
+
 })();
