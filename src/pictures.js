@@ -53,28 +53,30 @@
   blockFilters.classList.remove('hidden');
 
   var pictures = [];
-  var getPictures = function () {
+  // получим фоточки
+  var getPictures = function(callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//o0.github.io/assets/json/pictures.json')
+    xhr.open('GET', '//o0.github.io/assets/json/pictures.json');
     xhr.send();
     xhr.onload = function(evt) {
       var requestPhoto = evt.target;
       var response = requestPhoto.response;
       response = JSON.parse(response);
-      console.log(response, requestPhoto);
-    }
-    xhr.onerror = function() {
-      response.classList.add('pictures-failure');
-    }
+      callback(response);
+    };
+    // xhr.onerror = function() {
+    //   block_pictures.classList.add('pictures-failure');
+    // };
   };
+  // отдадим фоточки
   var renderPictures = function() {
     pictures.forEach(function(pictures) {
-    getPictureElement(pictures, picturesContainer);
+      getPictureElement(pictures, picturesContainer);
     });
   };
+  // получим фоточки...
   getPictures(function(loadedPictures) {
     pictures = loadedPictures;
     renderPictures(pictures);
   });
-
 })();
