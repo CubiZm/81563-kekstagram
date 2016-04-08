@@ -1,5 +1,3 @@
-/* global pictures */
-
 'use strict';
 
 (function() {
@@ -55,15 +53,16 @@
   var pictures = [];
   // получим фоточки
   var getPictures = function(callback) {
-    var picturesContainer = document.querySelector('.pictures');
+    var picturesCont = document.querySelector('.pictures');
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '//o0.github.io/assets/json/pictures.json');
     xhr.send();
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState != 4) return;
-      picturesContainer.classList.remove('pictures-loading');
-    }
-    picturesContainer.classList.add('pictures-loading'); // (2)
+      picturesCont.classList.remove('pictures-loading');
+    };
+    picturesCont.classList.add('pictures-loading');
 
     xhr.onload = function(evt) {
       var requestPhoto = evt.target;
@@ -71,8 +70,9 @@
       response = JSON.parse(response);
       callback(response);
     };
+
     xhr.onerror = function() {
-      picturesContainer.classList.add('pictures-failure');
+      picturesCont.classList.add('pictures-failure');
     };
   };
   // отдадим фоточки
