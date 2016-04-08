@@ -55,18 +55,25 @@
   var pictures = [];
   // получим фоточки
   var getPictures = function(callback) {
+    var picturesContainer = document.querySelector('.pictures');
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '//o0.github.io/assets/json/pictures.json');
     xhr.send();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState != 4) return;
+      picturesContainer.classList.remove('pictures-loading');
+    }
+    picturesContainer.classList.add('pictures-loading'); // (2)
+
     xhr.onload = function(evt) {
       var requestPhoto = evt.target;
       var response = requestPhoto.response;
       response = JSON.parse(response);
       callback(response);
     };
-    // xhr.onerror = function() {
-    //   block_pictures.classList.add('pictures-failure');
-    // };
+    xhr.onerror = function() {
+      picturesContainer.classList.add('pictures-failure');
+    };
   };
   // отдадим фоточки
   var renderPictures = function() {
