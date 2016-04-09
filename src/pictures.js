@@ -78,13 +78,13 @@
     };
   };
   // отдадим фоточки
-  var renderPictures = function(getPictures) {
+  function renderPictures(picturesToRender) {
     picturesContainer.innerHTML = '';
 
-    getPictures.forEach(function(picture) {
+    picturesToRender.forEach(function(picture) {
       getPictureElement(picture, picturesContainer);
     });
-  };
+  }
   // получим фоточки...
   getPictures(function(loadedPictures) {
     pictures = loadedPictures;
@@ -105,7 +105,6 @@
 
     switch (id) {
       case 'filter-new':
-        var currentDate = new Date();
         filteredPictures.sort(function(a, b) {
           if (a.date < b.date) {
             return 1;
@@ -120,7 +119,6 @@
           var dateB = new Date(b.date);
           var callbackTwoWeek = dateB.getTime() - dateA.getTime();
           return callbackTwoWeek;
-          console.log(callbackTwoWeek)
         });
         break;
       case 'filter-discussed':
