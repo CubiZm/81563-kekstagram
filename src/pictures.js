@@ -93,51 +93,51 @@
 
   // отфильтруем фоточки
 
-  var getFiltrationPictures = function(getPictures, filtration) {
-    var picturesToFiltration = getPictures.slice(0);
-    // фото по количеству комментариев
-    switch (filtration) {
-      case 'filter-discussed':
-        picturesToFiltration.sort(function(a, b) {
-          return b.comments - a.comments;
-        });
-        break;
-      // новые
-      case 'filter-new':
-        picturesToFiltration.sort(function(a, b) {
-          if (a.date < b.date) {
-            return 1;
-          }
-          if (a.date > b.date) {
-            return -1;
-          }
-          return 0;
-        });
-        // а прошлые две недели
-        var dateNow = new Date();
-        var twoWeekBack = ++dateNow - 14 * 24 * 60 * 60 * 1000;
-        picturesToFiltration = picturesToFiltration.filter(function() {
-          return dateNow > twoWeekBack;
-        });
-        break;
-    }
+  // var getFiltrationPictures = function(getPictures, filtration) {
+  //   var picturesToFiltration = getPictures.slice(0);
+  //   // фото по количеству комментариев
+  //   switch (filtration) {
+  //     case 'filter-discussed':
+  //       picturesToFiltration.sort(function(a, b) {
+  //         return b.comments - a.comments;
+  //       });
+  //       break;
+  //     // новые
+  //     case 'filter-new':
+  //       picturesToFiltration.sort(function(a, b) {
+  //         if (a.date < b.date) {
+  //           return 1;
+  //         }
+  //         if (a.date > b.date) {
+  //           return -1;
+  //         }
+  //         return 0;
+  //       });
+  //       // а прошлые две недели
+  //       var dateNow = new Date();
+  //       var twoWeekBack = ++dateNow - 14 * 24 * 60 * 60 * 1000;
+  //       picturesToFiltration = picturesToFiltration.filter(function() {
+  //         return dateNow > twoWeekBack;
+  //       });
+  //       break;
+  //   }
 
-    return picturesToFiltration;
-  };
+  //   return picturesToFiltration;
+  // };
 
-  var setFiltration = function(filtration) {
-    var filtrationPictures = getFiltrationPictures(pictures, filtration);
-    renderPictures(filtrationPictures);
-  };
+  // var setFiltration = function(filtration) {
+  //   var filtrationPictures = getFiltrationPictures(pictures, filtration);
+  //   renderPictures(filtrationPictures);
+  // };
 
-  getPictures(function(loadedPictures) {
-    pictures = loadedPictures;
-    renderPictures(pictures);
-  });
+  // getPictures(function(loadedPictures) {
+  //   pictures = loadedPictures;
+  //   renderPictures(pictures);
+  // });
 
   // начала делать выборку по фильтру
-  blockFilters.onchange = function() {
-    var selectedFiltration;
-    setFiltration(selectedFiltration);
-  };
+  // blockFilters.onchange = function() {
+
+  //   setFiltration(selectedFiltration);
+  // };
 })();
