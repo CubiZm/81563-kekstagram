@@ -93,42 +93,45 @@
 
   // отфильтруем фоточки
 
-  var getFiltrationPictures = function(getPictures, filtration) {
-    var picturesToFiltration = getPictures.slice(0);
-    // фото по количеству комментариев
-    switch (filtration) {
+  function setActiveFilter(id) {
+    var activeFilter = 'filter-popular';
+    if (activeFilter === id) {
+      return;
+    }
+
+    activeFilter = id;
+
+    var filteredPictures = pictures.slice(0);
+
+    switch (id) {
+      case 'filter-new':
+        var currentDate = new Date();
+        var currentDays = Math.floor(currentDate.getTime() / 86400000);
+        filteredPictures = filteredPictures.filter(function(a) {
+          var imageDate = new Date(a.date);
+          var imageDays = Math.floor(imageDate.getTime() / 86400000);
+          return ((currentDays - imageDays) <= 14);
+        });
+        filteredPictures = filteredPictures.sort(function(a, b) {
+          var dateA = new Date(a.date);
+          var dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+        break;
       case 'filter-discussed':
-        picturesToFiltration.sort(function(a, b) {
+        filteredPictures = filteredPictures.sort(function(a, b) {
           return b.comments - a.comments;
         });
         break;
-      // новые
-      case 'filter-new':
-        picturesToFiltration.sort(function(a, b) {
-          if (a.date < b.date) {
-            return 1;
-          }
-          if (a.date > b.date) {
-            return -1;
-          }
-          return 0;
-        });
-        // а прошлые две недели
-        var dateNow = new Date();
-        var twoWeekBack = ++dateNow - 14 * 24 * 60 * 60 * 1000 / 86400000;
-        picturesToFiltration = picturesToFiltration.filter(function() {
-          return dateNow > twoWeekBack;
-
-        });
-        break;
     }
-    return picturesToFiltration;
-  };
 
-  var setFiltration = function(filtration) {
-    var filtrationPictures = getFiltrationPictures(pictures, filtration);
-    renderPictures(filtrationPictures);
-  };
+    renderPictures(filteredPictures);
+  }
+
+  // var setFiltration = function(filtration) {
+  //   var filtrationPictures = getFiltrationPictures(pictures, filtration);
+  //   renderPictures(filtrationPictures);
+  // };
 
   getPictures(function(loadedPictures) {
     pictures = loadedPictures;
@@ -136,19 +139,15 @@
   });
 
   // начала делать выборку по фильтру
-  blockFilters.onchange = function() {
-    var selectedFiltration = [].filter.call(blockFilters['filter'], function(item) {
-      return item.checked;
-    })[0].id;
+  var filters = document.querySelectorAll('.filters-radio');
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].onclick = function(evt) {
+      var clickedElementID = evt.target.id;
+      setActiveFilter(clickedElementID);
+    };
+  }
 
-    setFiltration(selectedFiltration);
-  };
+  getPictures();
 })();
 
-  // blockFilters.onchange = function() {
-  //   var selectedFiltration = [].filter.call(blockFilters['filter'], function(item) {
-  //     return item.checked;
-  //   })[0].id;
 
-  //   setFiltration(selectedFiltration);
-  // };
