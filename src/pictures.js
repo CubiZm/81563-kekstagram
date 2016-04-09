@@ -94,7 +94,7 @@
   // отфильтруем фоточки
 
   function setActiveFilter(id) {
-    var activeFilter = 'filter-popular';
+    var activeFilter = 'filter-item';
     if (activeFilter === id) {
       return;
     }
@@ -106,16 +106,21 @@
     switch (id) {
       case 'filter-new':
         var currentDate = new Date();
-        var currentDays = Math.floor(currentDate.getTime() / 86400000);
-        filteredPictures = filteredPictures.filter(function(a) {
-          var imageDate = new Date(a.date);
-          var imageDays = Math.floor(imageDate.getTime() / 86400000);
-          return ((currentDays - imageDays) <= 14);
+        filteredPictures.sort(function(a, b) {
+          if (a.date < b.date) {
+            return 1;
+          }
+          if (a.date > b.date) {
+            return -1;
+          }
+          return 0;
         });
         filteredPictures = filteredPictures.sort(function(a, b) {
           var dateA = new Date(a.date);
           var dateB = new Date(b.date);
-          return dateB.getTime() - dateA.getTime();
+          var callbackTwoWeek = dateB.getTime() - dateA.getTime();
+          return callbackTwoWeek;
+          console.log(callbackTwoWeek)
         });
         break;
       case 'filter-discussed':
