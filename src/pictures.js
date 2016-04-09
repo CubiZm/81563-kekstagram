@@ -59,8 +59,10 @@
     xhr.send();
 
     xhr.onreadystatechange = function() {
-      if (xhr.readyState != 4) return;
-      picturesCont.classList.remove('pictures-loading');
+      if (xhr.readyState !== 4) {
+        picturesCont.classList.remove('pictures-loading');
+      }
+      return;
     };
     picturesCont.classList.add('pictures-loading');
 
@@ -76,9 +78,11 @@
     };
   };
   // отдадим фоточки
-  var renderPictures = function() {
-    pictures.forEach(function(pictures) {
-      getPictureElement(pictures, picturesContainer);
+  var renderPictures = function(getPictures) {
+    picturesContainer.innerHTML = '';
+
+    getPictures.forEach(function(picture) {
+      getPictureElement(picture, picturesContainer);
     });
   };
   // получим фоточки...
@@ -86,4 +90,54 @@
     pictures = loadedPictures;
     renderPictures(pictures);
   });
+
+  // отфильтруем фоточки
+
+  var getFiltrationPictures = function(getPictures, filtration) {
+    var picturesToFiltration = getPictures.slice(0);
+    // фото по количеству комментариев
+    switch (filtration) {
+      case 'filter-discussed':
+        picturesToFiltration.sort(function(a, b) {
+          return b.comments - a.comments;
+        });
+        break;
+      // новые
+      case 'filter-new':
+        picturesToFiltration.sort(function(a, b) {
+          if (a.date < b.date) {
+            return 1;
+          }
+          if (a.date > b.date) {
+            return -1;
+          }
+          return 0;
+        });
+        // а прошлые две недели
+        var dateNow = new Date();
+        var twoWeekBack = ++dateNow - 14 * 24 * 60 * 60 * 1000;
+        picturesToFiltration = picturesToFiltration.filter(function() {
+          return dateNow > twoWeekBack;
+        });
+        break;
+    }
+
+    return picturesToFiltration;
+  };
+
+  var setFiltration = function(filtration) {
+    var filtrationPictures = getFiltrationPictures(pictures, filtration);
+    renderPictures(filtrationPictures);
+  };
+
+  getPictures(function(loadedPictures) {
+    pictures = loadedPictures;
+    renderPictures(pictures);
+  });
+
+  // начала делать выборку по фильтру
+  blockFilters.onchange = function() {
+    var selectedFiltration;
+    setFiltration(selectedFiltration);
+  };
 })();
