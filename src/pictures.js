@@ -4,6 +4,7 @@
 
   var blockFilters = document.querySelector('.filters');
   blockFilters.classList.add('hidden');
+  var PAGE_SIZE = 3;
 
   var picturesContainer = document.querySelector('.pictures');
   var templateElement = document.getElementById('picture-template');
@@ -80,7 +81,8 @@
   // отдадим фоточки
   function renderPictures(picturesToRender) {
     picturesContainer.innerHTML = '';
-
+    var from = page * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
     picturesToRender.forEach(function(picture) {
       getPictureElement(picture, picturesContainer);
     });
