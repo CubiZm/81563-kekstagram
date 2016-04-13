@@ -4,7 +4,8 @@
   /** @constant {number} */
   var PAGE_SIZE = 9;
 
-
+/** @type {Array.<Object>} */
+var filteredPictures = [];
 /** @type {number} */
   var pageNumber = 0;
 
@@ -108,7 +109,7 @@
 
     activeFilter = id;
 
-    var filteredPictures = pictures.slice(0);
+    filteredPictures = pictures.slice(0);
     pageNumber = 0;
     renderPictures(filteredPictures, pageNumber);
 
@@ -154,11 +155,14 @@
 
   var setScrollEnabled = function() {
     window.addEventListener('scroll', function(evt) {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
       if (isBottomReached() &&
           isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
         pageNumber++;
-        renderPictures(pictures, pageNumber);
-      }
+        renderPictures(filteredPictures, pageNumber);
+        }
+      }, 100);
     });
   };
 
