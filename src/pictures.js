@@ -1,10 +1,15 @@
 'use strict';
 
 (function() {
+  /** @constant {number} */
+  var PAGE_SIZE = 9;
+
+
+/** @type {number} */
+  var pageNumber = 0;
 
   var blockFilters = document.querySelector('.filters');
   blockFilters.classList.add('hidden');
-  var PAGE_SIZE = 3;
 
   var picturesContainer = document.querySelector('.pictures');
   var templateElement = document.getElementById('picture-template');
@@ -79,12 +84,12 @@
     };
   };
   // отдадим фоточки
-  function renderPictures(picturesToRender) {
+  function renderPictures(picturesToRender, page) {
     picturesContainer.innerHTML = '';
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     picturesToRender.forEach(function(picture) {
-      getPictureElement(picture, picturesContainer);
+      getPictureElement(picture, picturesContainer, 0);
     });
   }
   // получим фоточки...
@@ -104,6 +109,8 @@
     activeFilter = id;
 
     var filteredPictures = pictures.slice(0);
+    pageNumber = 0;
+    renderPictures(filteredPictures, pageNumber);
 
     switch (id) {
       case 'filter-new':
@@ -130,8 +137,30 @@
         break;
     }
 
-    renderPictures(filteredPictures);
+    renderPictures(filteredPictures, 0);
   }
+
+  var isNextPageAvailable = function(pictures, page, pageSize) {
+    return page < Math.floor(pictures.length / pageSize);
+  };
+
+/** @return {boolean} */
+  var isBottomReached = function() {
+    var GAP = 100;
+    var footerElement = document.querySelector('template');
+    var footerPosition = footerElement.getBoundingClientRect();
+    return footerPosition.top - window.innerHeight - 100 <= 0;
+  };
+
+  var setScrollEnabled = function() {
+    window.addEventListener('scroll', function(evt) {
+      if (isBottomReached() &&
+          isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+        pageNumber++;
+        renderPictures(pictures, pageNumber);
+      }
+    });
+  };
 
   // var setFiltration = function(filtration) {
   //   var filtrationPictures = getFiltrationPictures(pictures, filtration);
