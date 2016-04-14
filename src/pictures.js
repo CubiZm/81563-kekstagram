@@ -87,8 +87,8 @@
     };
   };
   // отдадим фоточки
-  function renderPictures(picturesToRender, page) {
-    if (page) {
+  function renderPictures(picturesToRender, page, replace) {
+    if (replace) {
       picturesContainer.innerHTML = '';
     }
     var fromTo = page * PAGE_SIZE;
@@ -151,7 +151,7 @@
 
 /** @return {boolean} */
   var isBottomReached = function() {
-    var footerElement = window.innerHeight;
+    var footerElement = picturesContainer;
     var footerPosition = footerElement.getBoundingClientRect();
     return footerPosition.top - window.innerHeight - GAP <= 0;
   };
@@ -159,6 +159,7 @@
   var setScrollEnabled = function() {
     window.addEventListener('scroll', function() {
       var scrollTimeout;
+      clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function() {
         if (isBottomReached() &&
           isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
@@ -166,7 +167,6 @@
           renderPictures(filteredPictures, pageNumber);
         }
       }, GAP);
-      clearTimeout(scrollTimeout);
     });
   };
 
