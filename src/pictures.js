@@ -2,12 +2,14 @@
 
 (function() {
   /** @constant {number} */
-  var PAGE_SIZE = 9;
+  var PAGE_SIZE = 12;
 
 /** @type {Array.<Object>} */
-var filteredPictures = [];
+  var filteredPictures = [];
 /** @type {number} */
   var pageNumber = 0;
+
+  var GAP = 100;
 
   var blockFilters = document.querySelector('.filters');
   blockFilters.classList.add('hidden');
@@ -86,11 +88,13 @@ var filteredPictures = [];
   };
   // отдадим фоточки
   function renderPictures(picturesToRender, page) {
-    picturesContainer.innerHTML = '';
+    if (page) {
+      picturesContainer.innerHTML = '';
+    }
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
-    picturesToRender.forEach(function(picture) {
-      getPictureElement(picture, picturesContainer, 0);
+    picturesToRender.slice(from, to).forEach(function(picture) {
+      getPictureElement(picture, picturesContainer, pageNumber);
     });
   }
   // получим фоточки...
@@ -111,7 +115,7 @@ var filteredPictures = [];
 
     filteredPictures = pictures.slice(0);
     pageNumber = 0;
-    renderPictures(filteredPictures, pageNumber);
+    renderPictures(filteredPictures, pageNumber, true);
 
     switch (id) {
       case 'filter-new':
@@ -138,7 +142,7 @@ var filteredPictures = [];
         break;
     }
 
-    renderPictures(filteredPictures, 0);
+    renderPictures(filteredPictures, pageNumber);
   }
 
   var isNextPageAvailable = function(pictures, page, pageSize) {
@@ -147,22 +151,21 @@ var filteredPictures = [];
 
 /** @return {boolean} */
   var isBottomReached = function() {
-    var GAP = 100;
-    var footerElement = document.querySelector('template');
+    var footerElement = document.querySelector('footer');
     var footerPosition = footerElement.getBoundingClientRect();
-    return footerPosition.top - window.innerHeight - 100 <= 0;
+    return footerPosition.top - window.innerHeight - GAP <= 0;
   };
 
   var setScrollEnabled = function() {
     window.addEventListener('scroll', function(evt) {
-      clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function() {
-      if (isBottomReached() &&
+        if (isBottomReached() &&
           isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-        pageNumber++;
-        renderPictures(filteredPictures, pageNumber);
+          pageNumber++;
+          renderPictures(filteredPictures, pageNumber);
         }
-      }, 100);
+      }, GAP);
+      clearTimeout(scrollTimeout);
     });
   };
 
@@ -186,6 +189,7 @@ var filteredPictures = [];
   }
 
   getPictures();
+  setScrollEnabled();
 })();
 
 
