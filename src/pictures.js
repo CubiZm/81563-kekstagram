@@ -107,15 +107,16 @@
 
   function setActiveFilter(id) {
     var activeFilter = 'filter-item';
-    if (activeFilter === id) {
-      return;
-    }
-
     activeFilter = id;
 
     filteredPictures = pictures.slice(0);
     pageNumber = 0;
     renderPictures(filteredPictures, pageNumber, true);
+    if (activeFilter === id) {
+      return;
+    }
+
+
 
     switch (id) {
       case 'filter-new':
@@ -155,7 +156,6 @@
     var footerPosition = footerElement.getBoundingClientRect();
     return footerPosition.top - window.innerHeight - GAP <= 0;
   };
-
   var setScrollEnabled = function() {
     window.addEventListener('scroll', function() {
       var scrollTimeout;
