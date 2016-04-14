@@ -142,7 +142,7 @@
         break;
     }
 
-    renderPictures(filteredPictures);
+    renderPictures(filteredPictures, pageNumber);
   }
 
   var isNextPageAvailable = function(picture, page, pageSize) {
