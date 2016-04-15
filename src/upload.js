@@ -276,7 +276,7 @@ var browserCookies = require('browser-cookies');
     if (resizeFormIsValid()) {
       currentResizer.setConstraint(+resizeFormX.value, +resizeFormY.value, +resizeFormSide.value);
     }
-  };
+  }
 
 
   /**
