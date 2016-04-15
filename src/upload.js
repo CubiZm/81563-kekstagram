@@ -268,18 +268,16 @@ var browserCookies = require('browser-cookies');
     }
   });
 
-  function resizeBorder () {
-     var sizeBorder = currentResizer.getConstraint();
-     resizeX.value = sizeBorder.x;
-     resizeY.value = sizeBorder.y;
-     resizeSize.value = sizeBorder.side;
-  }
-
-  resizeForm.addEventListener('change', function() {
+  function resizeBorder() {
+    var sizeBorder = currentResizer.getConstraint();
+    resizeX.value = sizeBorder.x;
+    resizeY.value = sizeBorder.y;
+    resizeSize.value = sizeBorder.side;
     if (resizeFormIsValid()) {
       currentResizer.setConstraint(+resizeX.value, +resizeY.value, +resizeSize.value);
     }
-  });
+  };
+
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
@@ -288,6 +286,8 @@ var browserCookies = require('browser-cookies');
    */
   resizeForm.addEventListener('reset', function(evt) {
     evt.preventDefault();
+
+
 
     cleanupResizer();
     updateBackground();
@@ -388,7 +388,7 @@ var browserCookies = require('browser-cookies');
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   });
   window.addEventListener('resizerchange', function() {
-     resizerToForm();
+    resizerForm();
   });
   cleanupResizer();
   updateBackground();
