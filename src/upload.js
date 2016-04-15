@@ -270,11 +270,11 @@ var browserCookies = require('browser-cookies');
 
   function resizeBorder() {
     var sizeBorder = currentResizer.getConstraint();
-    resizeX.value = sizeBorder.x;
-    resizeY.value = sizeBorder.y;
-    resizeSize.value = sizeBorder.side;
+    resizeFormX.value = sizeBorder.x;
+    resizeFormY.value = sizeBorder.y;
+    resizeFormSide.value = sizeBorder.side;
     if (resizeFormIsValid()) {
-      currentResizer.setConstraint(+resizeX.value, +resizeY.value, +resizeSize.value);
+      currentResizer.setConstraint(+resizeFormX.value, +resizeFormY.value, +resizeFormSide.value);
     }
   };
 
@@ -388,7 +388,7 @@ var browserCookies = require('browser-cookies');
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   });
   window.addEventListener('resizerchange', function() {
-    resizerForm();
+    resizeBorder();
   });
   cleanupResizer();
   updateBackground();
