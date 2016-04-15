@@ -268,6 +268,19 @@ var browserCookies = require('browser-cookies');
     }
   });
 
+  function resizeBorder () {
+     var sizeBorder = currentResizer.getConstraint();
+     resizeX.value = sizeBorder.x;
+     resizeY.value = sizeBorder.y;
+     resizeSize.value = sizeBorder.side;
+  }
+
+  resizeForm.addEventListener('change', function() {
+    if (resizeFormIsValid()) {
+      currentResizer.setConstraint(+resizeX.value, +resizeY.value, +resizeSize.value);
+    }
+  });
+
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
    * и обновляет фон.
@@ -374,7 +387,9 @@ var browserCookies = require('browser-cookies');
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   });
-
+  window.addEventListener('resizerchange', function() {
+     resizerToForm();
+  });
   cleanupResizer();
   updateBackground();
 })();
