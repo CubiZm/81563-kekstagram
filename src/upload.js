@@ -101,6 +101,7 @@ var browserCookies = require('browser-cookies');
   //     return true;
   //   }
 
+
   //   resizeBtn.disabled = true;
   //   resizeMessage.classList.remove('invisible');
   //   return false;
