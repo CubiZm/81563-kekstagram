@@ -157,19 +157,6 @@
      return footerPosition.top - window.innerHeight - GAP <= 0;
    };
 
-  var setScrollEnabled = function() {
-    window.addEventListener('scroll', function() {
-      var scrollTimeout;
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(function() {
-        if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-          pageNumber++;
-          renderPictures(filteredPictures, pageNumber);
-        }
-      }, GAP);
-    });
-  };
-
    // var setFiltration = function(filtration) {
    //   var filtrationPictures = getFiltrationPictures(pictures, filtration);
    //   renderPictures(filtrationPictures);
@@ -188,6 +175,28 @@
        setActiveFilter(clickedElementID);
      };
    }
+/**
+ * @param {Array} hotels
+ * @param {number} page
+ * @param {number} pageSize
+ * @return {boolean}
+ */
+  var isNextPageAvailable = function(picture, page, pageSize) {
+    return page < Math.floor(picture.length / pageSize);
+  };
+
+  var setScrollEnabled = function() {
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+          pageNumber++;
+          renderPictures(filteredPictures, pageNumber);
+        }
+      }, 100);
+    });
+  };
 
    getPictures();
    setScrollEnabled();
