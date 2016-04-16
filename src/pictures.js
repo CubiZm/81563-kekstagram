@@ -146,6 +146,13 @@
      renderPictures(filteredPictures, pageNumber);
    }
 
+/**
+ * @param {Array} hotels
+ * @param {number} page
+ * @param {number} pageSize
+ * @return {boolean}
+ */
+
    var isNextPageAvailable = function(picture, page, pageSize) {
      return page < Math.floor(pictures.length / pageSize);
    };
@@ -175,16 +182,6 @@
        setActiveFilter(clickedElementID);
      };
    }
-/**
- * @param {Array} hotels
- * @param {number} page
- * @param {number} pageSize
- * @return {boolean}
- */
-  var isNextPageAvailable = function(picture, page, pageSize) {
-    return page < Math.floor(picture.length / pageSize);
-  };
-
   var setScrollEnabled = function() {
     var scrollTimeout;
     window.addEventListener('scroll', function() {
