@@ -182,18 +182,18 @@
        setActiveFilter(clickedElementID);
      };
    }
-   var setScrollEnabled = function() {
-     var scrollTimeout;
-     window.addEventListener('scroll', function() {
-       clearTimeout(scrollTimeout);
-       scrollTimeout = setTimeout(function() {
-         if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-           pageNumber++;
-           renderPictures(filteredPictures, pageNumber);
-         }
-       }, 100);
-     });
-   };
+  var setScrollEnabled = function() {
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+          pageNumber++;
+          renderPictures(filteredPictures, pageNumber);
+        }
+      }, 100);
+    });
+  };
 
    getPictures();
    setScrollEnabled();
