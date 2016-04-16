@@ -54,9 +54,6 @@
      return element;
    };
 
-   // pictures.forEach(function(pictures) {
-   //   getPictureElement(pictures, picturesContainer);
-   // });
    blockFilters.classList.remove('hidden');
 
    var pictures = [];
@@ -116,8 +113,6 @@
        return;
      }
 
-
-
      switch (id) {
        case 'filter-new':
          filteredPictures.sort(function(a, b) {
@@ -164,16 +159,6 @@
      return footerPosition.top - window.innerHeight - GAP <= 0;
    };
 
-   // var setFiltration = function(filtration) {
-   //   var filtrationPictures = getFiltrationPictures(pictures, filtration);
-   //   renderPictures(filtrationPictures);
-   // };
-
-   // getPictures(function(loadedPictures) {
-   //   pictures = loadedPictures;
-   //   renderPictures(pictures);
-   // });
-
    // начала делать выборку по фильтру
    var filters = document.querySelectorAll('.filters-radio');
    for (var i = 0; i < filters.length; i++) {
@@ -194,8 +179,6 @@
        }, 100);
      });
    };
-
-   getPictures();
    setScrollEnabled();
  })();
 
