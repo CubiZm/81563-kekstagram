@@ -1,184 +1,172 @@
- 'use strict';
+'use strict';
 
- (function() {
-   /** @constant {number} */
-   var PAGE_SIZE = 12;
+(function() {
 
- /** @type {Array.<Object>} */
-   var filteredPictures = [];
- /** @type {number} */
-   var pageNumber = 0;
+  var picturesContainer = document.querySelector('.pictures');
+  var containerSides = picturesContainer.getBoundingClientRect();
+  var templateElement = document.querySelector('#picture-template');
+  var filters = document.querySelector('.filters');
+  var pics = [];
+  var filteredPictures = [];
+  var elementToClone;
+  var LOAD_URL = '//o0.github.io/assets/json/pictures.json';
+  var PAGE_SIZE = 12;
+  var pageNumber = 0;
 
-   var GAP = 100;
+  filters.classList.add('hidden');
 
-   var blockFilters = document.querySelector('.filters');
-   blockFilters.classList.add('hidden');
+  if ('content' in templateElement) {
+    elementToClone = templateElement.content.querySelector('.picture');
+  } else {
+    elementToClone = templateElement.querySelector('.picture');
+  }
 
-   var picturesContainer = document.querySelector('.pictures');
-   var templateElement = document.getElementById('picture-template');
-   var elementToClone;
+  var getPictureElement = function(data, container) {
+    var element = elementToClone.cloneNode(true);
+    element.querySelector('.picture-comments').textContent = data.comments;
+    element.querySelector('.picture-likes').textContent = data.likes;
 
-   if('content' in templateElement) {
-     elementToClone = templateElement.content.querySelector('.picture');
-   } else {
-     elementToClone = templateElement.querySelector('.pictures');
-   }
+    var image = element.querySelector('img');
 
+    var pictureImage = new Image();
 
-   var getPictureElement = function(data, container) {
+    pictureImage.onload = function() {
+      clearTimeout(imageLoadTimeout);
+      image.src = data.url;
+      image.width = '182';
+      image.height = '182';
+      image.alt = data.date;
+    };
 
-     var element = elementToClone.cloneNode(true);
-     var backgroundImage = element.querySelector('img');
+    pictureImage.onerror = function() {
+      image.classList.add('picture-load-failure');
+    };
 
-     element.querySelector('.picture-comments').textContent = data.comments;
-     element.querySelector('.picture-likes').textContent = data.likes;
-     container.appendChild(element);
+    pictureImage.src = data.url;
 
-     var loadImage = new Image();
-     var backgroundLoadTimeout;
+    var imageLoadTimeout = setTimeout(function() {
+      image.src = '';
+      image.classList.add('picture-load-failure');
+    });
 
-     backgroundImage.src = data.preview;
+    container.appendChild(element);
+    return element;
+  };
 
-     loadImage.onload = function(evt) {
-       clearTimeout(backgroundLoadTimeout);
-       backgroundImage.src = evt.target.src;
-       backgroundImage.width = 182;
-       backgroundImage.height = 182;
-     };
+  var isBottomReached = function() {
+    return containerSides.top - window.innerHeight <= 0;
+  };
 
-     loadImage.onerror = function() {
-       element.classList.add('picture-load-failure');
-     };
+  var isNextPageAvailable = function(pictures, page, pageSize) {
+    return page < Math.floor(filteredPictures.length / pageSize);
+  };
 
-     loadImage.src = data.url;
-     return element;
-   };
+  var renderPictures = function(pictures, page, replace) {
+    if(replace) {
+      picturesContainer.innerHTML = '';
+    }
 
-   blockFilters.classList.remove('hidden');
+    var from = page * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
 
-   var pictures = [];
-   // получим фоточки
-   var getPictures = function(callback) {
-     var picturesCont = document.querySelector('.pictures');
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//o0.github.io/assets/json/pictures.json');
-     xhr.send();
+    pictures.slice(from, to).forEach(function(picture) {
+      getPictureElement(picture, picturesContainer);
+    });
 
-     xhr.onreadystatechange = function() {
-       if (xhr.readyState !== 4) {
-         picturesCont.classList.remove('pictures-loading');
-       }
-       return;
-     };
-     picturesCont.classList.add('pictures-loading');
+    var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
 
-     xhr.onload = function(evt) {
-       var requestPhoto = evt.target;
-       var response = requestPhoto.response;
-       response = JSON.parse(response);
-       callback(response);
-     };
+    var blockIsNotFull = function() {
+      return window.innerHeight - picturesContainerHeight > 0;
+    };
 
-     xhr.onerror = function() {
-       picturesCont.classList.add('pictures-failure');
-     };
-   };
-   // отдадим фоточки
-   function renderPictures(picturesToRender, page, replace) {
-     if (replace) {
-       picturesContainer.innerHTML = '';
-     }
-     var fromTo = page * PAGE_SIZE;
-     var to = fromTo + PAGE_SIZE;
-     picturesToRender.slice(fromTo, to).forEach(function(picture) {
-       getPictureElement(picture, picturesContainer, pageNumber);
-     });
-   }
-   // получим фоточки...
-   getPictures(function(loadedPictures) {
-     pictures = loadedPictures;
-     renderPictures(pictures);
-   });
+    var renderNextPages = function() {
+      while (blockIsNotFull() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+        pageNumber++;
+        renderPictures(filteredPictures, pageNumber);
+      }
+    };
 
-   // отфильтруем фоточки
+    renderNextPages();
+  };
 
-   function setActiveFilter(id) {
-     var activeFilter = 'filter-item';
-     activeFilter = id;
+  var getFilteredPictures = function(pictures, filter) {
+    var picturesToFilter = pictures.slice(0);
 
-     filteredPictures = pictures.slice(0);
-     pageNumber = 0;
-     renderPictures(filteredPictures, pageNumber, true);
-     if (activeFilter === id) {
-       return;
-     }
+    switch(filter) {
+      case 'filter-popular':
+        break;
+      case 'filter-new':
+        picturesToFilter = picturesToFilter.filter(function(elem) {
+          var dateTwoWeeksAgo = new Date(elem.date);
+          var nowDate = new Date();
+          return dateTwoWeeksAgo > nowDate - 14 * 24 * 60 * 60 * 1000;
+        });
+        picturesToFilter = picturesToFilter.sort(function(a, b) {
+          return new Date(b.date) - new Date(a.date);
+        });
+        break;
+      case 'filter-discussed':
+        picturesToFilter = picturesToFilter.sort(function(a, b) {
+          return b.comments - a.comments;
+        });
+        break;
+    }
+    return picturesToFilter;
+  };
 
-     switch (id) {
-       case 'filter-new':
-         filteredPictures.sort(function(a, b) {
-           if (a.date < b.date) {
-             return 1;
-           }
-           if (a.date > b.date) {
-             return -1;
-           }
-           return 0;
-         });
-         filteredPictures = filteredPictures.sort(function(a, b) {
-           var dateA = new Date(a.date);
-           var dateB = new Date(b.date);
-           var callbackTwoWeek = dateB.getTime() - dateA.getTime();
-           return callbackTwoWeek;
-         });
-         break;
-       case 'filter-discussed':
-         filteredPictures = filteredPictures.sort(function(a, b) {
-           return b.comments - a.comments;
-         });
-         break;
-     }
+  var setFilterEnabled = function(filter) {
+    filteredPictures = getFilteredPictures(pics, filter);
+    pageNumber = 0;
+    renderPictures(filteredPictures, pageNumber, true);
+  };
 
-     renderPictures(filteredPictures, pageNumber);
-   }
+  var setFiltrationEnabled = function() {
+    filters.addEventListener('click', function(evt) {
+      if (evt.target.classList.contains('filters-radio')) {
+        setFilterEnabled(evt.target.id);
+      }
+    });
+  };
 
-/**
- * @param {Array} hotels
- * @param {number} page
- * @param {number} pageSize
- * @return {boolean}
- */
+  var getPictures = function(callback) {
+    var xhr = new XMLHttpRequest();
 
-   var isNextPageAvailable = function(picture, page, pageSize) {
-     return page < Math.floor(pictures.length / pageSize);
-   };
+    xhr.onload = function(evt) {
+      var loadedData = JSON.parse(evt.target.response);
+      picturesContainer.classList.add('pictures-loading');
+      callback(loadedData);
+    };
 
-  /** @return {boolean} */
-   var isBottomReached = function() {
-     var footerElement = picturesContainer;
-     var footerPosition = footerElement.getBoundingClientRect();
-     return footerPosition.top - window.innerHeight - GAP <= 0;
-   };
+    xhr.onerror = function() {
+      picturesContainer.classList.add('pictures-failure');
+    };
 
-   // начала делать выборку по фильтру
-   var filters = document.querySelectorAll('.filters-radio');
-   for (var i = 0; i < filters.length; i++) {
-     filters[i].onclick = function(evt) {
-       var clickedElementID = evt.target.id;
-       setActiveFilter(clickedElementID);
-     };
-   }
-   var setScrollEnabled = function() {
-     var scrollTimeout;
-     window.addEventListener('scroll', function() {
-       clearTimeout(scrollTimeout);
-       scrollTimeout = setTimeout(function() {
-         if (isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
-           pageNumber++;
-           renderPictures(filteredPictures, pageNumber);
-         }
-       }, 100);
-     });
-   };
-   setScrollEnabled();
- })();
+    xhr.open('GET', LOAD_URL);
+    xhr.send();
+  };
 
+  var setScrollEnabled = function() {
+    var pictures;
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        while(isBottomReached() && isNextPageAvailable(pictures, pageNumber, PAGE_SIZE)) {
+          pageNumber++;
+          renderPictures(filteredPictures, pageNumber);
+        }
+      }, 100);
+    });
+  };
+
+  getPictures(function(loadedPictures) {
+    pics = loadedPictures;
+
+    setFiltrationEnabled();
+    setFilterEnabled('filter-popular');
+    setScrollEnabled();
+    picturesContainer.classList.remove('pictures-loading');
+  });
+
+  filters.classList.remove('hidden');
+})();
