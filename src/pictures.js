@@ -157,7 +157,7 @@
      return footerPosition.top - window.innerHeight - GAP <= 0;
    };
 
-   var setScrollEnabled = function() {
+  var setScrollEnabled = function() {
     window.addEventListener('scroll', function() {
       var scrollTimeout;
       clearTimeout(scrollTimeout);
