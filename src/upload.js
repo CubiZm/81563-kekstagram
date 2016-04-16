@@ -74,15 +74,11 @@ var browserCookies = require('browser-cookies');
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
-   // Надеюсь это сюда..
   var resizeForm = document.forms['upload-resize']; // найдем форму
   var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
   var resizeFormY = resizeForm['resize-y']; // ..верха
   var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
   var resizeBtn = resizeForm['resize-fwd']; // кнопочка
-
-  //var resizeFwd = document.querySelector('#resize-fwd');
-  //var resizeMessage = document.querySelector('.error-message');
   // Надоели минусы, не дадим им шанса!
   resizeFormX.min = 0;
   resizeFormY.min = 0;
