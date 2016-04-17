@@ -46,7 +46,6 @@
 
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
-      image.classList.add('picture-load-failure');
     });
 
     container.appendChild(element);
