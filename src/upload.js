@@ -87,6 +87,7 @@ var browserCookies = require('browser-cookies');
   resizeFormX.min = 0;
   resizeFormY.min = 0;
   resizeFormSide.min = 1;
+
 // Т.к. из-за того, что убрали отрицательные значения сломалось всё, то всё по новой
   // function resizeFormIsValid() {
   //   var x = +resizeFormX.value;
