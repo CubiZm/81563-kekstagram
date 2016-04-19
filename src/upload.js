@@ -394,7 +394,6 @@ var browserCookies = require('browser-cookies');
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   });
-
   cleanupResizer();
   updateBackground();
 })();
