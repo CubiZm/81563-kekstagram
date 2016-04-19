@@ -74,15 +74,20 @@ var browserCookies = require('browser-cookies');
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+   // Надеюсь это сюда..
   var resizeForm = document.forms['upload-resize']; // найдем форму
   var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
   var resizeFormY = resizeForm['resize-y']; // ..верха
   var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
   var resizeBtn = resizeForm['resize-fwd']; // кнопочка
+
+  //var resizeFwd = document.querySelector('#resize-fwd');
+  //var resizeMessage = document.querySelector('.error-message');
   // Надоели минусы, не дадим им шанса!
   resizeFormX.min = 0;
   resizeFormY.min = 0;
   resizeFormSide.min = 1;
+
 // Т.к. из-за того, что убрали отрицательные значения сломалось всё, то всё по новой
   // function resizeFormIsValid() {
   //   var x = +resizeFormX.value;
@@ -96,6 +101,7 @@ var browserCookies = require('browser-cookies');
   //     resizeMessage.classList.add('invisible');
   //     return true;
   //   }
+
 
   //   resizeBtn.disabled = true;
   //   resizeMessage.classList.remove('invisible');
@@ -163,10 +169,10 @@ var browserCookies = require('browser-cookies');
   function setMaxSideValue(x, y) {
     resizeFormSide.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
   }
-  resizeForm.onchange = function() {
+  resizeForm.addEventListener('change', function() {
     setMaxSideValue(resizeFormX, resizeFormY);
     resizeFormIsValid();
-  };
+  });
 
   /**
    * Форма загрузки изображения.
@@ -264,16 +270,6 @@ var browserCookies = require('browser-cookies');
     }
   });
 
-  function resizeBorder() {
-    var sizeBorder = currentResizer.getConstraint();
-    resizeFormX.value = sizeBorder.x;
-    resizeFormY.value = sizeBorder.y;
-    resizeFormSide.value = sizeBorder.side;
-    if (resizeFormIsValid()) {
-      currentResizer.setConstraint(+resizeFormX.value, +resizeFormY.value, +resizeFormSide.value);
-    }
-  }
-
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
@@ -282,8 +278,6 @@ var browserCookies = require('browser-cookies');
    */
   resizeForm.addEventListener('reset', function(evt) {
     evt.preventDefault();
-
-
 
     cleanupResizer();
     updateBackground();
@@ -340,7 +334,7 @@ var browserCookies = require('browser-cookies');
       document.getElementById(filterCookies).checked = true;
     }
 
-    filterForm.addEventListener('change', function() {
+    filterForm.addEventListener('submit', function() {
       var filters = filterForm['upload-filter'];
       var checkedFilter;
       for (var i = 0, l = filters.length; i < l; i++) {
@@ -356,6 +350,23 @@ var browserCookies = require('browser-cookies');
     });
     cleanupResizer();
     updateBackground();
+  });
+
+  function resizeBorder() {
+    var sizeBorder = currentResizer.getConstraint();
+    resizeFormX.value = sizeBorder.x;
+    resizeFormY.value = sizeBorder.y;
+    resizeFormSide.value = sizeBorder.side;
+  }
+
+  resizeForm.addEventListener('change', function() {
+    if (resizeFormIsValid()) {
+      currentResizer.setConstraint(+resizeFormX.value, +resizeFormY.value, +resizeFormSide.value);
+    }
+  });
+
+  window.addEventListener('resizerchange', function() {
+    resizeBorder();
   });
 
   /**
@@ -382,9 +393,6 @@ var browserCookies = require('browser-cookies');
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
-  });
-  window.addEventListener('resizerchange', function() {
-    resizeBorder();
   });
   cleanupResizer();
   updateBackground();
