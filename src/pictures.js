@@ -2,9 +2,10 @@
 
 (function() {
 
-// define(function() {
-//  require('scroll');
-// });
+define(function() {
+ require('script');
+});
+
 
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
