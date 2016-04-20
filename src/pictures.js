@@ -2,6 +2,10 @@
 
 (function() {
 
+// define(function() {
+//  require('scroll');
+// });
+
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
