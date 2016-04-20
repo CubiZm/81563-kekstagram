@@ -1,6 +1,11 @@
 'use strict';
 define(function() {
-  return function formIsValid() {
+  return function(formIsValid) {
+    var resizeForm = document.forms['upload-resize']; // найдем форму
+    var resizeFormX = resizeForm['resize-x']; // зададим переменную для левой стороны
+    var resizeFormY = resizeForm['resize-y']; // ..верха
+    var resizeFormSide = resizeForm['resize-size']; // зададим переменную для стороны
+    var resizeBtn = resizeForm['resize-fwd']; // кнопочка
     var isValid = true;
   // проверяем не пустые ли поля
     if (resizeFormX.value.length === 0 || resizeFormY.value.length === 0 || resizeFormSide.value.length === 0) {
@@ -19,7 +24,7 @@ define(function() {
     } else {
       resizeBtn.setAttribute('disabled', '');
     }
-    return formIsValid();
-  }
-  formIsValid();
+    return formIsValid;
+  };
+  //formIsValid();
 });

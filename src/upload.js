@@ -7,8 +7,8 @@
 
 
 'use strict';
-define(['validate-form'], function(formIsValid) {
-var browserCookies = require('browser-cookies');
+define(['validate-form'], function() {
+  var browserCookies = require('browser-cookies');
 
   /** @enum {string} */
   var FileType = {
