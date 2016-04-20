@@ -2,10 +2,15 @@
 
 (function() {
 
-define(function() {
- require('script');
+// define(function() {
+//  require('script');
+// });
+define('myModule', ['script'], function() {
+    // $ is the export of the jquery module.
+    // $('body').text('hello world');
 });
-
+// and use it
+require(['myModule'], function(myModule) {});
 
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();

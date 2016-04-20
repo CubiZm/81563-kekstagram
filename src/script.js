@@ -1,4 +1,4 @@
-// console.log('hi')
+console.log('hi')
   var getFilteredPictures = function(pictures, filter) {
     var picturesToFilter = pictures.slice(0);
 
