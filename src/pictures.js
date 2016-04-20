@@ -1,7 +1,6 @@
 'use strict';
 
-(function() {
-
+define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -9,7 +8,6 @@
   var pics = [];
   var filteredPictures = [];
   var elementToClone;
-  var LOAD_URL = '//o0.github.io/assets/json/pictures.json';
   var PAGE_SIZE = 12;
   var pageNumber = 0;
 
@@ -88,31 +86,6 @@
     renderNextPages();
   };
 
-  var getFilteredPictures = function(pictures, filter) {
-    var picturesToFilter = pictures.slice(0);
-
-    switch(filter) {
-      case 'filter-popular':
-        break;
-      case 'filter-new':
-        picturesToFilter = picturesToFilter.filter(function(elem) {
-          var dateTwoWeeksAgo = new Date(elem.date);
-          var nowDate = new Date();
-          return dateTwoWeeksAgo > nowDate - 14 * 24 * 60 * 60 * 1000;
-        });
-        picturesToFilter = picturesToFilter.sort(function(a, b) {
-          return new Date(b.date) - new Date(a.date);
-        });
-        break;
-      case 'filter-discussed':
-        picturesToFilter = picturesToFilter.sort(function(a, b) {
-          return b.comments - a.comments;
-        });
-        break;
-    }
-    return picturesToFilter;
-  };
-
   var setFilterEnabled = function(filter) {
     filteredPictures = getFilteredPictures(pics, filter);
     pageNumber = 0;
@@ -125,23 +98,6 @@
         setFilterEnabled(evt.target.id);
       }
     });
-  };
-
-  var getPictures = function(callback) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.onload = function(evt) {
-      var loadedData = JSON.parse(evt.target.response);
-      picturesContainer.classList.add('pictures-loading');
-      callback(loadedData);
-    };
-
-    xhr.onerror = function() {
-      picturesContainer.classList.add('pictures-failure');
-    };
-
-    xhr.open('GET', LOAD_URL);
-    xhr.send();
   };
 
   var setScrollEnabled = function() {
@@ -168,4 +124,5 @@
   });
 
   filters.classList.remove('hidden');
-})();
+});
+

@@ -7,10 +7,9 @@
 
 
 'use strict';
+define(['validate-form'], function() {
+  var browserCookies = require('browser-cookies');
 
-var browserCookies = require('browser-cookies');
-
-(function() {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -135,36 +134,12 @@ var browserCookies = require('browser-cookies');
 
     resizeBtn.disabled = true;
     messageWrapper.textContent = 'Введеные значения не верны! Проверьте правильность введеных значений.';
-    console.log(messageWrapper);
     resizeForm.appendChild(messageWrapper);
     return false;
   }
 
-  function formIsValid() {
-    var isValid = true;
-  // проверяем не пустые ли поля
-    if (resizeFormX.value.length === 0 || resizeFormY.value.length === 0 || resizeFormSide.value.length === 0) {
-      isValid = false;
-      return isValid;
-    }
-    for (var i = 0; i < resizeForm.elements.length; i++) {
-      isValid = resizeForm.elements[i].validity.valid;
-      if (!isValid) {
-        break;
-      }
-    }
-    if (isValid) {
-      resizeBtn.removeAttribute('disabled');
-      return true;
-    } else {
-      resizeBtn.setAttribute('disabled', '');
-    }
-    return formIsValid();
-  }
-  formIsValid();
   // делаем по умолчанию кнопку отправки неактивной
   resizeBtn.setAttribute('disabled', '');
-
 // вычисляем максимально возможное значение сторон
   function setMaxSideValue(x, y) {
     resizeFormSide.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
@@ -328,7 +303,7 @@ var browserCookies = require('browser-cookies');
     var year = new Date();
     var yearNow = year.getFullYear() - 1;
     var bDay = new Date(yearNow, 3, 18).getTime();
-    var dateDiff = (Date.now() - bDay) / 24 / 60 / 60 / 1000;
+    var dateDiff = (Date.now() - bDay) / (24 * 60 * 60 * 1000);
     var filterCookies = browserCookies.get('filter');
     if (filterCookies) {
       document.getElementById(filterCookies).checked = true;
@@ -396,4 +371,4 @@ var browserCookies = require('browser-cookies');
   });
   cleanupResizer();
   updateBackground();
-})();
+});
