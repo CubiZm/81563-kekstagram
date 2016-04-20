@@ -1,6 +1,6 @@
-'use strict'
-  console.log('hi');
-  var getFilteredPictures = function(pictures, filter) {
+'use strict';
+define(function() {
+  return function(pictures, filter) {
     var picturesToFilter = pictures.slice(0);
 
     switch(filter) {
@@ -24,3 +24,4 @@
     }
     return picturesToFilter;
   };
+});
