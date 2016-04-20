@@ -5,12 +5,9 @@
 // define(function() {
 //  require('script');
 // });
-define('myModule', ['script'], function() {
-    // $ is the export of the jquery module.
-    // $('body').text('hello world');
+define('filterPic', ['filter'], function() {
 });
-// and use it
-require(['myModule'], function(myModule) {});
+require(['filterPic'], function(filterPic) {});
 
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();

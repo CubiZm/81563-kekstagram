@@ -1,4 +1,5 @@
-console.log('hi')
+'use strict'
+  console.log('hi');
   var getFilteredPictures = function(pictures, filter) {
     var picturesToFilter = pictures.slice(0);
 
