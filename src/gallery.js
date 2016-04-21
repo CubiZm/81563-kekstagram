@@ -1,8 +1,8 @@
 'use strict';
 
   define(function() {
+    console.log('hi')
     return function(gallery) {
-      console.log('hi')
       var galleryContainer = document.querySelector('.gallery-overlay');
       var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
       var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
@@ -15,31 +15,35 @@
      /** @type {number} */
       var activePicture = 0;
 
-  /**
-   * @param {number} picture
+    /**
+   * @param {Array.<pictues>} pictures
    */
-      var setActivePicture = function(picture) {
-        var thumbnails = thumbnailsContainer.querySelectorAll('img');
-
-        var currentlyActivePic = thumbnailsContainer.querySelector('.hidden');
-        if (currentlyActivePic) {
-          currentlyActivePic.classList.remove('hidden');
-        }
-
-        thumbnails[picture].classList.add('hidden');
-        preview.src = thumbnails[picture].src;
+   var showPhoto = function(numberPhoto) {
+   var nextPhoto = galleryPictures[numberPhoto];
+        var pictureElement = new Image();
+        pictureElement.onload = function(evt) {
+          thumbnailsContainer.src = evt.target.src;
+          thumbnailsContainer.alt = nextPhoto.date;
+          likes.textContent = nextPhoto.likes;
+          comments.textContent = nextPhoto.comments;
       };
-
-
-      // var hideGallery = function() {
-      //   utils.setElementHidden(galleryContainer, true);
-
-      //   document.removeEventListener('keydown', onDocumentKeydownHandler);
-      //   closeElement.removeEventListener('click', onCloseClickHandler);
-      //   closeElement.removeEventListener('keydown', onCloseKeydownHandler);
-      // };
-  var closeGallery = function() {
-    galleryContainer.classList.add('invisible');
-  };
     }
-  });
+  // }
+
+
+// *
+//   * Получение списка картинок
+//   * @param  {Object}  picturesList
+//   * @return {Object}
+
+//  function getPicturesList(picturesList) {
+//    galleryPictures = picturesList;
+//    return galleryPictures;
+//  }
+
+    var closeGallery = function() {
+      galleryContainer.classList.add('invisible');
+    };
+  }
+});
+
