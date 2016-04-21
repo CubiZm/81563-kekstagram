@@ -15,6 +15,10 @@
      /** @type {number} */
       var activePicture = 0;
 
+      // galleryContainer.addEventListener('click', function() {
+      //   galleryContainer.classList.remove('.invisible')
+      // });
+
     /**
    * @param {Array.<pictues>} pictures
    */
@@ -45,5 +49,6 @@
       galleryContainer.classList.add('invisible');
     };
   }
+  return gallery;
 });
 
