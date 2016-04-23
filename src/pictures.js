@@ -45,9 +45,9 @@ define(['filter', 'ajax', 'gallery'], function(getFilteredPictures, getPictures,
       image.src = '';
     });
 
-    // element.addEventListener('click', function() {
-    //   showGallery(data.pictures);
-    // })
+    element.addEventListener('click', function() {
+      showGallery(data.pictures);
+    })
 
     container.appendChild(element);
     return element;
@@ -119,7 +119,7 @@ define(['filter', 'ajax', 'gallery'], function(getFilteredPictures, getPictures,
 
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
-
+    gallery = pics;
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();

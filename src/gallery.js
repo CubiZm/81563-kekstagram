@@ -1,23 +1,24 @@
 'use strict';
 
   define(function() {
-    console.log('hi')
-    return function(gallery) {
+    return function(showGallery) {
       var galleryContainer = document.querySelector('.gallery-overlay');
       var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
       var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
       var preview = galleryContainer.querySelector('.gallery-overlay-preview');
       var likes = galleryContainer.querySelector('.likes-count');
       var comments = galleryContainer.querySelector('.comments-count');
+      var pic = document.querySelector('.pictures')
 
     /** @type {Array.<string>} */
       var galleryPictures = []
      /** @type {number} */
       var activePicture = 0;
 
-      // galleryContainer.addEventListener('click', function() {
-      //   galleryContainer.classList.remove('.invisible')
-      // });
+      pic.addEventListener('click', function(e) {
+        e.preventDefault();
+        galleryContainer.classList.remove('invisible')
+      });
 
     /**
    * @param {Array.<pictues>} pictures
@@ -48,7 +49,16 @@
     var closeGallery = function() {
       galleryContainer.classList.add('invisible');
     };
+    closeElement.addEventListener('click', function() {
+      closeGallery();
+    });
   }
-  return gallery;
+  return {
+    showGallery: function(numberPhoto) {
+    galleryContainer.classList.remove('invisible');
+    activePicture = numberPhoto;
+    showPhoto(activePicture);
+    }
+  }
 });
 
