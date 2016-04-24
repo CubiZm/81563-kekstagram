@@ -29,8 +29,8 @@ define('gallery', ['./utils'], function(utils) {
  * @param {Array.<pictues>} pictures
  */
   var showPhoto = function(numberPhoto) {
-    //galleryContainer.classList.remove('invisible');
-    var nextPhoto = galleryPictures[numberPhoto];
+    galleryContainer.classList.remove('invisible');
+    var nextPhoto = galleryContainer[numberPhoto];
     var pictureElement = new Image();
 
 
@@ -68,6 +68,6 @@ define('gallery', ['./utils'], function(utils) {
   window.addEventListener('keydown', keyLeftCheck);
   // prevPicture.addEventListener('click', switchPrevPicture);
   showPhoto(activePicture);
+  activePicture = 0;
   // };
 });
-
