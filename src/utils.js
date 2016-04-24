@@ -7,13 +7,7 @@ define('utils', function() {
       }
     };
   }
-
-  function setBlockHidden(blockToToggle, whenToToggle) {
-    blockToToggle.classList.toggle('invisible', whenToToggle);
-  }
-
   return {
-    setBlockHidden: setBlockHidden,
     listenKey: listenKey
   };
 });

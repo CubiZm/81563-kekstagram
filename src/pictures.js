@@ -123,7 +123,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();
-    showGallery();
+    // showGallery();
     picturesContainer.classList.remove('pictures-loading');
   });
 

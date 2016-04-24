@@ -1,7 +1,7 @@
 'use strict';
 
 define('gallery', ['./utils'], function(utils) {
-  return function(showGallery) {
+  // return function(showGallery) {
     var galleryContainer = document.querySelector('.gallery-overlay');
     var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
     var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
@@ -68,6 +68,6 @@ define('gallery', ['./utils'], function(utils) {
     window.addEventListener('keydown', keyLeftCheck);
     // prevPicture.addEventListener('click', switchPrevPicture);
     showPhoto(activePicture);
-  };
+  // };
 });
 
