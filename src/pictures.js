@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery'], function(getFilteredPictures, getPictures, showGallery) {
+define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, showGallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
