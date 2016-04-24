@@ -29,7 +29,7 @@ define('gallery', ['./utils'], function(utils) {
    * @param {Array.<pictues>} pictures
    */
     var showPhoto = function(numberPhoto) {
-      galleryContainer.classList.remove('invisible');
+      //galleryContainer.classList.remove('invisible');
       var nextPhoto = galleryPictures[numberPhoto];
       var pictureElement = new Image();
 
@@ -44,7 +44,7 @@ define('gallery', ['./utils'], function(utils) {
       pictureElement.onerror = function() {
         showPhoto(activePicture + 1);
       };
-    // thumbnailsContainer.src = nextPhoto.url;
+    //pictureElement.src = nextPhoto.url;
     };
 
     window.addEventListener('keydown', function(evt) {
@@ -69,6 +69,5 @@ define('gallery', ['./utils'], function(utils) {
     // prevPicture.addEventListener('click', switchPrevPicture);
     showPhoto(activePicture);
   };
-
 });
 
