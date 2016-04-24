@@ -117,6 +117,27 @@ define(['filter', 'ajax', 'gallery'], function(getFilteredPictures, getPictures,
     });
   };
 
+  /* Установка обработчика клика по фото для показа галлереи */
+  var setShowGallery = function() {
+    filteredPictures.addEventListener('click', function(evt) {
+      // if (evt.target.src) {
+        evt.preventDefault();
+        // var clickedImage = evt.target;
+        // var allImages = picturesContainer.querySelectorAll('img');
+        // for (var key in allImages) {
+        //   if (allImages[key] === clickedImage) {
+        //     break;
+        //   }
+        // }
+        console.log('lalal')
+        // showGallery(key);
+      // }
+    });
+  };
+
+
+
+
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     gallery = pics;
