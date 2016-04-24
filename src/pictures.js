@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, showPhoto) {
+define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, photoForGallery, showGallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -45,9 +45,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
       image.src = '';
     });
 
-    // image.addEventListener('click', function() {
-    //   showPhoto(data.pictures);
-    // });
+    //gallery.photoForGallery(pics);
 
     container.appendChild(element);
     return element;
@@ -123,7 +121,6 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();
-    // showGallery();
     picturesContainer.classList.remove('pictures-loading');
   });
 

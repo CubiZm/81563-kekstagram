@@ -6,6 +6,7 @@ define('gallery', ['./utils'], function(utils) {
   var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
   var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
   // var preview = galleryContainer.querySelector('.gallery-overlay-preview');
+  var pic = document.querySelector('.pictures')
   var likes = galleryContainer.querySelector('.likes-count');
   var comments = galleryContainer.querySelector('.comments-count');
   var keyRightCheck = utils.listenKey(39, switchNextPicture);
@@ -16,6 +17,14 @@ define('gallery', ['./utils'], function(utils) {
   var galleryPictures = [];
   /** @type {number} */
   var activePicture = 0;
+
+  var openGallery = function() {
+    galleryContainer.classList.remove('invisible');
+  };
+  pic.addEventListener('click', function(e) {
+    e.preventDefault()
+    openGallery();
+  });
 
 
   var closeGallery = function() {
@@ -29,8 +38,9 @@ define('gallery', ['./utils'], function(utils) {
  * @param {Array.<pictues>} pictures
  */
   var showPhoto = function(numberPhoto) {
-    galleryContainer.classList.remove('invisible');
-    var nextPhoto = galleryContainer[numberPhoto];
+    console.log(galleryPictures)
+    //galleryContainer.classList.remove('invisible');
+    var nextPhoto = galleryPictures[numberPhoto];
     var pictureElement = new Image();
 
 
@@ -67,7 +77,15 @@ define('gallery', ['./utils'], function(utils) {
 
   window.addEventListener('keydown', keyLeftCheck);
   // prevPicture.addEventListener('click', switchPrevPicture);
-  showPhoto(activePicture);
-  activePicture = 0;
+  return {
+    showGallery: function(numberPhoto) {
+      galleryContainer.classList.remove('invisible');
+      numberChosenPhoto = numberPhoto;
+      showPhoto(numberChosenPhoto);
+    },
+    photoForGallery: function(pictures) {
+      photos = pictures;
+    }
+  }
   // };
 });
