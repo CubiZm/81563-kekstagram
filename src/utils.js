@@ -10,5 +10,5 @@ define('utils', function() {
 
   return {
     listenKey: listenKey
-  }
+  };
 });
