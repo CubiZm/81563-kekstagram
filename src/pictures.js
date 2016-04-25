@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, photoForGallery, showGallery) {
+define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures,gallery ,photoForGallery, showGallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -40,10 +40,14 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     };
 
     pictureImage.src = data.url;
-
+      gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
+
+       element.addEventListener('click', function() {
+       showGallery(data.pictures);
+     })
 
     container.appendChild(element);
     return element;
@@ -116,18 +120,19 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures')
     pic.addEventListener('click', function(evt) {
-      if (evt.target.src) {
+       if (evt.target.src) {
         evt.preventDefault();
-      //   var clickedImage = evt.target;
-      //   var allImages = pic.querySelectorAll('img');
-      //   for (var key in allImages) {
-      //     if (allImages[key] === clickedImage) {
-      //       break;
-      //     }
-      //   }
-      //   showGallery(key);
+        //gallery.showGallery()
+        var clickedImage = evt.target;
+        var allImages = pic.querySelectorAll('img');
+        for (var key in allImages) {
+          if (allImages[key] === clickedImage) {
+            break;
+          }
+        }
+        gallery.showGallery(key);
       console.log('!')
-      }
+    }
     });
   };
 
@@ -137,8 +142,8 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();
+
     picturesContainer.classList.remove('pictures-loading');
-    //gallery.photoForGallery(pics);
     setShowGallery();
   });
 

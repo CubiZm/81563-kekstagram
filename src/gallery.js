@@ -18,13 +18,10 @@ define('gallery', ['./utils'], function(utils) {
   /** @type {number} */
   var activePicture = 0;
 
-  var openGallery = function() {
-    galleryContainer.classList.remove('invisible');
-  };
-  pic.addEventListener('click', function(e) {
-    e.preventDefault()
-    openGallery();
-  });
+      pic.addEventListener('click', function(e) {
+         e.preventDefault();
+         galleryContainer.classList.remove('invisible')
+       });
 
 
   var closeGallery = function() {
@@ -54,7 +51,7 @@ define('gallery', ['./utils'], function(utils) {
     pictureElement.onerror = function() {
       showPhoto(activePicture + 1);
     };
-    pictureElement.src = nextPhoto.url;
+    // pictureElement.src = nextPhoto.url;
   };
 
   window.addEventListener('keydown', function(evt) {
@@ -80,8 +77,8 @@ define('gallery', ['./utils'], function(utils) {
   return {
     showGallery: function(numberPhoto) {
       galleryContainer.classList.remove('invisible');
-      numberChosenPhoto = numberPhoto;
-      showPhoto(numberChosenPhoto);
+      activePicture = numberPhoto;
+      showPhoto(activePicture);
     },
     photoForGallery: function(pictures) {
       photos = pictures;
