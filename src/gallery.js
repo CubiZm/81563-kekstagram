@@ -18,10 +18,10 @@ define('gallery', ['./utils'], function(utils) {
   /** @type {number} */
   var activePicture = 0;
 
-    pic.addEventListener('click', function(e) {
-      e.preventDefault();
-      galleryContainer.classList.remove('invisible');
-    });
+  pic.addEventListener('click', function(e) {
+    e.preventDefault();
+    galleryContainer.classList.remove('invisible');
+  });
 
 
   var closeGallery = function() {
@@ -82,6 +82,6 @@ define('gallery', ['./utils'], function(utils) {
     photoForGallery: function(pictures) {
       galleryPictures = pictures;
     }
-  }
+  };
   // };
 });

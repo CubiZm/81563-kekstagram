@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures,gallery ,photoForGallery, showGallery) {
+define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -40,7 +40,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     };
 
     pictureImage.src = data.url;
-      gallery.photoForGallery(pics);
+    gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
@@ -114,9 +114,9 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   };
 
   var setShowGallery = function() {
-    var pic = document.querySelector('.pictures')
+    var pic = document.querySelector('.pictures');
     pic.addEventListener('click', function(evt) {
-       if (evt.target.src) {
+      if (evt.target.src) {
         evt.preventDefault();
         //gallery.showGallery()
         var clickedImage = evt.target;
@@ -127,8 +127,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
           }
         }
         gallery.showGallery(key);
-      console.log('!')
-    }
+      }
     });
   };
 
