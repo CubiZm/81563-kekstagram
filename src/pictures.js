@@ -45,10 +45,6 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
       image.src = '';
     });
 
-       element.addEventListener('click', function() {
-       showGallery(data.pictures);
-     })
-
     container.appendChild(element);
     return element;
   };
@@ -120,8 +116,19 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures')
     pic.addEventListener('click', function(evt) {
+       if (evt.target.src) {
         evt.preventDefault();
         //gallery.showGallery()
+        var clickedImage = evt.target;
+        var allImages = pic.querySelectorAll('img');
+        for (var key in allImages) {
+          if (allImages[key] === clickedImage) {
+            break;
+          }
+        }
+        gallery.showGallery(key);
+      console.log('!')
+    }
     });
   };
 

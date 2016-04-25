@@ -6,7 +6,7 @@ define('gallery', ['./utils'], function(utils) {
   var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
   var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
   // var preview = galleryContainer.querySelector('.gallery-overlay-preview');
-  var pic = document.querySelector('.pictures')
+  var pic = document.querySelector('.pictures');
   var likes = galleryContainer.querySelector('.likes-count');
   var comments = galleryContainer.querySelector('.comments-count');
   var keyRightCheck = utils.listenKey(39, switchNextPicture);
@@ -18,10 +18,10 @@ define('gallery', ['./utils'], function(utils) {
   /** @type {number} */
   var activePicture = 0;
 
-      pic.addEventListener('click', function(e) {
-         e.preventDefault();
-         galleryContainer.classList.remove('invisible')
-       });
+    pic.addEventListener('click', function(e) {
+      e.preventDefault();
+      galleryContainer.classList.remove('invisible');
+    });
 
 
   var closeGallery = function() {
@@ -35,7 +35,6 @@ define('gallery', ['./utils'], function(utils) {
  * @param {Array.<pictues>} pictures
  */
   var showPhoto = function(numberPhoto) {
-    console.log(galleryPictures)
     //galleryContainer.classList.remove('invisible');
     var nextPhoto = galleryPictures[numberPhoto];
     var pictureElement = new Image();
@@ -51,7 +50,7 @@ define('gallery', ['./utils'], function(utils) {
     pictureElement.onerror = function() {
       showPhoto(activePicture + 1);
     };
-    // pictureElement.src = nextPhoto.url;
+    pictureElement.src = nextPhoto.url;
   };
 
   window.addEventListener('keydown', function(evt) {
@@ -69,10 +68,10 @@ define('gallery', ['./utils'], function(utils) {
     showPhoto(activePicture - 1);
   }
 
-  window.addEventListener('keydown', keyRightCheck);
+  thumbnailsContainer.addEventListener('keydown', keyRightCheck);
   thumbnailsContainer.addEventListener('click', switchNextPicture);
 
-  window.addEventListener('keydown', keyLeftCheck);
+  thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
   // prevPicture.addEventListener('click', switchPrevPicture);
   return {
     showGallery: function(numberPhoto) {
@@ -81,7 +80,7 @@ define('gallery', ['./utils'], function(utils) {
       showPhoto(activePicture);
     },
     photoForGallery: function(pictures) {
-      photos = pictures;
+      galleryPictures = pictures;
     }
   }
   // };
