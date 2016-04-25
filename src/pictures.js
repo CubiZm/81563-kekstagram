@@ -116,6 +116,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures');
     pic.addEventListener('click', function(evt) {
+      console.log(evt.target.src);
       if (evt.target.src) {
         evt.preventDefault();
         //gallery.showGallery()

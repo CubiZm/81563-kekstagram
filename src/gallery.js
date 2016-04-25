@@ -50,7 +50,7 @@ define('gallery', ['./utils'], function(utils) {
     pictureElement.onerror = function() {
       showPhoto(activePicture + 1);
     };
-    pictureElement.src = nextPhoto.url;
+    //pictureElement.src = nextPhoto.url;
   };
 
   window.addEventListener('keydown', function(evt) {
