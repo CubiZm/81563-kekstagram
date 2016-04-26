@@ -89,6 +89,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     filteredPictures = getFilteredPictures(pics, filter);
     pageNumber = 0;
     renderPictures(filteredPictures, pageNumber, true);
+    gallery.photoForGallery(filteredPictures);
   };
 
   var setFiltrationEnabled = function() {
@@ -116,29 +117,24 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures');
     pic.addEventListener('click', function(evt) {
-       console.log(evt.target.src);
-    //   if (evt.target.src) {
-    //     evt.preventDefault();
-    //     //gallery.showGallery()
-    //     var clickedImage = evt.target;
-    //     var allImages = pic.querySelectorAll('img');
-    //     for (var key in allImages) {
-    //       if (allImages[key] === clickedImage) {
-    //         break;
-    //       }
-    //     }
-    //     gallery.showGallery(key);
-    //   }
+      if (evt.target.src) {
+        var clickedImage = evt.target;
+        var allImages = pic.querySelectorAll('img');
+        for (var key in allImages) {
+          if (allImages[key] === clickedImage) {
+            break;
+          }
+        }
+        gallery.showGallery(key);
+      }
     });
   };
-
 
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();
-
     picturesContainer.classList.remove('pictures-loading');
     setShowGallery();
   });

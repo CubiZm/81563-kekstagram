@@ -5,13 +5,12 @@ define('gallery', ['./utils'], function(utils) {
   var galleryContainer = document.querySelector('.gallery-overlay');
   var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
   var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
-  // var preview = galleryContainer.querySelector('.gallery-overlay-preview');
   var pic = document.querySelector('.pictures');
   var likes = galleryContainer.querySelector('.likes-count');
-  var likes = galleryContainer.querySelector('.comments-count');
+  var comments = galleryContainer.querySelector('.comments-count');
   var keyRightCheck = utils.listenKey(39, switchNextPicture);
   var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
-  var keyEsc = utils.listenKey(27, closeGallery);
+  var keyEsc = utils.listenKey(27);
 
   /** @type {Array.<string>} */
   var galleryPictures = [];
@@ -35,30 +34,12 @@ define('gallery', ['./utils'], function(utils) {
  * @param {Array.<pictues>} pictures
  */
 
-var showPhoto = function(numberPhoto) {
-  var nextPhoto = galleryPictures[numberPhoto]
-  thumbnailsContainer.src = nextPhoto.url;
-  likes.textContent = nextPhoto.comments;
-  likes.textContent = nextPhoto.likes;
-};
-  // var showPhoto = function(numberPhoto) {
-  //   //galleryContainer.classList.remove('invisible');
-  //   var nextPhoto = galleryPictures[numberPhoto];
-  //   var pictureElement = new Image();
-
-
-  //   pictureElement.onload = function(evt) {
-  //     thumbnailsContainer.src = evt.target.src;
-  //     thumbnailsContainer.alt = nextPhoto.date;
-  //     likes.textContent = nextPhoto.likes;
-  //     comments.textContent = nextPhoto.comments;
-  //   };
-
-  //   pictureElement.onerror = function() {
-  //     showPhoto(activePicture + 1);
-  //   };
-  //   //pictureElement.src = nextPhoto.url;
-  // };
+  var showPhoto = function(numberPhoto) {
+    var nextPhoto = galleryPictures[numberPhoto];
+    thumbnailsContainer.src = nextPhoto.url;
+    comments.textContent = nextPhoto.comments;
+    likes.textContent = nextPhoto.likes;
+  };
 
   window.addEventListener('keydown', function(evt) {
     if (!galleryContainer.classList.contains('invisible') && keyEsc) {
@@ -68,18 +49,18 @@ var showPhoto = function(numberPhoto) {
   });
 
   function switchNextPicture() {
-    showPhoto(activePicture + 1);
+    showPhoto(++activePicture);
   }
 
   function switchPrevPicture() {
-    showPhoto(activePicture - 1);
+    showPhoto(--activePicture);
   }
 
   thumbnailsContainer.addEventListener('keydown', keyRightCheck);
   thumbnailsContainer.addEventListener('click', switchNextPicture);
 
   thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
-  // prevPicture.addEventListener('click', switchPrevPicture);
+  //thumbnailsContainer.addEventListener('click', switchPrevPicture);
   return {
     showGallery: function(numberPhoto) {
       galleryContainer.classList.remove('invisible');
@@ -90,5 +71,4 @@ var showPhoto = function(numberPhoto) {
       galleryPictures = pictures;
     }
   };
-  // };
 });
