@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
+define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -10,7 +10,6 @@ define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
   var elementToClone;
   var PAGE_SIZE = 12;
   var pageNumber = 0;
-
   filters.classList.add('hidden');
 
   if ('content' in templateElement) {
@@ -41,7 +40,7 @@ define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
     };
 
     pictureImage.src = data.url;
-
+    gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
@@ -90,6 +89,7 @@ define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
     filteredPictures = getFilteredPictures(pics, filter);
     pageNumber = 0;
     renderPictures(filteredPictures, pageNumber, true);
+    gallery.photoForGallery(filteredPictures);
   };
 
   var setFiltrationEnabled = function() {
@@ -114,15 +114,30 @@ define(['filter', 'ajax'], function(getFilteredPictures, getPictures) {
     });
   };
 
+  var setShowGallery = function() {
+    var pic = document.querySelector('.pictures');
+    pic.addEventListener('click', function(evt) {
+      if (evt.target.src) {
+        var clickedImage = evt.target;
+        var allImages = pic.querySelectorAll('img');
+        for (var key in allImages) {
+          if (allImages[key] === clickedImage) {
+            break;
+          }
+        }
+        gallery.showGallery(key);
+      }
+    });
+  };
+
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
-
     setFiltrationEnabled();
     setFilterEnabled('filter-popular');
     setScrollEnabled();
     picturesContainer.classList.remove('pictures-loading');
+    setShowGallery();
   });
 
   filters.classList.remove('hidden');
 });
-
