@@ -1,9 +1,9 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, gallery) {
+define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilteredPictures, getPictures, gallery, getPictureElements) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
-  var templateElement = document.querySelector('#picture-template');
+
   var filters = document.querySelector('.filters');
   var pics = [];
   var filteredPictures = [];
@@ -12,42 +12,7 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
   var pageNumber = 0;
   filters.classList.add('hidden');
 
-  if ('content' in templateElement) {
-    elementToClone = templateElement.content.querySelector('.picture');
-  } else {
-    elementToClone = templateElement.querySelector('.picture');
-  }
 
-  var getPictureElement = function(data, container) {
-    var element = elementToClone.cloneNode(true);
-    element.querySelector('.picture-comments').textContent = data.comments;
-    element.querySelector('.picture-likes').textContent = data.likes;
-
-    var image = element.querySelector('img');
-
-    var pictureImage = new Image();
-
-    pictureImage.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      image.src = data.url;
-      image.width = '182';
-      image.height = '182';
-      image.alt = data.date;
-    };
-
-    pictureImage.onerror = function() {
-      image.classList.add('picture-load-failure');
-    };
-
-    pictureImage.src = data.url;
-    gallery.photoForGallery(pics);
-    var imageLoadTimeout = setTimeout(function() {
-      image.src = '';
-    });
-
-    container.appendChild(element);
-    return element;
-  };
 
   var isBottomReached = function() {
     return containerSides.top - window.innerHeight <= 0;
@@ -65,8 +30,8 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
 
-    pictures.slice(from, to).forEach(function(picture) {
-      getPictureElement(picture, picturesContainer);
+    pictures.slice(from, to).forEach(function(picture, number) {
+      [].push(new Photo(picture, from + to, picturesContainer));
     });
 
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
