@@ -8,7 +8,7 @@ define('gallery', ['./utils'], function(utils) {
   // var preview = galleryContainer.querySelector('.gallery-overlay-preview');
   var pic = document.querySelector('.pictures');
   var likes = galleryContainer.querySelector('.likes-count');
-  var comments = galleryContainer.querySelector('.comments-count');
+  var likes = galleryContainer.querySelector('.comments-count');
   var keyRightCheck = utils.listenKey(39, switchNextPicture);
   var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
   var keyEsc = utils.listenKey(27, closeGallery);
@@ -34,24 +34,31 @@ define('gallery', ['./utils'], function(utils) {
   /**
  * @param {Array.<pictues>} pictures
  */
-  var showPhoto = function(numberPhoto) {
-    //galleryContainer.classList.remove('invisible');
-    var nextPhoto = galleryPictures[numberPhoto];
-    var pictureElement = new Image();
+
+var showPhoto = function(numberPhoto) {
+  var nextPhoto = galleryPictures[numberPhoto]
+  thumbnailsContainer.src = nextPhoto.url;
+  likes.textContent = nextPhoto.comments;
+  likes.textContent = nextPhoto.likes;
+};
+  // var showPhoto = function(numberPhoto) {
+  //   //galleryContainer.classList.remove('invisible');
+  //   var nextPhoto = galleryPictures[numberPhoto];
+  //   var pictureElement = new Image();
 
 
-    pictureElement.onload = function(evt) {
-      thumbnailsContainer.src = evt.target.src;
-      thumbnailsContainer.alt = nextPhoto.date;
-      likes.textContent = nextPhoto.likes;
-      comments.textContent = nextPhoto.comments;
-    };
+  //   pictureElement.onload = function(evt) {
+  //     thumbnailsContainer.src = evt.target.src;
+  //     thumbnailsContainer.alt = nextPhoto.date;
+  //     likes.textContent = nextPhoto.likes;
+  //     comments.textContent = nextPhoto.comments;
+  //   };
 
-    pictureElement.onerror = function() {
-      showPhoto(activePicture + 1);
-    };
-    //pictureElement.src = nextPhoto.url;
-  };
+  //   pictureElement.onerror = function() {
+  //     showPhoto(activePicture + 1);
+  //   };
+  //   //pictureElement.src = nextPhoto.url;
+  // };
 
   window.addEventListener('keydown', function(evt) {
     if (!galleryContainer.classList.contains('invisible') && keyEsc) {
