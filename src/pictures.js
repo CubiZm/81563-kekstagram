@@ -1,9 +1,9 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilteredPictures, getPictures, gallery) {
+define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, gallery, utils, Photo) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
-
+  var templateElement = document.querySelector('#picture-template');
   var filters = document.querySelector('.filters');
   var pics = [];
   var filteredPictures = [];
@@ -12,6 +12,42 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilter
   var pageNumber = 0;
   filters.classList.add('hidden');
 
+  if ('content' in templateElement) {
+    elementToClone = templateElement.content.querySelector('.picture');
+  } else {
+    elementToClone = templateElement.querySelector('.picture');
+  }
+
+  var getPictureElement = function(data, container) {
+    var element = elementToClone.cloneNode(true);
+    element.querySelector('.picture-comments').textContent = data.comments;
+    element.querySelector('.picture-likes').textContent = data.likes;
+
+    var image = element.querySelector('img');
+
+    var pictureImage = new Image();
+
+    pictureImage.onload = function() {
+      clearTimeout(imageLoadTimeout);
+      image.src = data.url;
+      image.width = '182';
+      image.height = '182';
+      image.alt = data.date;
+    };
+
+    pictureImage.onerror = function() {
+      image.classList.add('picture-load-failure');
+    };
+
+    pictureImage.src = data.url;
+    gallery.photoForGallery(pics);
+    var imageLoadTimeout = setTimeout(function() {
+      image.src = '';
+    });
+
+    container.appendChild(element);
+    return element;
+  };
 
   var isBottomReached = function() {
     return containerSides.top - window.innerHeight <= 0;
@@ -30,7 +66,8 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilter
     var to = from + PAGE_SIZE;
 
     pictures.slice(from, to).forEach(function(picture, number) {
-      [].push(new Photo(picture, from + to, picturesContainer));
+      getPictureElement(picture, picturesContainer);
+      [].push(new Photo(picture, from + number, picturesContainer));
     });
 
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
@@ -78,21 +115,21 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilter
     });
   };
 
-  var setShowGallery = function() {
-    var pic = document.querySelector('.pictures');
-    pic.addEventListener('click', function(evt) {
-      if (evt.target.src) {
-        var clickedImage = evt.target;
-        var allImages = pic.querySelectorAll('img');
-        for (var key in allImages) {
-          if (allImages[key] === clickedImage) {
-            break;
-          }
-        }
-        gallery.showGallery(key);
-      }
-    });
-  };
+  // var setShowGallery = function() {
+  //   var pic = document.querySelector('.pictures');
+  //   pic.addEventListener('click', function(evt) {
+  //     if (evt.target.src) {
+  //       var clickedImage = evt.target;
+  //       var allImages = pic.querySelectorAll('img');
+  //       for (var key in allImages) {
+  //         if (allImages[key] === clickedImage) {
+  //           break;
+  //         }
+  //       }
+  //       gallery.showGallery(key);
+  //     }
+  //   });
+  // };
 
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
@@ -100,7 +137,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilter
     setFilterEnabled('filter-popular');
     setScrollEnabled();
     picturesContainer.classList.remove('pictures-loading');
-    setShowGallery();
+    //setShowGallery();
   });
 
   filters.classList.remove('hidden');
