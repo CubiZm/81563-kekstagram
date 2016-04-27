@@ -1,11 +1,10 @@
 'use strict';
-define(['./pictures', 'get-picture'], function(showGallery, getPictureElement) {
+define(['./pictures'], function(getPictureElement) {
+  console.log(getPictureElement)
   var Photo = function(data, number, container) {
     this.data = data;
-    console.log(this.data);
     this.number = number;
-    //console.log(this)
-    console.log(this.number);
+    //this.getPictureElement;
     this.element = getPictureElement(data, container);
 
     this.onPhotoClick = (function(evt) {
