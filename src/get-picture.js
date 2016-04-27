@@ -1,5 +1,5 @@
 'use strict';
-define('getPictureElements', function() {
+define('getPictureElement', function() {
   var templateElement = document.querySelector('#picture-template');
   if ('content' in templateElement) {
     elementToClone = templateElement.content.querySelector('.picture');
@@ -37,4 +37,7 @@ define('getPictureElements', function() {
     container.appendChild(element);
     return element;
   };
+  return getPictureElement();
+    //getPictureElement: console.log(getPictureElement)
+
 });
