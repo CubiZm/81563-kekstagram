@@ -1,6 +1,6 @@
 'use strict';
-define('Photo',['./pictures'], function(element) {
-function Photo(data, number, container) {
+define('Photo', function() {
+function Photo(data, number, picturesContainer) {
   this.data = data;
   this.number = number;
   this.element = getPictureElement(data, picturesContainer);
@@ -16,8 +16,7 @@ function Photo(data, number, container) {
   };
 
   this.element.addEventListener('click', this.onPhotoClick);
-  container.appendChild(this.element);
-  console.log('photooooo')
+  picturesContainer.appendChild(this.element);
 };
  return Photo
 });

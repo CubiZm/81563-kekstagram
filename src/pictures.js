@@ -67,7 +67,10 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
     pictures.slice(from, to).forEach(function(picture, number) {
       getPictureElement(picture, picturesContainer);
-      [].push(new Photo(picture, from + number, picturesContainer));
+      //[].push(new Photo(picture, from + number, picturesContainer));
+      [].forEach(function(picture) {
+        picture.remove();
+      });
     });
 
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
