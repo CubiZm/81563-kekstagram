@@ -37,7 +37,5 @@ define('getPictureElement', function() {
     container.appendChild(element);
     return element;
   };
-  return getPictureElement();
-    //getPictureElement: console.log(getPictureElement)
-
+  return getPictureElement;
 });

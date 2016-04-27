@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils', 'get-picture', 'photo'], function(getFilteredPictures, getPictures, gallery, getPictureElement, Photo) {
+define(['filter', 'ajax', 'gallery', 'utils', 'get-picture'], function(getFilteredPictures, getPictures, gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
 
@@ -11,7 +11,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture', 'photo'], function(
   var PAGE_SIZE = 12;
   var pageNumber = 0;
   filters.classList.add('hidden');
-
 
 
   var isBottomReached = function() {
@@ -27,12 +26,11 @@ define(['filter', 'ajax', 'gallery', 'utils', 'get-picture', 'photo'], function(
       picturesContainer.innerHTML = '';
     }
 
-    var renderPictures = [];
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
 
-    pictures.slice(from, to).forEach(function(picture) {
-      getPictureElement(picture, picturesContainer);
+    pictures.slice(from, to).forEach(function(picture, number) {
+      [].push(new Photo(picture, from + to, picturesContainer));
     });
 
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
