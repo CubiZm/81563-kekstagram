@@ -143,6 +143,4 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     setShowGallery();
   });
   filters.classList.remove('hidden');
-  return getPictureElement
-
 });
