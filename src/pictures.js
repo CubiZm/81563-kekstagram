@@ -10,6 +10,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
   var elementToClone;
   var PAGE_SIZE = 12;
   var pageNumber = 0;
+  var renderedPictures = [];
   filters.classList.add('hidden');
 
   if ('content' in templateElement) {
@@ -59,18 +60,21 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
   var renderPictures = function(pictures, page, replace) {
     if(replace) {
-      picturesContainer.innerHTML = '';
+      //picturesContainer.innerHTML = '';
+      renderedPictures.forEach(function(picture) {
+        picture.remove();
+      });
     }
 
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
 
+    var container = document.createDocumentFragment();
+
     pictures.slice(from, to).forEach(function(picture, number) {
       getPictureElement(picture, picturesContainer);
-      //[].push(new Photo(picture, from + number, picturesContainer));
-      [].forEach(function(picture) {
-        picture.remove();
-      });
+      renderedPictures.push(new Photo(picture, from + number, container));
+
     });
 
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
@@ -118,21 +122,21 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
   };
 
-  // var setShowGallery = function() {
-  //   var pic = document.querySelector('.pictures');
-  //   pic.addEventListener('click', function(evt) {
-  //     if (evt.target.src) {
-  //       var clickedImage = evt.target;
-  //       var allImages = pic.querySelectorAll('img');
-  //       for (var key in allImages) {
-  //         if (allImages[key] === clickedImage) {
-  //           break;
-  //         }
-  //       }
-  //       gallery.showGallery(key);
-  //     }
-  //   });
-  // };
+  var setShowGallery = function() {
+    var pic = document.querySelector('.pictures');
+    pic.addEventListener('click', function(evt) {
+      if (evt.target.src) {
+        var clickedImage = evt.target;
+        var allImages = pic.querySelectorAll('img');
+        for (var key in allImages) {
+          if (allImages[key] === clickedImage) {
+            break;
+          }
+        }
+        gallery.showGallery(key);
+      }
+    });
+  };
 
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
@@ -140,8 +144,11 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     setFilterEnabled('filter-popular');
     setScrollEnabled();
     picturesContainer.classList.remove('pictures-loading');
-    //setShowGallery();
+    setShowGallery();
   });
-
   filters.classList.remove('hidden');
+  return {
+    getPictureElement: getPictureElement
+  }
+
 });
