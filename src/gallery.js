@@ -64,9 +64,12 @@ var Gallery = function() {
 
   thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
   //thumbnailsContainer.addEventListener('click', switchPrevPicture);
+  }
+  //return new Gallery
   return {
-    showGallery: function(numberPhoto) {
-      galleryContainer.classList.remove('invisible');
+    Gallery,
+    galleryshowGallery: function(numberPhoto) {
+      this.galleryContainer.classList.remove('invisible');
       activePicture = numberPhoto;
       showPhoto(activePicture);
     },
@@ -74,5 +77,5 @@ var Gallery = function() {
       galleryPictures = pictures;
     }
   };
-}
+
 });
