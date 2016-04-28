@@ -1,30 +1,33 @@
 'use strict';
 
 define('gallery', ['./utils'], function(utils) {
-// return function(showGallery) {
-  var galleryContainer = document.querySelector('.gallery-overlay');
-  var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
-  var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
+var Gallery = function() {
+
+  console.log(self)
+
+  this.galleryContainer = document.querySelector('.gallery-overlay');
+  var closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
+  var thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
   var pic = document.querySelector('.pictures');
-  var likes = galleryContainer.querySelector('.likes-count');
-  var comments = galleryContainer.querySelector('.comments-count');
+  var likes = this.galleryContainer.querySelector('.likes-count');
+  var comments = this.galleryContainer.querySelector('.comments-count');
   var keyRightCheck = utils.listenKey(39, switchNextPicture);
   var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
   var keyEsc = utils.listenKey(27);
-
+ var self = this;
   /** @type {Array.<string>} */
-  var galleryPictures = [];
+  this.galleryPictures = [];
   /** @type {number} */
-  var activePicture = 0;
+  this.activePicture = 0;
 
   pic.addEventListener('click', function(e) {
     e.preventDefault();
-    galleryContainer.classList.remove('invisible');
+    self.galleryContainer.classList.remove('invisible');
   });
 
 
-  var closeGallery = function() {
-    galleryContainer.classList.add('invisible');
+  this.closeGallery = function() {
+    this.galleryContainer.classList.add('invisible');
   };
   closeElement.addEventListener('click', function() {
     closeGallery();
@@ -34,26 +37,26 @@ define('gallery', ['./utils'], function(utils) {
  * @param {Array.<pictues>} pictures
  */
 
-  var showPhoto = function(numberPhoto) {
-    var nextPhoto = galleryPictures[numberPhoto];
+  this.showPhoto = function(numberPhoto) {
+    var nextPhoto = self.galleryPictures[numberPhoto];
     thumbnailsContainer.src = nextPhoto.url;
     comments.textContent = nextPhoto.comments;
     likes.textContent = nextPhoto.likes;
   };
 
   window.addEventListener('keydown', function(evt) {
-    if (!galleryContainer.classList.contains('invisible') && keyEsc) {
+    if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
       evt.preventDefault();
-      closeGallery();
+      self.closeGallery();
     }
   });
 
   function switchNextPicture() {
-    showPhoto(++activePicture);
+    self.showPhoto(++activePicture);
   }
 
   function switchPrevPicture() {
-    showPhoto(--activePicture);
+    self.showPhoto(--activePicture);
   }
 
   thumbnailsContainer.addEventListener('keydown', keyRightCheck);
@@ -71,4 +74,5 @@ define('gallery', ['./utils'], function(utils) {
       galleryPictures = pictures;
     }
   };
+}
 });
