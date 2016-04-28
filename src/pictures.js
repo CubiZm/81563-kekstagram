@@ -38,7 +38,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictureImage.onerror = function() {
       image.classList.add('picture-load-failure');
     };
-    console.log(Gallery)
+    //console.log(Gallery)
     pictureImage.src = data.url;
     Gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
@@ -119,6 +119,8 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
   };
 
+  //console.log(Gallery)
+
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures');
     pic.addEventListener('click', function(evt) {
@@ -130,7 +132,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
             break;
           }
         }
-        gallery.showGallery(key);
+        //Gallery.showGallery(key);
       }
     });
   };
@@ -142,7 +144,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
     this.onPhotoClick = (function(evt) {
       evt.preventDefault();
-      gallery.showGallery(this.number);
+      Gallery.showGallery(this.number);
     }).bind(this);
 
     this.remove = function() {
