@@ -132,7 +132,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
             break;
           }
         }
-        //Gallery.showGallery(key);
+        Gallery(key);
       }
     });
   };
