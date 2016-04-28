@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, gallery, utils, Photo) {
+define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -66,13 +66,14 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     var to = from + PAGE_SIZE;
     var container = document.createDocumentFragment();
     pictures.slice(from, to).forEach(function(picture, number) {
-      //getPictureElement(picture, picturesContainer);
+      getPictureElement(picture, picturesContainer);
       renderedPhotos.push(new Photo(picture, from + number, container));
       //console.log(new Photo)
     });
     renderedPhotos.forEach(function(picture) {
       picture.remove();
     });
+    picturesContainer.appendChild(container);
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
 
     var blockIsNotFull = function() {
@@ -133,6 +134,26 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
       }
     });
   };
+
+  var Photo = function(data, number, container) {
+    this.data = data;
+    this.number = number;
+    this.element = getPictureElement(data, container);
+
+    this.onPhotoClick = (function(evt) {
+      evt.preventDefault();
+      gallery.showGallery(this.number);
+    }).bind(this);
+
+    this.remove = function() {
+      this.element.removeEventListener('click', this.onPhotoClick);
+      this.element.parentNode.removeChild(this.element);
+    };
+
+    this.element.addEventListener('click', this.onPhotoClick);
+    container.appendChild(this.element);
+  };
+
 
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
