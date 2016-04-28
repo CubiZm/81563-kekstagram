@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, getPictures, gallery) {
+define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -61,14 +61,19 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     if(replace) {
       picturesContainer.innerHTML = '';
     }
-
+    var renderedPhotos = [];
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
-
-    pictures.slice(from, to).forEach(function(picture) {
+    var container = document.createDocumentFragment();
+    pictures.slice(from, to).forEach(function(picture, number) {
       getPictureElement(picture, picturesContainer);
+      renderedPhotos.push(new Photo(picture, from + number, container));
+      //console.log(new Photo)
     });
-
+    renderedPhotos.forEach(function(picture) {
+      picture.remove();
+    });
+    picturesContainer.appendChild(container);
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
 
     var blockIsNotFull = function() {
@@ -130,6 +135,26 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     });
   };
 
+  var Photo = function(data, number, container) {
+    this.data = data;
+    this.number = number;
+    this.element = getPictureElement(data, container);
+
+    this.onPhotoClick = (function(evt) {
+      evt.preventDefault();
+      gallery.showGallery(this.number);
+    }).bind(this);
+
+    this.remove = function() {
+      this.element.removeEventListener('click', this.onPhotoClick);
+      this.element.parentNode.removeChild(this.element);
+    };
+
+    this.element.addEventListener('click', this.onPhotoClick);
+    container.appendChild(this.element);
+  };
+
+
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     setFiltrationEnabled();
@@ -138,6 +163,5 @@ define(['filter', 'ajax', 'gallery', 'utils'], function(getFilteredPictures, get
     picturesContainer.classList.remove('pictures-loading');
     setShowGallery();
   });
-
   filters.classList.remove('hidden');
 });
