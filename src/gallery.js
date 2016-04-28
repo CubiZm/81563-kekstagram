@@ -1,94 +1,84 @@
 'use strict';
 
 define('gallery', ['./utils'], function(utils) {
-var Gallery = function() {
+  var Gallery = function() {
 
-  this.galleryContainer = document.querySelector('.gallery-overlay');
-  //console.log(galleryContainer)
-  var closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
-  var thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
-  var pic = document.querySelector('.pictures');
-  var likes = this.galleryContainer.querySelector('.likes-count');
-  var comments = this.galleryContainer.querySelector('.comments-count');
-  var keyRightCheck = utils.listenKey(39, switchNextPicture);
-  var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
-  var keyEsc = utils.listenKey(27);
+    this.galleryContainer = document.querySelector('.gallery-overlay');
+    //console.log(galleryContainer)
+    var closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
+    var thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
+    var pic = document.querySelector('.pictures');
+    var likes = this.galleryContainer.querySelector('.likes-count');
+    var comments = this.galleryContainer.querySelector('.comments-count');
+    var keyRightCheck = utils.listenKey(39, switchNextPicture);
+    var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
+    var keyEsc = utils.listenKey(27);
 
-  var self = this;
-  /** @type {Array.<string>} */
-  this.galleryPictures = [];
-  /** @type {number} */
-  this.activePicture = 0;
-
-
-  this.photoForGallery = function(pictures) {
-    self.galleryPictures = pictures;
-  };
-
-  pic.addEventListener('click', function(e) {
-    e.preventDefault();
-    self.galleryContainer.classList.remove('invisible');
-  });
+    var self = this;
+    /** @type {Array.<string>} */
+    this.galleryPictures = [];
+    /** @type {number} */
+    var activePicture = 0;
 
 
-  this.closeGallery = function() {
-    self.galleryContainer.classList.add('invisible');
-  };
-  closeElement.addEventListener('click', function() {
-    self.closeGallery();
-  });
+    this.photoForGallery = function(pictures) {
+      self.galleryPictures = pictures;
+    };
 
-  /**
- * @param {Array.<pictues>} pictures
- */
+    pic.addEventListener('click', function(e) {
+      e.preventDefault();
+      self.galleryContainer.classList.remove('invisible');
+    });
 
-  this.showPhoto = function(numberPhoto) {
-    console.log(numberPhoto)
-    self.galleryContainer.classList.remove('invisible');
-    var nextPhoto = self.galleryPictures[numberPhoto];
-    var NewImage = new Image();
 
-    thumbnailsContainer.src = nextPhoto.url;
-    comments.textContent = nextPhoto.comments;
-    likes.textContent = nextPhoto.likes;
-  };
-
-  window.addEventListener('keydown', function(evt) {
-    if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
-      evt.preventDefault();
+    this.closeGallery = function() {
+      self.galleryContainer.classList.add('invisible');
+    };
+    closeElement.addEventListener('click', function() {
       self.closeGallery();
+    });
+
+    /**
+   * @param {Array.<pictues>} pictures
+   */
+
+    this.showPhoto = function(numberPhoto) {
+      self.galleryContainer.classList.remove('invisible');
+      var nextPhoto = self.photos[numberPhoto];
+      thumbnailsContainer.src = nextPhoto.url;
+      comments.textContent = nextPhoto.comments;
+      likes.textContent = nextPhoto.likes;
+      // Лена обещала обработчик ошибки -- Лена сделала обработчик.
+      // Хотя кто это читает :(
+      thumbnailsContainer.onerror = function() {
+        self.showPhoto(++numberPhoto);
+      };
+    };
+
+    window.addEventListener('keydown', function(evt) {
+      if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
+        evt.preventDefault();
+        self.closeGallery();
+      }
+    });
+
+    function switchNextPicture() {
+      self.showPhoto(++activePicture);
     }
-  });
 
-  function switchNextPicture() {
-    self.showPhoto(++this.activePicture);
-  }
+    function switchPrevPicture() {
+      self.showPhoto(--activePicture);
+    }
 
-  function switchPrevPicture() {
-    self.showPhoto(--this.activePicture);
-  }
+    this.photoForGallery = function(pictures) {
+      self.photos = pictures;
+    };
 
-  this.photoForGallery = function(pictures) {
-    self.photos = pictures;
-  }
+    thumbnailsContainer.addEventListener('keydown', keyRightCheck);
+    thumbnailsContainer.addEventListener('click', switchNextPicture);
 
-  thumbnailsContainer.addEventListener('keydown', keyRightCheck);
-  thumbnailsContainer.addEventListener('click', switchNextPicture);
-
-  thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
-  //thumbnailsContainer.addEventListener('click', switchPrevPicture);
-  }
-  return new Gallery;
-  // return {
-  //   Gallery
-  //   showGallery: function(numberPhoto) {
-  //     this.galleryContainer.classList.remove('invisible');
-  //     activePicture = numberPhoto;
-  //     showPhoto(activePicture);
-  //   },
-  //   photoForGallery: function(pictures) {
-  //     galleryPictures = pictures;
-  //   }
-  // };
-
+    thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
+    //thumbnailsContainer.addEventListener('click', switchPrevPicture);
+  };
+  return new Gallery();
 });
