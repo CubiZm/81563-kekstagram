@@ -43,8 +43,11 @@ var Gallery = function() {
  */
 
   this.showPhoto = function(numberPhoto) {
+    console.log(numberPhoto)
     self.galleryContainer.classList.remove('invisible');
     var nextPhoto = self.galleryPictures[numberPhoto];
+    var NewImage = new Image();
+
     thumbnailsContainer.src = nextPhoto.url;
     comments.textContent = nextPhoto.comments;
     likes.textContent = nextPhoto.likes;
@@ -75,7 +78,7 @@ var Gallery = function() {
   thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
   //thumbnailsContainer.addEventListener('click', switchPrevPicture);
   }
-  return new Gallery
+  return new Gallery;
   // return {
   //   Gallery
   //   showGallery: function(numberPhoto) {
