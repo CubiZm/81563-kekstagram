@@ -1,6 +1,6 @@
 'use strict';
 
-define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, gallery) {
+define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPictures, getPictures, Gallery) {
   var picturesContainer = document.querySelector('.pictures');
   var containerSides = picturesContainer.getBoundingClientRect();
   var templateElement = document.querySelector('#picture-template');
@@ -38,9 +38,9 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictureImage.onerror = function() {
       image.classList.add('picture-load-failure');
     };
-
+    //console.log(Gallery)
     pictureImage.src = data.url;
-    gallery.photoForGallery(pics);
+    Gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
@@ -94,7 +94,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     filteredPictures = getFilteredPictures(pics, filter);
     pageNumber = 0;
     renderPictures(filteredPictures, pageNumber, true);
-    gallery.photoForGallery(filteredPictures);
+    Gallery.photoForGallery(filteredPictures);
   };
 
   var setFiltrationEnabled = function() {
@@ -119,6 +119,8 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
   };
 
+  //console.log(Gallery)
+
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures');
     pic.addEventListener('click', function(evt) {
@@ -130,7 +132,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
             break;
           }
         }
-        gallery.showGallery(key);
+        Gallery.showPhoto(key);
       }
     });
   };
@@ -142,7 +144,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
     this.onPhotoClick = (function(evt) {
       evt.preventDefault();
-      gallery.showGallery(this.number);
+      Gallery.showGallery(this.number);
     }).bind(this);
 
     this.remove = function() {

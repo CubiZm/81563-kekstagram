@@ -1,74 +1,89 @@
 'use strict';
 
 define('gallery', ['./utils'], function(utils) {
-// return function(showGallery) {
-  var galleryContainer = document.querySelector('.gallery-overlay');
-  var closeElement = galleryContainer.querySelector('.gallery-overlay-close');
-  var thumbnailsContainer = galleryContainer.querySelector('.gallery-overlay-image');
-  var pic = document.querySelector('.pictures');
-  var likes = galleryContainer.querySelector('.likes-count');
-  var comments = galleryContainer.querySelector('.comments-count');
-  var keyRightCheck = utils.listenKey(39, switchNextPicture);
-  var keyLeftCheck = utils.listenKey(37, switchPrevPicture);
-  var keyEsc = utils.listenKey(27);
+  var Gallery = function() { // КОНСТРУКТОР
 
-  /** @type {Array.<string>} */
-  var galleryPictures = [];
-  /** @type {number} */
-  var activePicture = 0;
+    this.galleryContainer = document.querySelector('.gallery-overlay');
+    //console.log(galleryContainer)
+    this.closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
+    this.thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
+    this.pic = document.querySelector('.pictures');
+    this.likes = this.galleryContainer.querySelector('.likes-count');
+    this.comments = this.galleryContainer.querySelector('.comments-count');
+    this.keyRightCheck = utils.listenKey(39, switchNextPicture);
+    this.keyLeftCheck = utils.listenKey(37, switchPrevPicture);
+    var keyEsc = utils.listenKey(27);
 
-  pic.addEventListener('click', function(e) {
-    e.preventDefault();
-    galleryContainer.classList.remove('invisible');
-  });
+    var self = this;
+    /** @type {Array.<string>} */
+    this.galleryPictures = [];
+    /** @type {number} */
+    var activePicture = 0;
+
+    this.pic.addEventListener('click', function(e) {
+      e.preventDefault();
+      self.galleryContainer.classList.remove('invisible');
+    });
 
 
-  var closeGallery = function() {
-    galleryContainer.classList.add('invisible');
-  };
-  closeElement.addEventListener('click', function() {
-    closeGallery();
-  });
+    Gallery.prototype.closeGallery = function() { // ПРОТОТИП
+      self.galleryContainer.classList.add('invisible');
+    };
 
-  /**
- * @param {Array.<pictues>} pictures
- */
+    this.closeElement.addEventListener('click', function() {
+      self.closeGallery();
+    });
 
-  var showPhoto = function(numberPhoto) {
-    var nextPhoto = galleryPictures[numberPhoto];
-    thumbnailsContainer.src = nextPhoto.url;
-    comments.textContent = nextPhoto.comments;
-    likes.textContent = nextPhoto.likes;
-  };
+    /**
+   * @param {Array.<pictues>} pictures
+   */
+   // НАДО ПОПРАВИТЬ !!!!
 
-  window.addEventListener('keydown', function(evt) {
-    if (!galleryContainer.classList.contains('invisible') && keyEsc) {
-      evt.preventDefault();
-      closeGallery();
+   //нельзя писать методы в прототип внутри конструктора
+   //надо вынести отдельно
+   // var gallery = new Gallery.;
+   // gallery.showPhoto();
+
+    Gallery.prototype.showPhoto = function() {  // ПРОТОТИП
+      this.galleryContainer.classList.remove('invisible');
+    };
+
+    this.showPhoto = function(numberPhoto) {
+      this.nextPhoto = this.photos[numberPhoto];
+      this.thumbnailsContainer.src = this.nextPhoto.url;
+      this.comments.textContent = this.nextPhoto.comments;
+      this.likes.textContent = this.nextPhoto.likes;
+      // Лена обещала обработчик ошибки -- Лена сделала обработчик.
+      // Хотя кто это читает :(
+      this.thumbnailsContainer.onerror = function() {
+        self.showPhoto(++numberPhoto);
+      };
+    };
+
+    window.addEventListener('keydown', function(evt) {
+      if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
+        evt.preventDefault();
+        self.closeGallery();
+      }
+    });
+
+    function switchNextPicture() {
+      self.showPhoto(++activePicture);
     }
-  });
 
-  function switchNextPicture() {
-    showPhoto(++activePicture);
-  }
-
-  function switchPrevPicture() {
-    showPhoto(--activePicture);
-  }
-
-  thumbnailsContainer.addEventListener('keydown', keyRightCheck);
-  thumbnailsContainer.addEventListener('click', switchNextPicture);
-
-  thumbnailsContainer.addEventListener('keydown', keyLeftCheck);
-  //thumbnailsContainer.addEventListener('click', switchPrevPicture);
-  return {
-    showGallery: function(numberPhoto) {
-      galleryContainer.classList.remove('invisible');
-      activePicture = numberPhoto;
-      showPhoto(activePicture);
-    },
-    photoForGallery: function(pictures) {
-      galleryPictures = pictures;
+    function switchPrevPicture() {
+      self.showPhoto(--activePicture);
     }
+
+    Gallery.prototype.photoForGallery = function(pictures) {
+      self.photos = pictures;
+    };
+
+    this.thumbnailsContainer.addEventListener('keydown', this.keyRightCheck);
+    this.thumbnailsContainer.addEventListener('click', switchNextPicture);
+
+    this.thumbnailsContainer.addEventListener('keydown', this.keyLeftCheck);
+    //thumbnailsContainer.addEventListener('click', switchPrevPicture);
   };
+  return new Gallery();
 });
