@@ -5,7 +5,7 @@ define('gallery', ['./utils'], function(utils) {
 
     this.galleryContainer = document.querySelector('.gallery-overlay');
     //console.log(galleryContainer)
-   this.closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
+    this.closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
     this.thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
     this.pic = document.querySelector('.pictures');
     this.likes = this.galleryContainer.querySelector('.likes-count');
@@ -44,12 +44,15 @@ define('gallery', ['./utils'], function(utils) {
    // var gallery = new Gallery.;
    // gallery.showPhoto();
 
-    Gallery.prototype.showPhoto = function(numberPhoto) {  // ПРОТОТИП
+    Gallery.prototype.showPhoto = function() {  // ПРОТОТИП
       this.galleryContainer.classList.remove('invisible');
-      var nextPhoto = this.photos[numberPhoto];
-      this.thumbnailsContainer.src = nextPhoto.url;
-      this.comments.textContent = nextPhoto.comments;
-      this.likes.textContent = nextPhoto.likes;
+    };
+
+    this.showPhoto = function(numberPhoto) {
+      this.nextPhoto = this.photos[numberPhoto];
+      this.thumbnailsContainer.src = this.nextPhoto.url;
+      this.comments.textContent = this.nextPhoto.comments;
+      this.likes.textContent = this.nextPhoto.likes;
       // Лена обещала обработчик ошибки -- Лена сделала обработчик.
       // Хотя кто это читает :(
       this.thumbnailsContainer.onerror = function() {
