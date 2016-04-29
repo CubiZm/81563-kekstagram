@@ -26,7 +26,7 @@ define('gallery', ['./utils'], function(utils) {
     });
 
 
-    this.closeGallery = function() {
+    Gallery.prototype.closeGallery = function() {
       self.galleryContainer.classList.add('invisible');
     };
     closeElement.addEventListener('click', function() {
@@ -36,10 +36,13 @@ define('gallery', ['./utils'], function(utils) {
     /**
    * @param {Array.<pictues>} pictures
    */
+   //нельзя писать методы в прототип внутри конструктора
+   //надо вынести отдельно
+
 
     Gallery.prototype.showPhoto = function(numberPhoto) {
-      self.galleryContainer.classList.remove('invisible');
-      var nextPhoto = self.photos[numberPhoto];
+      this.galleryContainer.classList.remove('invisible');
+      var nextPhoto = this.photos[numberPhoto];
       thumbnailsContainer.src = nextPhoto.url;
       comments.textContent = nextPhoto.comments;
       likes.textContent = nextPhoto.likes;
