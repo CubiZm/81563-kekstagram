@@ -37,12 +37,6 @@ define('gallery', ['./utils'], function(utils) {
     /**
    * @param {Array.<pictues>} pictures
    */
-   // НАДО ПОПРАВИТЬ !!!!
-
-   //нельзя писать методы в прототип внутри конструктора
-   //надо вынести отдельно
-   // var gallery = new Gallery.;
-   // gallery.showPhoto();
 
     Gallery.prototype.showPhoto = function() {  // ПРОТОТИП
       this.galleryContainer.classList.remove('invisible');
@@ -53,8 +47,7 @@ define('gallery', ['./utils'], function(utils) {
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
       this.likes.textContent = this.nextPhoto.likes;
-      // Лена обещала обработчик ошибки -- Лена сделала обработчик.
-      // Хотя кто это читает :(
+
       this.thumbnailsContainer.onerror = function() {
         self.showPhoto(++numberPhoto);
       };
