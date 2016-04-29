@@ -20,11 +20,6 @@ define('gallery', ['./utils'], function(utils) {
     /** @type {number} */
     var activePicture = 0;
 
-
-    this.photoForGallery = function(pictures) {
-      self.galleryPictures = pictures;
-    };
-
     pic.addEventListener('click', function(e) {
       e.preventDefault();
       self.galleryContainer.classList.remove('invisible');
@@ -42,7 +37,7 @@ define('gallery', ['./utils'], function(utils) {
    * @param {Array.<pictues>} pictures
    */
 
-    this.showPhoto = function(numberPhoto) {
+    Gallery.prototype.showPhoto = function(numberPhoto) {
       self.galleryContainer.classList.remove('invisible');
       var nextPhoto = self.photos[numberPhoto];
       thumbnailsContainer.src = nextPhoto.url;
@@ -70,7 +65,7 @@ define('gallery', ['./utils'], function(utils) {
       self.showPhoto(--activePicture);
     }
 
-    this.photoForGallery = function(pictures) {
+    Gallery.prototype.photoForGallery = function(pictures) {
       self.photos = pictures;
     };
 
