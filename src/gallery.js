@@ -12,6 +12,8 @@ define('gallery', ['./utils'], function(utils) {
     this.keyRightCheck = utils.listenKey(39, switchNextPicture);
     this.keyLeftCheck = utils.listenKey(37, switchPrevPicture);
     var keyEsc = utils.listenKey(27);
+    this.hashRegExp = new RegExp(/#photos\/(\S+)/);
+    this.currentHash = location.hash;
 
     var self = this;
     /** @type {Array.<string>} */
@@ -51,11 +53,16 @@ define('gallery', ['./utils'], function(utils) {
       this.thumbnailsContainer.onerror = function() {
         self.showPhoto(++numberPhoto);
       };
-      var strUrl = this.thumbnailsContainer.src.toString();
+      //var strUrl = this.thumbnailsContainer.src.toString(); // получали, по сути, ссылку
+      //var strUrl = this.thumbnailsContainer.src  ССЫЛКА НА КАРТИНКУ
+
       // NB! не могу сообразить регулярку,пока так
       // Всё будет очень плохо, если адрес поменяется
-      var url = strUrl.substr(21);
-      history.pushState(null, null, '#photos' + url);
+
+      // var url = strUrl.substr(21); // обрезали нужное число букоФФ
+
+      var url = this.nextPhoto.url; // СТРОКА
+      history.pushState(null, null, '#photos/' + url);
 
       this.closeElement.addEventListener('click', function() {
         self.closeGallery();
@@ -63,24 +70,40 @@ define('gallery', ['./utils'], function(utils) {
       });
     };
 
+    // Проверка хэша страницы
+
+    Gallery.prototype.changeGalleryState = function() {
+      if (this.currentHash.match(this.hashRegExp) ) {
+        self.showGallery(this.currentHash);
+      } else {
+        self.closeGallery();
+      }
+    };
+
+    window.addEventListener('hashchange', this.changeGalleryState);
+
     window.addEventListener('keydown', function(evt) {
       if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
         evt.preventDefault();
         self.closeGallery();
+        history.replaceState(null, null, '/');
       }
     });
-
-    function switchNextPicture() {
-      self.showPhoto(++activePicture);
-    }
-
-    function switchPrevPicture() {
-      self.showPhoto(--activePicture);
-    }
 
     Gallery.prototype.photoForGallery = function(pictures) {
       self.photos = pictures;
     };
+
+    function switchNextPicture() {
+      self.showPhoto(++activePicture);
+      history.go(1);
+    }
+
+    function switchPrevPicture() {
+      self.showPhoto(--activePicture);
+      history.back(-1);
+    }
+
 
     this.thumbnailsContainer.addEventListener('keydown', this.keyRightCheck);
     this.thumbnailsContainer.addEventListener('click', switchNextPicture);

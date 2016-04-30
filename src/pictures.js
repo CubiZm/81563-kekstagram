@@ -81,6 +81,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
     picturesContainer.appendChild(container);
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
+    Gallery.changeGalleryState();
 
     var blockIsNotFull = function() {
       return window.innerHeight - picturesContainerHeight > 0;
