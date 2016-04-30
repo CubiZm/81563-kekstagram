@@ -4,7 +4,6 @@ define('gallery', ['./utils'], function(utils) {
   var Gallery = function() { // КОНСТРУКТОР
 
     this.galleryContainer = document.querySelector('.gallery-overlay');
-    //console.log(galleryContainer)
     this.closeElement = this.galleryContainer.querySelector('.gallery-overlay-close');
     this.thumbnailsContainer = this.galleryContainer.querySelector('.gallery-overlay-image');
     this.pic = document.querySelector('.pictures');
@@ -30,9 +29,10 @@ define('gallery', ['./utils'], function(utils) {
       self.galleryContainer.classList.add('invisible');
     };
 
-    this.closeElement.addEventListener('click', function() {
-      self.closeGallery();
-    });
+    // this.closeElement.addEventListener('click', function() {
+    //   self.closeGallery();
+    //   history.replaceState(null, null, numberPhoto);
+    // });
 
     /**
    * @param {Array.<pictues>} pictures
@@ -51,6 +51,16 @@ define('gallery', ['./utils'], function(utils) {
       this.thumbnailsContainer.onerror = function() {
         self.showPhoto(++numberPhoto);
       };
+      var strUrl = this.thumbnailsContainer.src.toString();
+      // NB! не могу сообразить регулярку,пока так
+      // Всё будет очень плохо, если адрес поменяется
+      var url = strUrl.substr(21);
+      history.pushState(null, null, '#photos' + url);
+
+      this.closeElement.addEventListener('click', function() {
+        self.closeGallery();
+        history.replaceState(null, null, '/');
+      });
     };
 
     window.addEventListener('keydown', function(evt) {

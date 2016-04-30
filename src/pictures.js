@@ -46,7 +46,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictureImage.onerror = function() {
       image.classList.add('picture-load-failure');
     };
-    //console.log(Gallery)
     pictureImage.src = data.url;
     Gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
@@ -76,7 +75,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictures.slice(from, to).forEach(function(picture, number) {
       getPictureElement(picture, picturesContainer);
       renderedPhotos.push(new Photo(picture, from + number, container));
-      //console.log(new Photo)
     });
     renderedPhotos.forEach(function(picture) {
       picture.remove();
@@ -114,6 +112,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
   };
 
+  // LocalStorage
 
   var setFilterInLocalStorage = function(filter) {
     localStorage.setItem('filter', filter);
