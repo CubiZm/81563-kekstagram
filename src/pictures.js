@@ -12,6 +12,14 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
   var pageNumber = 0;
   filters.classList.add('hidden');
 
+  var filterType = {
+    POPULAR: 'filter-popular',
+    NEW: 'filter-new',
+    DISCUSSED: 'filter-discussed'
+  };
+
+  var DEFAULT_FILTER = filterType.POPULAR;
+
   if ('content' in templateElement) {
     elementToClone = templateElement.content.querySelector('.picture');
   } else {
@@ -101,8 +109,39 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     filters.addEventListener('click', function(evt) {
       if (evt.target.classList.contains('filters-radio')) {
         setFilterEnabled(evt.target.id);
+        setFilterInLocalStorage(evt.target.id);
       }
     });
+  };
+
+
+  var setFilterInLocalStorage = function(filter) {
+    localStorage.setItem('filter', filter);
+  };
+
+  var getFilterFromLocalStorage = function() {
+    return localStorage.getItem('filter');
+  };
+
+  var filterFromLocalStorage = getFilterFromLocalStorage();
+
+  var isValidFilter = function(filter) {
+    for (var key in filterType) {
+      if (filter === filterType[key]) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  var currentFilter = function() {
+    if(localStorage.hasOwnProperty('filter') && isValidFilter(filterFromLocalStorage)) {
+      filters.querySelector('#' + getFilterFromLocalStorage()).setAttribute('checked', true);
+      return getFilterFromLocalStorage();
+    } else {
+      filters.querySelector('#' + DEFAULT_FILTER).setAttribute('checked', true);
+      return DEFAULT_FILTER;
+    }
   };
 
   var setScrollEnabled = function() {
@@ -118,8 +157,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
       }, 100);
     });
   };
-
-  //console.log(Gallery)
 
   var setShowGallery = function() {
     var pic = document.querySelector('.pictures');
@@ -160,10 +197,12 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     setFiltrationEnabled();
-    setFilterEnabled('filter-popular');
+    setFilterEnabled(DEFAULT_FILTER);
     setScrollEnabled();
     picturesContainer.classList.remove('pictures-loading');
     setShowGallery();
+    currentFilter();
+    setFilterInLocalStorage();
   });
   filters.classList.remove('hidden');
 });
