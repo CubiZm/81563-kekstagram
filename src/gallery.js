@@ -49,10 +49,10 @@ define('gallery', ['./utils'], function(utils) {
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
       this.likes.textContent = this.nextPhoto.likes;
-
       this.thumbnailsContainer.onerror = function() {
         self.showPhoto(++numberPhoto);
       };
+
       //var strUrl = this.thumbnailsContainer.src.toString(); // получали, по сути, ссылку
       //var strUrl = this.thumbnailsContainer.src  ССЫЛКА НА КАРТИНКУ
 
@@ -62,7 +62,7 @@ define('gallery', ['./utils'], function(utils) {
       // var url = strUrl.substr(21); // обрезали нужное число букоФФ
 
       var url = this.nextPhoto.url; // СТРОКА
-      history.pushState(null, null, '#photos/' + url);
+      history.pushState(null, null, '#' + url);
 
       this.closeElement.addEventListener('click', function() {
         self.closeGallery();
