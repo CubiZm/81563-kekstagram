@@ -18,6 +18,8 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     DISCUSSED: 'filter-discussed'
   };
 
+  var DEFAULT_FILTER = filterType.POPULAR;
+
   if ('content' in templateElement) {
     elementToClone = templateElement.content.querySelector('.picture');
   } else {
@@ -107,6 +109,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     filters.addEventListener('click', function(evt) {
       if (evt.target.classList.contains('filters-radio')) {
         setFilterEnabled(evt.target.id);
+        setFilterInLocalStorage(evt.target.id);
       }
     });
   };
@@ -121,8 +124,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
   };
 
   var filterFromLocalStorage = getFilterFromLocalStorage();
-
-  var DEFAULT_FILTER = filterType.POPULAR;
 
   var isValidFilter = function(filter) {
     for (var key in filterType) {
@@ -196,7 +197,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     setFiltrationEnabled();
-    setFilterEnabled('filter-popular');
+    setFilterEnabled(DEFAULT_FILTER);
     setScrollEnabled();
     picturesContainer.classList.remove('pictures-loading');
     setShowGallery();
