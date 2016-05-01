@@ -32,6 +32,8 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     element.querySelector('.picture-likes').textContent = data.likes;
 
     var image = element.querySelector('img');
+    this.hashRegExp = new RegExp(/#photos\/(\S+)/);
+    this.currentHash = location.hash;
 
     var pictureImage = new Image();
 
@@ -51,11 +53,21 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
+    //Gallery.changeGalleryState();
+    if(self.currentHash.match(this.hashRegExp) || self.currentHash === '' ) {
+    // if (this.currentHash === this.hashRegExp) {
+      console.log('yes!');
+      Gallery.changeGalleryState();
+       //Gallery.changeGalleryState();
+    } else {
+      console.log('noup!');
+    //   Gallery.closeGallery();
+    }
 
     container.appendChild(element);
     return element;
   };
-
+  //Gallery.changeGalleryState();
   var isBottomReached = function() {
     return containerSides.top - window.innerHeight <= 0;
   };
@@ -81,7 +93,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
     picturesContainer.appendChild(container);
     var picturesContainerHeight = parseFloat(getComputedStyle(picturesContainer).height);
-    Gallery.changeGalleryState();
 
     var blockIsNotFull = function() {
       return window.innerHeight - picturesContainerHeight > 0;

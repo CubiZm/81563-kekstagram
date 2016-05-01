@@ -13,7 +13,7 @@ define('gallery', ['./utils'], function(utils) {
     this.keyLeftCheck = utils.listenKey(37, switchPrevPicture);
     var keyEsc = utils.listenKey(27);
     this.hashRegExp = new RegExp(/#photos\/(\S+)/);
-    this.currentHash = location.hash;
+    // this.currentHash = location.hash;
 
     var self = this;
     /** @type {Array.<string>} */
@@ -44,14 +44,14 @@ define('gallery', ['./utils'], function(utils) {
 
     this.showPhoto = function(numberPhoto) {
       //var picture;
-      self.url = this.thumbnailsContainer.src;
-      if (typeof numberPhoto === 'number') {
-        //picture = this.thumbnailsContainer.src;
-        console.log('number');
-      } else if (typeof numberPhoto === 'string') {
-        //picture = self.url;
-        console.log('string');
-      }
+      // self.url = this.thumbnailsContainer.src;
+      // if (typeof numberPhoto === 'number') {
+      //   //picture = this.thumbnailsContainer.src;
+      //   console.log('number');
+      // } else if (typeof numberPhoto === 'string') {
+      //   //picture = self.url;
+      //   console.log('string');
+      // }
       this.nextPhoto = this.photos[numberPhoto];
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
@@ -71,18 +71,19 @@ define('gallery', ['./utils'], function(utils) {
       });
     };
 
-    // Проверка хэша страницы
-    Gallery.prototype.changeGalleryState = function() {
-      if (self.currentHash.match(this.hashRegExp) ) {
-        self.showGallery();
-        //this.showPhoto(5);
-        console.log('open photo');
-      } else {
-        self.closeGallery();
-      }
+    Gallery.prototype.photoForGallery = function(pictures) {
+      self.photos = pictures;
+      //console.log(self.photos)
     };
 
-    this.changeGalleryState();
+    // Проверка хэша страницы
+    Gallery.prototype.changeGalleryState = function() {
+      //self.showGallery();
+      this.showPhoto(activePicture);
+      console.log('загрузили объекты фото');
+    };
+
+    //this.changeGalleryState();
     window.addEventListener('hashchange', this.changeGalleryState);
     //console.log(/#photos\/(\S+)/.exec(window.location.hash));
 
@@ -93,10 +94,6 @@ define('gallery', ['./utils'], function(utils) {
         history.replaceState(null, null, '/');
       }
     });
-
-    Gallery.prototype.photoForGallery = function(pictures) {
-      self.photos = pictures;
-    };
 
     function switchNextPicture() {
       self.showPhoto(++activePicture);
