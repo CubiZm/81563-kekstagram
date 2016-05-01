@@ -21,10 +21,6 @@ define('gallery', ['./utils'], function(utils) {
     /** @type {number} */
     var activePicture = 0;
 
-    // Gallery.prototype.showGallery = function() {
-    //   self.galleryContainer.classList.remove('invisible');
-    // }
-
     this.showGallery = function() {
       self.galleryContainer.classList.remove('invisible');
       this.pic.addEventListener('click', function(e) {
@@ -48,29 +44,25 @@ define('gallery', ['./utils'], function(utils) {
 
     this.showPhoto = function(numberPhoto) {
       //var picture;
+      self.url = this.thumbnailsContainer.src;
       if (typeof numberPhoto === 'number') {
-        //picture = this.photos[numberPhoto];
+        //picture = this.thumbnailsContainer.src;
         console.log('number');
       } else if (typeof numberPhoto === 'string') {
-        //picture = this.photos[activePicture];
+        //picture = self.url;
         console.log('string');
       }
       this.nextPhoto = this.photos[numberPhoto];
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
       this.likes.textContent = this.nextPhoto.likes;
+      this.url = this.thumbnailsContainer.src;
       this.thumbnailsContainer.onerror = function() {
         self.showPhoto(++numberPhoto);
       };
 
-      //var strUrl = this.thumbnailsContainer.src.toString(); // получали, по сути, ссылку
-      //var strUrl = this.thumbnailsContainer.src // ССЫЛКА НА КАРТИНКУ
-      // NB! не могу сообразить регулярку,пока так
-      // Всё будет очень плохо, если адрес поменяется
-
-      //var urlMatchHash = self.hashRegExp.exec(hash);
-      var url = this.nextPhoto.url; // СТРОКА
-      console.log(url);
+      //var url = this.thumbnailsContainer.src; // получали, по сути, ссылку
+      //console.log(url);
       location.hash = this.nextPhoto.url;
       //history.pushState(null, null, '#' + url);
       this.closeElement.addEventListener('click', function() {
@@ -79,16 +71,12 @@ define('gallery', ['./utils'], function(utils) {
       });
     };
 
-    // Gallery.prototype.removeUrlHash = function() {
-    //   window.location.hash = '';
-    // }
-
     // Проверка хэша страницы
     Gallery.prototype.changeGalleryState = function() {
       if (self.currentHash.match(this.hashRegExp) ) {
         self.showGallery();
-        //this.showPhoto[activePicture]
-        //console.log('open photo');
+        //this.showPhoto(5);
+        console.log('open photo');
       } else {
         self.closeGallery();
       }
