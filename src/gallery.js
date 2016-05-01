@@ -13,7 +13,7 @@ define('gallery', ['./utils'], function(utils) {
     this.keyLeftCheck = utils.listenKey(37, switchPrevPicture);
     var keyEsc = utils.listenKey(27);
     this.hashRegExp = new RegExp(/#photos\/(\S+)/);
-    // this.currentHash = location.hash;
+    this.currentHash = location.hash;
 
     var self = this;
     /** @type {Array.<string>} */
@@ -78,9 +78,21 @@ define('gallery', ['./utils'], function(utils) {
 
     // Проверка хэша страницы
     Gallery.prototype.changeGalleryState = function() {
-      self.showGallery();
-      this.showPhoto(activePicture);
-      console.log('загрузили объекты фото');
+      if (self.currentHash.match(this.hashRegExp) ) {
+        self.showGallery();
+        this.showPhoto(activePicture);
+        console.log('загрузили объекты фото');
+      } else if(self.currentHash === '') {
+        console.log('пустой адрес');
+
+        self.pic.addEventListener('click', function(e) {
+          e.preventDefault();
+          self.galleryContainer.classList.remove('invisible');
+        });
+      } else {
+        self.closeGallery();
+        console.log('нчиего не будет')
+      }
     };
 
     //this.changeGalleryState();

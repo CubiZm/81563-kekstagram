@@ -53,15 +53,17 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
-    //Gallery.changeGalleryState();
-    if(self.currentHash.match(this.hashRegExp) || self.currentHash === '' ) {
+
+    if(self.currentHash.match(this.hashRegExp)) {
     // if (this.currentHash === this.hashRegExp) {
       console.log('yes!');
       Gallery.changeGalleryState();
        //Gallery.changeGalleryState();
+    } else if(self.currentHash === ''){
+      console.log('пусто')
+      Gallery.closeGallery();
     } else {
-      console.log('noup!');
-    //   Gallery.closeGallery();
+      console.log('ошибчока')
     }
 
     container.appendChild(element);
