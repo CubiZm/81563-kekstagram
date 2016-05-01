@@ -78,7 +78,7 @@ define('gallery', ['./utils'], function(utils) {
 
     // Проверка хэша страницы
     Gallery.prototype.changeGalleryState = function() {
-      //self.showGallery();
+      self.showGallery();
       this.showPhoto(activePicture);
       console.log('загрузили объекты фото');
     };
