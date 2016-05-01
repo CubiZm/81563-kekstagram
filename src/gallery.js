@@ -21,20 +21,22 @@ define('gallery', ['./utils'], function(utils) {
     /** @type {number} */
     var activePicture = 0;
 
-    this.pic.addEventListener('click', function(e) {
-      e.preventDefault();
+    // Gallery.prototype.showGallery = function() {
+    //   self.galleryContainer.classList.remove('invisible');
+    // }
+
+    this.showGallery = function() {
       self.galleryContainer.classList.remove('invisible');
-    });
+      this.pic.addEventListener('click', function(e) {
+        e.preventDefault();
+      });
+    };
+    this.showGallery();
 
 
     Gallery.prototype.closeGallery = function() { // ПРОТОТИП
       self.galleryContainer.classList.add('invisible');
     };
-
-    // this.closeElement.addEventListener('click', function() {
-    //   self.closeGallery();
-    //   history.replaceState(null, null, numberPhoto);
-    // });
 
     /**
    * @param {Array.<pictues>} pictures
@@ -45,6 +47,14 @@ define('gallery', ['./utils'], function(utils) {
     };
 
     this.showPhoto = function(numberPhoto) {
+      //var picture;
+      if (typeof numberPhoto === 'number') {
+        //picture = this.photos[numberPhoto];
+        console.log('number');
+      } else if (typeof numberPhoto === 'string') {
+        //picture = this.photos[activePicture];
+        console.log('string');
+      }
       this.nextPhoto = this.photos[numberPhoto];
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
@@ -54,33 +64,39 @@ define('gallery', ['./utils'], function(utils) {
       };
 
       //var strUrl = this.thumbnailsContainer.src.toString(); // получали, по сути, ссылку
-      //var strUrl = this.thumbnailsContainer.src  ССЫЛКА НА КАРТИНКУ
-
+      //var strUrl = this.thumbnailsContainer.src // ССЫЛКА НА КАРТИНКУ
       // NB! не могу сообразить регулярку,пока так
       // Всё будет очень плохо, если адрес поменяется
 
-      // var url = strUrl.substr(21); // обрезали нужное число букоФФ
-
+      //var urlMatchHash = self.hashRegExp.exec(hash);
       var url = this.nextPhoto.url; // СТРОКА
-      history.pushState(null, null, '#' + url);
-
+      console.log(url);
+      location.hash = this.nextPhoto.url;
+      //history.pushState(null, null, '#' + url);
       this.closeElement.addEventListener('click', function() {
         self.closeGallery();
         history.replaceState(null, null, '/');
       });
     };
 
-    // Проверка хэша страницы
+    // Gallery.prototype.removeUrlHash = function() {
+    //   window.location.hash = '';
+    // }
 
+    // Проверка хэша страницы
     Gallery.prototype.changeGalleryState = function() {
-      if (this.currentHash.match(this.hashRegExp) ) {
-        self.showGallery(this.currentHash);
+      if (self.currentHash.match(this.hashRegExp) ) {
+        self.showGallery();
+        //this.showPhoto[activePicture]
+        //console.log('open photo');
       } else {
         self.closeGallery();
       }
     };
 
+    this.changeGalleryState();
     window.addEventListener('hashchange', this.changeGalleryState);
+    //console.log(/#photos\/(\S+)/.exec(window.location.hash));
 
     window.addEventListener('keydown', function(evt) {
       if (!self.galleryContainer.classList.contains('invisible') && keyEsc) {
@@ -96,12 +112,12 @@ define('gallery', ['./utils'], function(utils) {
 
     function switchNextPicture() {
       self.showPhoto(++activePicture);
-      history.go(1);
+      //history.go(1);
     }
 
     function switchPrevPicture() {
       self.showPhoto(--activePicture);
-      history.back(-1);
+      //history.back(-1);
     }
 
 
