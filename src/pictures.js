@@ -32,10 +32,9 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     element.querySelector('.picture-likes').textContent = data.likes;
 
     var image = element.querySelector('img');
-    this.hashRegExp = new RegExp(/#photos\/(\S+)/);
-    this.currentHash = location.hash;
 
     var pictureImage = new Image();
+
 
     pictureImage.onload = function() {
       clearTimeout(imageLoadTimeout);
@@ -48,28 +47,19 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictureImage.onerror = function() {
       image.classList.add('picture-load-failure');
     };
+    //console.log(Gallery)
     pictureImage.src = data.url;
     Gallery.photoForGallery(pics);
     var imageLoadTimeout = setTimeout(function() {
       image.src = '';
     });
 
-    if(self.currentHash.match(this.hashRegExp)) {
-    // if (this.currentHash === this.hashRegExp) {
-      console.log('yes!');
-      Gallery.changeGalleryState();
-       //Gallery.changeGalleryState();
-    } else if(self.currentHash === '') {
-      //console.log('пусто')
-      Gallery.closeGallery();
-    } else {
-      //console.log('ошибчока')
-    }
+    Gallery.changeGalleryState();
 
     container.appendChild(element);
     return element;
   };
-  //Gallery.changeGalleryState();
+
   var isBottomReached = function() {
     return containerSides.top - window.innerHeight <= 0;
   };
@@ -89,6 +79,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     pictures.slice(from, to).forEach(function(picture, number) {
       getPictureElement(picture, picturesContainer);
       renderedPhotos.push(new Photo(picture, from + number, container));
+      //console.log(new Photo)
     });
     renderedPhotos.forEach(function(picture) {
       picture.remove();
@@ -126,7 +117,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
     });
   };
 
-  // LocalStorage
 
   var setFilterInLocalStorage = function(filter) {
     localStorage.setItem('filter', filter);
@@ -204,6 +194,7 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
     this.element.addEventListener('click', this.onPhotoClick);
     container.appendChild(this.element);
+
   };
 
 
