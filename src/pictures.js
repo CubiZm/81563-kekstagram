@@ -197,7 +197,6 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
 
   };
 
-
   getPictures(function(loadedPictures) {
     pics = loadedPictures;
     setFiltrationEnabled();

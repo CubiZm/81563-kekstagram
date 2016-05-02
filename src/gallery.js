@@ -33,6 +33,7 @@ define('gallery', ['./utils'], function(utils) {
 
     this.closeElement.addEventListener('click', function() {
       self.closeGallery();
+      window.location.href = '';
     });
 
     /**
@@ -44,16 +45,24 @@ define('gallery', ['./utils'], function(utils) {
     };
 
     this.showPhoto = function(numberPhoto) {
+      // if (typeof numberPhoto === 'number') {
+      //   console.log('number');
+      // } else if (typeof numberPhoto === 'string') {
+      //   console.log('string');
+      //   console.log(this.photos[0])
+      // }
+
       this.nextPhoto = this.photos[numberPhoto];
       this.thumbnailsContainer.src = this.nextPhoto.url;
       this.comments.textContent = this.nextPhoto.comments;
       this.likes.textContent = this.nextPhoto.likes;
 
       window.location.hash = 'photo/' + this.nextPhoto.url;
+      //console.log(this.nextPhoto.url)
 
       this.thumbnailsContainer.onerror = function() {
         // self.showPhoto(++numberPhoto);
-        window.location.href = '';
+        window.location.href = 'photo/' + this.nextPhoto.url;
       };
     };
 
@@ -90,7 +99,7 @@ define('gallery', ['./utils'], function(utils) {
       if(self.currentHash.match(self.hashRegExp)) {
         self.galleryContainer.classList.remove('invisible');
         self.showPhoto(activePicture);
-        //self.photoForGallery();
+        //console.log(self.showPhoto);
       } else {
         self.closeGallery();
       }
