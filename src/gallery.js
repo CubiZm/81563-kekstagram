@@ -21,10 +21,10 @@ define('gallery', ['./utils'], function(utils) {
     /** @type {number} */
     var activePicture = 0;
 
-      self.pic.addEventListener('click', function(e) {
+    self.pic.addEventListener('click', function(e) {
       e.preventDefault();
       self.galleryContainer.classList.remove('invisible');
-      });
+    });
 
 
     Gallery.prototype.closeGallery = function() { // ПРОТОТИП
@@ -92,7 +92,7 @@ define('gallery', ['./utils'], function(utils) {
         self.showPhoto(activePicture);
         //self.photoForGallery();
       } else {
-      self.closeGallery();
+        self.closeGallery();
       }
     };
 
