@@ -59,11 +59,11 @@ define(['filter', 'ajax', 'gallery', 'utils', 'photo'], function(getFilteredPict
       console.log('yes!');
       Gallery.changeGalleryState();
        //Gallery.changeGalleryState();
-    } else if(self.currentHash === ''){
-      console.log('пусто')
+    } else if(self.currentHash === '') {
+      //console.log('пусто')
       Gallery.closeGallery();
     } else {
-      console.log('ошибчока')
+      //console.log('ошибчока')
     }
 
     container.appendChild(element);

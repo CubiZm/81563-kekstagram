@@ -80,7 +80,7 @@ define('gallery', ['./utils'], function(utils) {
     Gallery.prototype.changeGalleryState = function() {
       if (self.currentHash.match(this.hashRegExp) ) {
         self.showGallery();
-        this.showPhoto(activePicture);
+        self.showPhoto(activePicture);
         console.log('загрузили объекты фото');
       } else if(self.currentHash === '') {
         console.log('пустой адрес');
@@ -91,7 +91,7 @@ define('gallery', ['./utils'], function(utils) {
         });
       } else {
         self.closeGallery();
-        console.log('нчиего не будет')
+        console.log('нчиего не будет');
       }
     };
 
