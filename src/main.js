@@ -1,7 +1,14 @@
 'use strict';
 
-//require('./check');
-require('./resizer');
-require('./upload');
-require('./pictures');
-//require('./upload-stat.min');
+require([
+  './upload/resizer',
+  './upload/upload',
+  './upload/validate-form',
+  './gallery/gallery',
+  './pictures/filters',
+  './pictures/pictures',
+  './pictures/render-photo',
+  './pictures/render',
+  './pictures/scroll',
+  './utils'
+]);
