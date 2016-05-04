@@ -13,12 +13,12 @@ define(function() {
     pageNumber: 0,
     PAGE_SIZE: 12,
 
-    inherit: function(child, parent) {
-      function EmptyCtor() {}
-       EmptyCtor.prototype = parent.prototype;
-       child.prototype = new EmptyCtor();
-       return inherit;
-    }
+    // inherit: function(child, parent) {
+    //   function EmptyCtor() {}
+    //   EmptyCtor.prototype = parent.prototype;
+    //   child.prototype = new EmptyCtor();
+    //   return inherit;
+    // },
 
     isBottomReached: function() {
       return containerSides.top - window.innerHeight <= 0;
