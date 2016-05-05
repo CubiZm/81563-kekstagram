@@ -1,6 +1,6 @@
 'use strict';
 
-define(['../utils', './base-component'], function(utilsModule) {
+define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   var elementToClone;
   var templateElement = document.querySelector('#picture-template');
 
@@ -50,14 +50,14 @@ define(['../utils', './base-component'], function(utilsModule) {
   };
 
   var Photo = function(data, container) {
-    //BaseComponent.call(this, data, container);
-    
-    this.data = data;
-    this.element = getPictureElement(data, container);
-    this.onPhotoListClick = this.onPhotoListClick.bind(this);
+    BaseComponent.call(this, data, container);
 
-    this.element.addEventListener('click', this.onPhotoListClick);
-    container.appendChild(this.element);
+    // this.data = data;
+    // this.element = getPictureElement(data, container);
+    // this.onPhotoListClick = this.onPhotoListClick.bind(this);
+
+    // this.element.addEventListener('click', this.onPhotoListClick);
+    // container.appendChild(this.element);
   };
 
   Photo.prototype.onPhotoListClick = function(evt) {
@@ -82,7 +82,7 @@ define(['../utils', './base-component'], function(utilsModule) {
     this.element.parentNode.removeChild(this.element);
   };
 
- // inherit(BaseComponent, Photo);
+  utilsModule.inherit(BaseComponent, Photo);
 
   return {
     getPictureElement: getPictureElement,
