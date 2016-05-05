@@ -50,14 +50,14 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
   var Photo = function(data, container) {
-    BaseComponent.call(this, data, container);
+    BaseComponent.call(this.getPicture, data, container);
 
-    // this.data = data;
-    // this.element = getPictureElement(data, container);
-    // this.onPhotoListClick = this.onPhotoListClick.bind(this);
+    this.data = data;
+    this.element = getPictureElement(data, container);
+    this.onPhotoListClick = this.onPhotoListClick.bind(this);
 
-    // this.element.addEventListener('click', this.onPhotoListClick);
-    // container.appendChild(this.element);
+    this.element.addEventListener('click', this.onPhotoListClick);
+    container.appendChild(this.element);
   };
 
   Photo.prototype.onPhotoListClick = function(evt) {
@@ -82,6 +82,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
     this.element.parentNode.removeChild(this.element);
   };
 
+//BaseComponent();
   utilsModule.inherit(BaseComponent, Photo);
 
   return {
