@@ -8,8 +8,6 @@
 
 'use strict';
 define(['./validate-form'], function() {
-  var browserCookies = require('browser-cookies');
-
   /** @enum {string} */
   var FileType = {
     'GIF': '',

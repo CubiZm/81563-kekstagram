@@ -1,6 +1,6 @@
 'use strict';
 
-define(['../utils', './base-component'], function(utilsModule, BaseDOMComponent ) {
+define(['../utils', './base-component'], function(utilsModule) {
   var elementToClone;
   var templateElement = document.querySelector('#picture-template');
 
@@ -50,7 +50,8 @@ define(['../utils', './base-component'], function(utilsModule, BaseDOMComponent 
   };
 
   var Photo = function(data, container) {
-    BaseDOMComponent.call(this, data, container);
+    //BaseComponent.call(this, data, container);
+    
     this.data = data;
     this.element = getPictureElement(data, container);
     this.onPhotoListClick = this.onPhotoListClick.bind(this);
@@ -75,11 +76,13 @@ define(['../utils', './base-component'], function(utilsModule, BaseDOMComponent 
     window.location.hash = 'photo/' + list[index].url;
     return true;
   };
-  inherit(BaseDOMComponent, Photo);
+
   Photo.prototype.remove = function() {
     this.element.removeEventListener('click', this.onPhotoListClick);
     this.element.parentNode.removeChild(this.element);
   };
+
+ // inherit(BaseComponent, Photo);
 
   return {
     getPictureElement: getPictureElement,

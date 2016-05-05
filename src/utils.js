@@ -13,10 +13,11 @@ define(function() {
     pageNumber: 0,
     PAGE_SIZE: 12,
 
-    inherit: function(child, parent) {
-      child.prototype = Object.create(parent.prototype);
-      child.prototype.constructor = Child;
-      return inherit;
+    inherit: function(parent, child) {
+      var EmptyConstructor = function() {};
+      EmptyConstructor.prototype = parent.prototype;
+      child.prototype = new EmptyConstructor();
+      //return inherit;
     },
 
     isBottomReached: function() {
