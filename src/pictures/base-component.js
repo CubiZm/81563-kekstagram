@@ -8,5 +8,9 @@ define(['./render-photo'], function(getPictureElement) {
     this.element.addEventListener('click', this.onPhotoListClick);
     container.appendChild(this.element);
   }
+  BaseComponent.prototype.remove = function() {
+    this.element.removeEventListener('click', this.onClick);
+    this.element.parentNode.removeChild(this.element);
+  };
   return BaseComponent;
 });
