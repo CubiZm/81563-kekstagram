@@ -1,22 +1,25 @@
+// и Photo и Gallery должны стать BaseComponent
+
+// [12:29]
+// чтобы он у них был записан в __proto__
+
+// [12:29]
+// стало быть чото они должны брать оттуда из BaseComponent
+
 'use strict';
-define(['./render-photo'], function(getPictureElement) {
+define(['./render-photo'], function() {
   var BaseComponent = function(data, container) {
+    console.log('^_^');
     this.data = data;
-    // NB! getPictureElement is not a function -- НАЙДИ ПРОБЛЕМУ (и ваще это переменная)
-    this.element = getPictureElement(data, container);
-    this.onPhotoListClick = this.onPhotoListClick.bind(this);
-
-    this.element.addEventListener('click', this.onPhotoListClick);
+    console.log(this.data);
+    this.element = this.getPictureElement(this.data);
+    this.onPhotoClick = this.onPhotoClick.bind(this);
+    this.remove = this.remove.bind(this);
+    this.element.addEventListener('click', this.onPhotoClick);
     container.appendChild(this.element);
-  }
-
-  // NB!  Вот тут подумай как разберешься с функцией
-  BaseComponent.prototype.getPictureElement = function(data) {
-    return data.element;
   };
-  BaseComponent.prototype.remove = function() {
-    this.element.removeEventListener('click', this.onClick);
-    this.element.parentNode.removeChild(this.element);
+  BaseComponent.prototype.getElement = function(data) {
+    return data.element;
   };
   return BaseComponent;
 });
