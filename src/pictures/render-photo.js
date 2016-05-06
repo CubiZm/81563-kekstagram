@@ -50,7 +50,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
   var Photo = function(data, container) {
-    BaseComponent.call(this, this.element);
+    //BaseComponent.call(this, this.element);
 
     this.data = data;
     this.element = getPictureElement(data, container);
@@ -58,6 +58,8 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
 
     this.element.addEventListener('click', this.onPhotoListClick);
     container.appendChild(this.element);
+
+    //BaseComponent.prototype.add.call(this, container);
   };
 
   Photo.prototype.onPhotoListClick = function(evt) {
@@ -83,7 +85,9 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
 //BaseComponent();
-  //utilsModule.inherit(BaseComponent, Photo);
+  utilsModule.inherit(Photo, BaseComponent);
+  //console.dir(Photo)
+  //console.dir(BaseComponent)
 
   return {
     getPictureElement: getPictureElement,

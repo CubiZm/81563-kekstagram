@@ -1,5 +1,5 @@
 'use strict';
-define(function() {
+define(['../utils', '../pictures/base-component'], function(utilsModule, BaseComponent) {
   var Gallery = function() {
     this.galleryContainer = document.querySelector('.gallery-overlay');
     this.galleryPreview = document.querySelector('.gallery-overlay-preview');
@@ -18,6 +18,8 @@ define(function() {
 
     window.addEventListener('hashchange', this.onHashChange.bind(this));
   };
+
+  utilsModule.inherit(Gallery, BaseComponent);
 
   // Описываем фотографии и сохраняем их
   Gallery.prototype.setGalleryPics = function(pictures) {
