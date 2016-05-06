@@ -8,18 +8,16 @@
 
 'use strict';
 define(['./render-photo'], function() {
-  var BaseComponent = function(data, container) {
+  var BaseComponent = function(element) {
     console.log('^_^');
-    this.data = data;
-    console.log(this.data);
-    this.element = this.getPictureElement(this.data);
-    this.onPhotoClick = this.onPhotoClick.bind(this);
-    this.remove = this.remove.bind(this);
-    this.element.addEventListener('click', this.onPhotoClick);
-    container.appendChild(this.element);
+    this.element = element;
   };
-  BaseComponent.prototype.getElement = function(data) {
-    return data.element;
+  BaseComponent.prototype.remove = function() {
+    this.element.parentNode.removeChild(this.element);
+  };
+
+  BaseComponent.prototype.add = function(container) {
+    container.appendChild(this.element);
   };
   return BaseComponent;
 });

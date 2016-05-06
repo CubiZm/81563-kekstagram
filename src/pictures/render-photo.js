@@ -50,7 +50,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
   var Photo = function(data, container) {
-    BaseComponent.call(this.getPicture, data, container);
+    BaseComponent.call(this, this.element);
 
     this.data = data;
     this.element = getPictureElement(data, container);
@@ -83,7 +83,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
 //BaseComponent();
-  utilsModule.inherit(BaseComponent, Photo);
+  //utilsModule.inherit(BaseComponent, Photo);
 
   return {
     getPictureElement: getPictureElement,
