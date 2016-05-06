@@ -10,5 +10,6 @@ require([
   './pictures/render-photo',
   './pictures/render',
   './pictures/scroll',
-  './utils'
+  './utils',
+  './pictures/base-component'
 ]);
