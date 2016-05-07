@@ -295,6 +295,7 @@ define(['./validate-form'], function() {
   var filterCookies = browserCookies.get('filter');
   if (filterCookies) {
     // Устанавливать не только отмеченную радио кнопку,
+   // document.getElementById(filterCookies).checked = true;
 
     // Но и класс для изображения
     var imageClass = filterCookies.replace('upload-', '');
