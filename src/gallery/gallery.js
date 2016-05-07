@@ -58,12 +58,12 @@ define(['../utils', '../pictures/base-component'], function(utilsModule, BaseCom
 
   // Показ следующей фотографии в списке
   Gallery.prototype.onPhotoClick = function() {
-    if (this.currentPicIndex <= this.galleryPictures.length) {
+    if (this.currentPicIndex < this.galleryPictures.length - 1) {
       this.currentPicIndex++;
-      window.location.hash = 'photo/' + this.galleryPictures[this.currentPicIndex].url;
     } else {
       this.currentPicIndex = 0;
     }
+    window.location.hash = 'photo/' + this.galleryPictures[this.currentPicIndex].url;
   };
 
   // Закрытие галереи
