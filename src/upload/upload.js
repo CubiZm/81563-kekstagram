@@ -292,11 +292,9 @@ define(['./validate-form'], function() {
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
-
   var filterCookies = browserCookies.get('filter');
   if (filterCookies) {
     // Устанавливать не только отмеченную радио кнопку,
-    document.getElementById(filterCookies).checked = true;
 
     // Но и класс для изображения
     var imageClass = filterCookies.replace('upload-', '');
@@ -333,39 +331,6 @@ define(['./validate-form'], function() {
     cleanupResizer();
     updateBackground();
   });
-  // filterForm.addEventListener('submit', function(evt) {
-  //   evt.preventDefault();
-
-  //   filterForm.classList.add('invisible');
-  //   uploadForm.classList.remove('invisible');
-  //   // Жизнь печеньки
-  //   evt.preventDefault();
-  //   var year = new Date();
-  //   var yearNow = year.getFullYear() - 1;
-  //   var bDay = new Date(yearNow, 3, 18).getTime();
-  //   var dateDiff = (Date.now() - bDay) / 24 / 60 / 60 / 1000;
-  //   var filterCookies = browserCookies.get('filter');
-  //   if (filterCookies) {
-  //     document.getElementById(filterCookies).checked = true;
-  //   }
-
-  //   filterForm.addEventListener('change', function() {
-  //     var filters = filterForm['upload-filter'];
-  //     var checkedFilter;
-  //     for (var i = 0, l = filters.length; i < l; i++) {
-  //       if (filters[i].checked) {
-  //         checkedFilter = filters[i].id;
-  //         break;
-  //       }
-  //     }
-  //     // Установка куки
-  //     browserCookies.set('filter', checkedFilter, {
-  //       expires: dateDiff
-  //     });
-  //   });
-  //   cleanupResizer();
-  //   updateBackground();
-  // });
 
   function resizeBorder() {
     var sizeBorder = currentResizer.getConstraint();
