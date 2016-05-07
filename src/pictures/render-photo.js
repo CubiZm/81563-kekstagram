@@ -65,7 +65,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
   var Photo = function(data, container) {
-    //BaseComponent.call(this, this.element);
+    BaseComponent.call(this, this.element);
 
     this.data = data;
     this.element = getPictureElement(data, container);
