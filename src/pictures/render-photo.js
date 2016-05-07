@@ -22,20 +22,35 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
 
     var pictureImage = new Image();
 
-    // Обработчик загрузки
-    pictureImage.onload = function() {
-      // Отмена таймаута
+    var imageOnLoad = function() {
       clearTimeout(imageLoadTimeout);
       image.src = data.url;
       image.width = utilsModule.IMAGE_SIZE;
       image.height = utilsModule.IMAGE_SIZE;
       image.alt = data.date;
+      this.removeEventListener('error', imageOnError);
     };
 
-    // Обработчик ошибки
-    pictureImage.onerror = function() {
-      image.classList.add('picture-load-failure');
+    var imageOnError = function() {
+      element.classList.add('picture-load-failure');
+      this.removeEventListener('load', imageOnLoad);
     };
+
+    pictureImage.addEventListener('load', imageOnLoad);
+    pictureImage.addEventListener('error', imageOnError);
+    // pictureImage.onload = function() {
+    //   // Отмена таймаута
+    //   clearTimeout(imageLoadTimeout);
+    //   image.src = data.url;
+    //   image.width = utilsModule.IMAGE_SIZE;
+    //   image.height = utilsModule.IMAGE_SIZE;
+    //   image.alt = data.date;
+    // };
+
+    // // Обработчик ошибки
+    // pictureImage.onerror = function() {
+    //   image.classList.add('picture-load-failure');
+    // };
 
     pictureImage.src = data.url;
 
@@ -50,7 +65,7 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   };
 
   var Photo = function(data, container) {
-    BaseComponent.call(this, this.element);
+    //BaseComponent.call(this, this.element);
 
     this.data = data;
     this.element = getPictureElement(data, container);
@@ -59,6 +74,8 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
     this.element.addEventListener('click', this.onPhotoListClick);
     container.appendChild(this.element);
   };
+
+  utilsModule.inherit(Photo, BaseComponent);
 
   Photo.prototype.onPhotoListClick = function(evt) {
     evt.preventDefault();
@@ -80,10 +97,8 @@ define(['../utils', './base-component'], function(utilsModule, BaseComponent) {
   Photo.prototype.remove = function() {
     this.element.removeEventListener('click', this.onPhotoListClick);
     this.element.parentNode.removeChild(this.element);
+    //BaseComponent.prototype.remove.call(this, this.element);
   };
-
-//BaseComponent();
-  //utilsModule.inherit(BaseComponent, Photo);
 
   return {
     getPictureElement: getPictureElement,
