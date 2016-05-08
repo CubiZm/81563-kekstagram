@@ -131,6 +131,13 @@ define(['./validate-form'], function() {
       messageWrapper.id = 'upload-resize-message';
     }
 
+    if(x < 0 || y < 0) {
+      resizeBtn.disabled = true;
+      messageWrapper.textContent = 'Введеные значения не верны! Проверьте правильность введеных значений.';
+      resizeForm.appendChild(messageWrapper);
+      return false;
+    }
+
     resizeBtn.disabled = true;
     messageWrapper.textContent = 'Введеные значения не верны! Проверьте правильность введеных значений.';
     resizeForm.appendChild(messageWrapper);
